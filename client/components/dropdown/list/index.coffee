@@ -8,7 +8,7 @@ module.exports = component 'dropdownList', ({dom, events, returnObject}, getTitl
 
   list = E style.list
 
-  entities = items = index = undefined
+  entities = items = visible = index = undefined
   highlightCurrentItem = ->
     unless items?.length
       return
@@ -24,6 +24,8 @@ module.exports = component 'dropdownList', ({dom, events, returnObject}, getTitl
       append list, items = entities.map (entity, i) ->
         item = E englishText: getTitle entity
         onMouseover item, ->
+          unless visible
+            return
           index = i
           highlightCurrentItem()
         item
@@ -43,7 +45,9 @@ module.exports = component 'dropdownList', ({dom, events, returnObject}, getTitl
         entities[index]
     show: ->
       setStyle list, style.visibleList
+      visible = true
     hide: ->
       setStyle list, style.list
-
+      visible = false
+      
   list

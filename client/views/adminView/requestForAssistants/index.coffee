@@ -1,18 +1,21 @@
 component = require '../../../utils/component'
 crudPage = require '../crudPage'
-creditRequestForAssistant = require './credit'
+credit = require './credit'
+multiselect = require './multiselect'
 searchBoxStyle = require '../../../components/table/searchBoxStyle'
 dropdown = require '../../../components/dropdown'
 stateSyncedDropdown = require '../../../components/dropdown/stateSynced'
 {extend, compare, textIsInSearch} = require '../../../utils'
-{body} = require '../../../utils/dom'
 
 module.exports = component 'requestForAssistantsView', ({dom, events, state, service}, {goToRequestForAssistants, offeringIds}) ->
-  {E, setStyle, addClass, removeClass, show, hide} = dom
+  {E, setStyle} = dom
   {onEvent} = events
 
   service.getPersons()
   service.getCourses()
+  service.getOfferings()
+  service.getTerms()
+  service.getCurrentTerm()
   service.getRequestForAssistants()
 
   termDropdown = E stateSyncedDropdown,
@@ -45,7 +48,7 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
 
   view = E crudPage,
     entityName: 'درخواست'
-    requiredStates: ['requestForAssistants', 'persons', 'courses']
+    requiredStates: ['offerings', 'courses', 'persons', 'terms', 'currentTerm', 'requestForAssistants']
     noCreating: true
     entityId: 'id'
     headers: [
@@ -57,13 +60,24 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
         name: 'در کارگاه شرکت کرده است'
         key: 'isTrainedString'
         searchBox: isTrainedDropdown
-        # TODO: color coding
+        styleTd: (requestForAssistant, td) ->
+          if requestForAssistant.isTrained
+            setStyle td, color: 'green'
+          else
+            setStyle td, color: 'red'
       }
       {
         name: 'وضعیت'
         key: 'status'
         searchBox: statusDropdown
-        # TODO: color coding
+        styleTd: (requestForAssistant, td) ->
+          switch requestForAssistant.status
+            when 'تایید شده'
+              setStyle td, color: 'green'
+            when 'رد شده'
+              setStyle td, color: 'red'
+            else
+              setStyle td, color: 'black'
       }
     ]
     extraButtonsBefore: do ->
@@ -145,8 +159,9 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
       else
         hide sendEmailToStudents
         hide sendEmailToProfessors
-    credit: E(creditRequestForAssistant).credit
-    deleteItem: (requestForAssistant) -> service.deleteRequestForAssistant requestForAssistant.id
+    credit: E(credit).credit
+    deleteItem: (requestForAssistants) ->
+      service.deleteRequestForAssistants requestForAssistant.map ({id}) -> id
 
   requestForAssistants = []
   update = ->

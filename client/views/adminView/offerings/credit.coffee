@@ -76,12 +76,17 @@ module.exports = component 'offeringsCredit', ({dom, events, state, service, ret
     deputyId: if ~deputy.value() then deputy.value().id else null
     capacity: if capacity.value() then toEnglish capacity.value() else null
 
+  offState = undefined
+
   returnObject
     credit: (isEdit) -> (offering) ->
       term.revalue()
       capacity.dirty = false
       if isEdit
-        [course, professor].forEach (x) -> x.showEmpty false
+        [course, professor].forEach (x) ->
+          x.showEmpty false
+        [course, professor, deputy].forEach (x) ->
+          x.undirty()
         offState = state.offerings.on (offerings) ->
           offering = (offerings.filter ({id}) -> id is offering.id)[0]
           unless offering
@@ -89,11 +94,12 @@ module.exports = component 'offeringsCredit', ({dom, events, state, service, ret
           course.setSelectedId offering.courseId
           professor.setSelectedId offering.professorId
           deputy.setSelectedId offering.deputyId
-          unless capacity.dirty
-            setStyle capacity, value: offering.capacity
+        unless capacity.dirty
+          setStyle capacity, value: offering.capacity
       else
-        [course, professor, deputy].forEach (x) ->
+        [course, professor].forEach (x) ->
           x.showEmpty true
+        [course, professor, deputy].forEach (x) ->
           x.reset()
         setStyle capacity, value: ''
 
@@ -106,6 +112,7 @@ module.exports = component 'offeringsCredit', ({dom, events, state, service, ret
         contents: contents
         close: ->
           offState?()
+          offState = null
         submit: ->
           allInputs.forEach (x) -> disable x
           submitQ = if isEdit

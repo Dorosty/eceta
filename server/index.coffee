@@ -448,10 +448,8 @@ post 'getCourses', (sql, req) ->
   getCourses sql, req
   .then (courses) -> {courses}
 
-getRequestForAssistants = (sql, req) -> # FIXME: joins should be done client side
-  sql.select ['requestForAssistants', 'offerings', 'courses', 'persons', 'persons'],
-    [['id', 'status', 'isTrained', 'message'], {termId: 'termId', offeringId: 'id'}, {courseId: 'id'}, {professorId: 'id'}, {studentId: 'id'}],
-    'x0."offeringId" = x1.id AND x1."courseId" = x2.id AND x1."professorId" = x3.id AND x0."studentId" = x4.id'
+getRequestForAssistants = (sql, req) ->
+  sql.select 'requestForAssistants', ['id', 'status', 'isTrained', 'message', 'offeringId']
   .then (requestForAssistants) ->
     all requestForAssistants.map (requestForAssistant) ->
       requestForAssistant.isTrained = !!requestForAssistant.isTrained

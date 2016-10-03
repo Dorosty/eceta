@@ -2,7 +2,7 @@ log = require('./log').events
 {window, body} = require './dom'
 {remove} = require '.'
 
-isIn = exports.isIn = (component, {pageX, pageY}) ->
+isIn = (component, {pageX, pageY}) ->
   rect = component.fn.element.getBoundingClientRect()
   minX = rect.left
   maxX = rect.left + rect.width

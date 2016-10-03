@@ -1,7 +1,6 @@
 style = require './style'
 modal = require '../../singletons/modal'
 {extend, toPersian, collection, compare, remove} = require '../../utils'
-{isIn} = require '../../utils/events'
 
 exports.create = ({headers, properties, handlers, variables, components, dom, events}) ->
   {E, destroy, append, setStyle, show, hide, addClass, removeClass} = dom
@@ -94,8 +93,13 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
       setStyle row.checkbox, checked: !!descriptor.selected
       setStyle row.tr, class: if descriptor.selected then 'info' else ''
       if handlers.select and not descriptor.unselectable
-        row.offs.push onEvent components.body, ['mousemove', 'mouseout'], (e) ->
-          if (variables.selectionMode and descriptor.selected) or (not variables.selectionMode and isIn row.tr, e)
+        row.offs.push onEvent row.tr, 'mousemove', ->
+          if not variables.selectionMode or descriptor.selected
+            addClass row.tr, 'info'
+          else
+            removeClass row.tr, 'info'
+        row.offs.push onEvent row.tr, 'mouseout', ->
+          if variables.selectionMode and descriptor.selected
             addClass row.tr, 'info'
           else
             removeClass row.tr, 'info'
