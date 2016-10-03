@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "coffeeify": "",
+    "q": "",
+    "chalk": "",
+    "coffee-script": "",
+    "express": "",
+    "socket.io": "",
+    "body-parser": "",
+    "cookie-parser": "",
+    "pg": "",
+    "request": "",
+    "jsonwebtoken": "",
+    "crypto": "",
+    "nodemailer": "",
+    "node-xlsx": ""
+  }
+}

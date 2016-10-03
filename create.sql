@@ -1,0 +1,222 @@
+CREATE TABLE IF NOT EXISTS "staticData"
+(
+  "key" VARCHAR PRIMARY KEY,
+  "value" VARCHAR,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "persons"
+(
+  "id" SERIAL PRIMARY KEY,
+  "fullName" VARCHAR,
+  "email" VARCHAR UNIQUE,
+  "golestanNumber" VARCHAR UNIQUE,
+  "type" SMALLINT, -- 0: admin, 1: professor, 2: student, 3: deputy
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "admins"
+(
+  "id" SERIAL PRIMARY KEY REFERENCES "persons" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "professors"
+(
+  "id" INTEGER PRIMARY KEY REFERENCES "persons" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "students"
+(
+  "id" INTEGER PRIMARY KEY REFERENCES "persons" ON DELETE CASCADE,
+  "degree" SMALLINT, -- 0: undergraduate, 1: graduate, 2: doctorate
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "deputies"
+(
+  "id" INTEGER PRIMARY KEY REFERENCES "persons" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "regularLogins"
+(
+  "id" SERIAL PRIMARY KEY,
+  "personId" INTEGER NOT NULL REFERENCES "persons" ON DELETE CASCADE,
+  "email" VARCHAR NOT NULL UNIQUE,
+  "passwordHash" VARCHAR,
+  "verificationCode" VARCHAR,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "roles"
+(
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR,
+  "persianName" VARCHAR,
+  "description" VARCHAR,
+  "persianDescription" VARCHAR,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "subroles"
+(
+  "roleId" INTEGER NOT NULL REFERENCES "roles" ON DELETE CASCADE,
+  "subroleId" INTEGER NOT NULL REFERENCES "roles" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("roleId", "subroleId")
+);
+
+CREATE TABLE IF NOT EXISTS "permissions"
+(
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR,
+  "persianName" VARCHAR,
+  "description" VARCHAR,
+  "persianDescription" VARCHAR,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "personRoles"
+(
+  "personId" INTEGER NOT NULL REFERENCES "persons" ON DELETE CASCADE,
+  "roleId" INTEGER NOT NULL REFERENCES "roles" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("personId", "roleId")
+);
+
+CREATE TABLE IF NOT EXISTS "rolePermissions"
+(
+  "roleId" INTEGER NOT NULL REFERENCES "roles" ON DELETE CASCADE,
+  "permissionId" INTEGER NOT NULL REFERENCES "permissions" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("roleId", "permissionId")
+);
+
+CREATE TABLE IF NOT EXISTS "personPermissions"
+(
+  "personId" INTEGER NOT NULL REFERENCES "persons" ON DELETE CASCADE,
+  "permissionId" INTEGER NOT NULL REFERENCES "permissions" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("personId", "permissionId")
+);
+
+CREATE TABLE IF NOT EXISTS "courses"
+(
+  "id" SERIAL PRIMARY KEY,
+  "number" VARCHAR NOT NULL,
+  "name" VARCHAR NOT NULL,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "terms"
+(
+  "id" VARCHAR PRIMARY KEY,
+  "year" SMALLINT,
+  "half" SMALLINT,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "offerings"
+(
+  "id" SERIAL PRIMARY KEY,
+  "capacity" SMALLINT,
+  "isClosed" SMALLINT NOT NULL DEFAULT 0,
+  "professorId" INTEGER NOT NULL REFERENCES "professors" ON DELETE CASCADE,
+  "courseId" INTEGER NOT NULL REFERENCES "courses" ON DELETE CASCADE,
+  "termId" VARCHAR NOT NULL REFERENCES "terms" ON DELETE CASCADE,
+  "deputyId" INTEGER REFERENCES "deputies" ON DELETE SET NULL,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "requiredCourses"
+(
+  "offeringId" INTEGER NOT NULL REFERENCES "offerings" ON DELETE CASCADE,
+  "courseId" INTEGER NOT NULL REFERENCES "courses" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("offeringId", "courseId")
+);
+
+CREATE TABLE IF NOT EXISTS "requestForAssistants"
+(
+  "id" SERIAL PRIMARY KEY,
+  "isTrained" SMALLINT NOT NULL DEFAULT 0,
+  "gpa" REAL,
+  "message" VARCHAR,
+  "status" SMALLINT NOT NULL DEFAULT 0, -- 0: pending, 1: rejected, 2: accepted
+  "isChiefTA" SMALLINT NOT NULL DEFAULT 0,
+  "certificateRejected" SMALLINT NOT NULL DEFAULT 0,
+  "studentId" INTEGER NOT NULL REFERENCES "students" ON DELETE CASCADE,
+  "offeringId" INTEGER NOT NULL REFERENCES "offerings" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "grades"
+(
+  "grade" REAL NOT NULL,
+  "requestForAssistantId" INTEGER NOT NULL REFERENCES "requestForAssistants" ON DELETE CASCADE,
+  "courseId" INTEGER NOT NULL REFERENCES "courses" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("requestForAssistantId", "courseId")
+);
+
+CREATE TABLE IF NOT EXISTS "chores"
+(
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR,
+  "persianName" VARCHAR,
+  "description" VARCHAR,
+  "persianDescription" VARCHAR,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS "assistantChores"
+(
+  "requestForAssistantId" INTEGER NOT NULL REFERENCES "requestForAssistants" ON DELETE CASCADE,
+  "choreId" INTEGER NOT NULL REFERENCES "chores" ON DELETE CASCADE,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE,
+  "deletedAt" TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY ("requestForAssistantId", "choreId")
+);

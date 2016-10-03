@@ -1,0 +1,7 @@
+**/node_modules/
+./server/*.js
+./server/log.txt
+./client/assets/scripts.js
+./client/index.html
+./client/script.js
+npm-debug.log

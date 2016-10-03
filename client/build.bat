@@ -1,0 +1,1 @@
+browserify -t coffeeify . --extension=".coffee" -o script.js
