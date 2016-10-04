@@ -44,7 +44,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
       E 'label', for: ids[3], 'ایمیل'
       email
     E class: 'checkbox',
-      E 'label',
+      E 'label', null,
         text: 'امکان ورود با ایمیل'
         canLoginWithEmail
     buttonGroup = E class: 'form-group',

@@ -22,13 +22,13 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
   contents = [
     gradesContainer = E()
     E class: 'form-group',
-      E 'label', for: ids[0], 'معلد کل'
+      E 'label', for: ids[0], 'معدل کل'
       gpa
     E class: 'form-group',
       E 'label', for: ids[1], 'پیام برای استاد'
       message
     E class: 'checkbox',
-      E 'label',
+      E 'label', null,
         text 'در کارگاه شرکت کرده‌است.'
         isTrained
   ]
