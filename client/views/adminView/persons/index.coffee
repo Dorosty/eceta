@@ -45,12 +45,12 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
     fullName = fullNameInput.value()
     golestanNumber = golestanNumberInput.value()
     filteredPersons = persons
-      if type
-        filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.type, type
-      if fullName
-        filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.fullName, fullName
-      if golestanNumber
-        filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.golestanNumber, golestanNumber
+    if ~type
+      filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.type, type
+    if fullName
+      filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.fullName, fullName
+    if golestanNumber
+      filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.golestanNumber, golestanNumber
     view.setData filteredPersons.sort (a, b) -> compare a.id, b.id
 
 
