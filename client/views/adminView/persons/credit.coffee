@@ -7,7 +7,7 @@ numberInput = require '../../../components/restrictedInput/number'
 {emailIsValid} = require '../../../utils/logic'
 
 module.exports = component 'personsCredit', ({dom, events, state, service, returnObject}) ->
-  {E, setStyle, show, hide, enable, disable} = dom
+  {E, text, setStyle, show, hide, enable, disable} = dom
   {onEvent, onEnter} = events
 
   ids = [0..4].map -> generateId()
@@ -45,8 +45,8 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
       email
     E class: 'checkbox',
       E 'label', null,
-        text: 'امکان ورود با ایمیل'
         canLoginWithEmail
+        text 'امکان ورود با ایمیل'
     buttonGroup = E class: 'form-group',
       button = E class: 'btn btn-default'
     degreeGroup = E class: 'form-group',

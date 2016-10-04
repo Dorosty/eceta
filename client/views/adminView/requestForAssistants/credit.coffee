@@ -29,8 +29,8 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
       message
     E class: 'checkbox',
       E 'label', null,
-        text 'در کارگاه شرکت کرده‌است.'
         isTrained
+        text 'در کارگاه شرکت کرده‌است.'
   ]
 
   allInputs = [gpa, message, isTrained]
