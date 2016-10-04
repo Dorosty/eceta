@@ -13,11 +13,11 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
   grades = []
 
   gpa = E gradeInput
-  setStyle gpa, class: id: ids[0], 'form-control'
+  setStyle gpa, id: ids[0], class: 'form-control'
 
   message = E 'textarea', id: ids[1], class: 'form-control', minHeight: 100, minWidth: '100%', maxWidth: '100%'
 
-  isTrained = E 'input', type: 'checkbox', class: 'form-control'
+  isTrained = E 'input', type: 'checkbox'
 
   contents = [
     gradesContainer = E()
@@ -58,14 +58,13 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
         offering = (offerings.filter ({id}) -> String(id) is String(requestForAssistant.offeringId))[0]
         grades = offering.requiredCourses
         .map (_id) -> (courses.filter ({id}) -> String(id) is String(_id))[0]
-        .forEach (course) ->
+        .map (course) ->
           grade = (requestForAssistant.grades.filter ({courseId}) -> String(courseId) is String(course.id))[0]?.grade
-          grades.push g = E class: 'form-group',
+          append gradesContainer, g = E class: 'form-group',
             E 'label', for: id = generateId(), "نمره درس #{course.name}"
             input = E 'input', id: id, class: 'form-control', value: grade
           onEnter g, ->
-            modal.instance.submit()
-          append gradesContainer, g
+            modal.instance.submit()          
           {course, input}
       offState = state.requestForAssistants.on (requestForAssistants) ->
         requestForAssistant = (requestForAssistants.filter ({id}) -> String(id) is String(requestForAssistant.id))[0]
