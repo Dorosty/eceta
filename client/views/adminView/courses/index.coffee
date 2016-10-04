@@ -35,7 +35,7 @@ module.exports = component 'coursesView', ({dom, events, state, service}) ->
   courses = []
   update = ->
     name = nameInput.value()
-    number = numberInput.value()
+    number = courseNumberInput.value()
     filteredCourses = courses
     if name
       filteredCourses = filteredCourses.filter (course) -> textIsInSearch course.name, name
