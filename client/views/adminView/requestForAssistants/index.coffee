@@ -130,9 +130,10 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
     requestForAssistants = _requestForAssistants.map (requestForAssistant) ->
       offering = (offerings.filter ({id}) -> String(id) is String requestForAssistant.offeringId)[0]
       extend {}, requestForAssistant,
+        studentName: (persons.filter ({id}) -> String(id) is String requestForAssistant.studentId)[0]?.fullName ? ''
         professorName: (persons.filter ({id}) -> String(id) is String offering.professorId)[0]?.fullName ? ''
-        studentName: (persons.filter ({id}) -> String(id) is String offering.studentId)[0]?.fullName ? ''
         courseName: (courses.filter ({id}) -> String(id) is String offering.courseId)[0]?.name ? ''
+        professorId: offering.professorId
         termId: offering.termId
     update()
 

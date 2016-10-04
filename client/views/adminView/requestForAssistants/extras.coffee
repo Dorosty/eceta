@@ -33,12 +33,12 @@ module.exports = component 'requestForAssistantsExtras', ({dom, events, returnOb
         show sendEmailToStudents
         show sendEmailToProfessors
         students = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
-          acc[entity.studentId] ?= true
+          acc[entity.studentId] = true
           acc
         ), {})
         setStyle sendEmailToStudents, text: "ارسال ایمیل به #{students.length} دانشجو انتخاب شده"
         professors = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
-          acc[entity.professorId] ?= true
+          acc[entity.professorId] = true
           acc
         ), {})
         setStyle sendEmailToProfessors, text: "ارسال ایمیل به #{professors.length} استاد انتخاب شده"
