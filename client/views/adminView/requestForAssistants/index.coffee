@@ -87,7 +87,7 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
     ]
     extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
     extraButtons: extrasInstance = E extras, {goToRequestForAssistants, offeringIds}
-    onTableUpdate: (entities) ->
+    onTableUpdate: (descriptors) ->
       multiselectInstance.setChecked descriptors
       extrasInstance.update descriptors
     credit: E(credit).credit
