@@ -37,7 +37,7 @@ module.exports = component 'requestForAssistantsExtras', ({dom, events, returnOb
           acc
         ), {})
         setStyle sendEmailToStudents, text: "ارسال ایمیل به #{students.length} دانشجو انتخاب شده"
-        professorsCount = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
+        professors = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
           acc[entity.professorId] ?= true
           acc
         ), {})
