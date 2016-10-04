@@ -52,7 +52,7 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
       allInputs.forEach (input) ->
         input.dirty = false
       empty gradesContainer
-      state.offerings.once (offerings) ->
+      state.offerings.on once: true, (offerings) ->
         offering = (offerings.filter ({id}) -> String(id) is String(requestForAssistant.offeringId))[0]
         grades = offering.requiredCourses
         .map (_id) -> (courses.filter ({id}) -> String(id) is String(_id))[0]
