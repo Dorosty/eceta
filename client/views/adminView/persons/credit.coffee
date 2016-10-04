@@ -13,7 +13,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
   ids = [0..4].map -> generateId()
 
   type = E dropdown
-  setStyle type.input, id: ids[0], class: 'form-control'
+  setStyle type.input, id: ids[0]
   type.showEmpty true
   type.update ['کارشناس آموزش', 'استاد', 'دانشجو', 'نماینده استاد']
 
@@ -27,7 +27,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
   canLoginWithEmail = E 'input', type: 'checkbox'
 
   degree = E dropdown
-  setStyle degree.input, id: ids[4], class: 'form-control'
+  setStyle degree.input, id: ids[4]
   degree.update ['کارشناسی', 'کارشناسی ارشد', 'دکتری']
 
   contents = [
