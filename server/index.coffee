@@ -450,7 +450,7 @@ post 'getCourses', (sql, req) ->
   .then (courses) -> {courses}
 
 getRequestForAssistants = (sql, req) ->
-  sql.select 'requestForAssistants', ['id', 'status', 'isTrained', 'message', 'offeringId', 'studentId']
+  sql.select 'requestForAssistants', ['id', 'status', 'isTrained', 'message', 'offeringId', 'studentId', 'gpa']
   .then (requestForAssistants) ->
     all requestForAssistants.map (requestForAssistant) ->
       requestForAssistant.isTrained = !!requestForAssistant.isTrained
