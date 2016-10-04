@@ -112,11 +112,12 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
                 enable button
           else
             hide buttonGroup
+          degree.setSelectedId person.degree
           unless fullName.dirty
             setStyle fullName, value: person.fullName
           unless golestanNumber.dirty
             setStyle golestanNumber, value: person.golestanNumber
-          unless email.dropdown
+          unless email.dirty
             setStyle email, englishValue: person.email
           unless canLoginWithEmail.dirty
             setStyle canLoginWithEmail, checked: person.canLoginWithEmail
