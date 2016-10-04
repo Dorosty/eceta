@@ -5,7 +5,7 @@ module.exports = component 'requestForAssistantsExtras', ({dom, events, returnOb
   {E, show, hide} = dom
   {onEvent} = events
 
-  view = [
+  view = E null,
     if offeringIds
       [
         E 'span', marginRight: 10, "شما در حال مشاهده درخواست‌های مربوط به #{offeringIds.length} فراخوان هستید."
@@ -18,7 +18,6 @@ module.exports = component 'requestForAssistantsExtras', ({dom, events, returnOb
     E class: 'btn-group', marginRight: 10,
       hide sendEmailToStudents = E class: 'btn btn-default'
       hide sendEmailToProfessors = E class: 'btn btn-default'
-  ]
 
   _sendEmail = E sendEmail
 
