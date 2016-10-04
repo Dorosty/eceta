@@ -2,7 +2,7 @@ component = require '../../../utils/component'
 sendEmail = require './sendEmail'
 
 module.exports = component 'requestForAssistantsExtras', ({dom, events, returnObject}, {offeringIds, goToRequestForAssistants}) ->
-  {E, setStyle show, hide} = dom
+  {E, setStyle, show, hide} = dom
   {onEvent} = events
 
   view = E 'span', null,
