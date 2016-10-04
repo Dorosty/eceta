@@ -1,5 +1,6 @@
 component = require '../../../utils/component'
 modal = require '../../../singletons/modal'
+{generateId} = require '../../../utils/dom'
 
 module.exports = component 'requestForAssistantsExtras', ({dom, events, service, returnObject}) ->
   {E, show, hide, enable, disable} = dom
