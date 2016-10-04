@@ -103,36 +103,28 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
     isTrained = isTrainedDropdown.value()
     status = statusDropdown.value()
     filteredRequestForAssistants = requestForAssistants
-    console.log filteredRequestForAssistants
     if offeringIds
       filteredRequestForAssistants = filteredRequestForAssistants.filter (requestForAssistant) ->
         String(requestForAssistant.offeringId) in offeringIds.map (offeringId) -> String offeringId
-    console.log filteredRequestForAssistants
     if professorName
       filteredRequestForAssistants = filteredRequestForAssistants.filter (requestForAssistant) ->
         textIsInSearch requestForAssistant.professorName, professorName, true, true
-    console.log filteredRequestForAssistants
     if courseName
       filteredRequestForAssistants = filteredRequestForAssistants.filter (requestForAssistant) ->
         textIsInSearch requestForAssistant.courseName, courseName, true, true
-    console.log filteredRequestForAssistants
     if studentName
       filteredRequestForAssistants = filteredRequestForAssistants.filter (requestForAssistant) ->
         textIsInSearch requestForAssistant.studentName, studentName, true, true
-    console.log filteredRequestForAssistants
     if ~term
       filteredRequestForAssistants = filteredRequestForAssistants.filter (requestForAssistant) ->
         requestForAssistant.termId is term
-    console.log filteredRequestForAssistants
     if ~isTrained
       filteredRequestForAssistants = filteredRequestForAssistants.filter (requestForAssistant) ->
         requestForAssistant.isTrained is !isTrained
-    console.log filteredRequestForAssistants
     if ~status
       filteredRequestForAssistants = filteredRequestForAssistants.filter (requestForAssistant) ->
         textIsInSearch requestForAssistant.status, status, true, true
     view.setData filteredRequestForAssistants.sort (a, b) -> compare a.id, b.id
-    console.log filteredRequestForAssistants
 
   state.all ['requestForAssistants', 'offerings', 'persons', 'courses'], ([_requestForAssistants, offerings, persons, courses]) ->
     requestForAssistants = _requestForAssistants.map (requestForAssistant) ->
@@ -141,6 +133,7 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
         professorName: (persons.filter ({id}) -> String(id) is String offering.professorId)[0]?.fullName ? ''
         studentName: (persons.filter ({id}) -> String(id) is String offering.studentId)[0]?.fullName ? ''
         courseName: (courses.filter ({id}) -> String(id) is String offering.courseId)[0]?.name ? ''
+        termId: offering.termId
     update()
 
   onEvent [
