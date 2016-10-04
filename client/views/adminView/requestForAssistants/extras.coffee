@@ -5,7 +5,7 @@ module.exports = component 'requestForAssistantsExtras', ({dom, events, returnOb
   {E, show, hide} = dom
   {onEvent} = events
 
-  view = E null,
+  view = E 'span', null,
     if offeringIds
       [
         E 'span', marginRight: 10, "شما در حال مشاهده درخواست‌های مربوط به #{offeringIds.length} فراخوان هستید."

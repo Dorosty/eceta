@@ -13,15 +13,12 @@ module.exports = component 'offeringsMultiselect', ({dom, events, returnObject},
       l0 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب همه'
       l1 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب هیچ'
       E 'li', class: 'divider'
-      l2 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب فراخوان‌های نهایی شده'
-      l3 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب فراخوان‌های نهایی نشده'
+      l2 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های در حال بررسی'
+      l3 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های تایید شده'
+      l4 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های رد شده'
       E 'li', class: 'divider'
-      l4 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های در حال بررسی'
-      l5 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های تایید شده'
-      l6 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های رد شده'
-      E 'li', class: 'divider'
-      l7 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های کارگاه رفته'
-      l8 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های کارگاه نرفته'
+      l5 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های کارگاه رفته'
+      l6 = E 'li', null, E 'a', cursor: 'pointer', 'انتخاب درخواست‌های کارگاه نرفته'
 
   onEvent button, 'click', checkbox, ->
     addClass group, 'open'
@@ -36,19 +33,15 @@ module.exports = component 'offeringsMultiselect', ({dom, events, returnObject},
   onEvent l1, 'click', ->
     setSelectedRows (rows) -> []
   onEvent l2, 'click', ->
-    setSelectedRows (rows) -> rows.filter ({entity}) -> entity.isClosed
+    setSelectedRows (rows) -> rows.filter ({entity}) -> entity.status is 'در حال بررسی'
   onEvent l3, 'click', ->
-    setSelectedRows (rows) -> rows.filter ({entity}) -> !entity.isClosed
+    setSelectedRows (rows) -> rows.filter ({entity}) -> entity.status is 'تایید شده'
   onEvent l4, 'click', ->
-    view.setSelectedRows (rows) -> rows.filter ({entity}) -> entity.status is 'در حال بررسی'
+    setSelectedRows (rows) -> rows.filter ({entity}) -> entity.status is 'رد شده'
   onEvent l5, 'click', ->
-    view.setSelectedRows (rows) -> rows.filter ({entity}) -> entity.status is 'تایید شده'
+    setSelectedRows (rows) -> rows.filter ({entity}) -> entity.isTrained
   onEvent l6, 'click', ->
-    view.setSelectedRows (rows) -> rows.filter ({entity}) -> entity.status is 'رد شده'
-  onEvent l7, 'click', ->
-    view.setSelectedRows (rows) -> rows.filter ({entity}) -> entity.isTrained
-  onEvent l8, 'click', ->
-    view.setSelectedRows (rows) -> rows.filter ({entity}) -> !entity.isTrained
+    setSelectedRows (rows) -> rows.filter ({entity}) -> !entity.isTrained
 
   returnObject
     setChecked: (descriptors) ->
