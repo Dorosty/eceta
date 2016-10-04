@@ -8,7 +8,7 @@ numberInput = require '../../../components/restrictedInput/number'
 
 module.exports = component 'personsCredit', ({dom, events, state, service, returnObject}) ->
   {E, setStyle, show, hide, enable, disable} = dom
-  {onEvent} = events
+  {onEvent, onEnter} = events
 
   ids = [0..5].map -> generateId()
 
