@@ -17,7 +17,7 @@ module.exports = component 'coursesView', ({dom, events, state, service}) ->
   courseNumberInput = E numberInput, true
   setStyle courseNumberInput, searchBoxStyle.textbox
 
-  elements.page = crudPage.createElement
+  view = E crudPage,
     entityName: 'درس'
     requiredStates: ['courses', 'professors']
     entityId: 'id'
@@ -47,3 +47,5 @@ module.exports = component 'coursesView', ({dom, events, state, service}) ->
     update()
 
   onEvent [nameInput, courseNumberInput], ['input', 'pInput'], update
+
+  view
