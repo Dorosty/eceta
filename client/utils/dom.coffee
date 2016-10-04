@@ -122,7 +122,10 @@ exports.instance = (thisComponent) ->
       return component.forEach (component) -> exports.append parent, component
     l = log.append thisComponent, parent, component
     l()
-    parent.fn.element.appendChild component.fn.element
+    try
+      parent.fn.element.appendChild component.fn.element
+    catch
+      debugger
     component.fn.domParent = parent
     parent.fn.childComponents ?= []
     parent.fn.childComponents.push component
