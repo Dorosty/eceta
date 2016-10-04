@@ -47,12 +47,14 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
     onEvent input, ['focus', 'input', 'change'], ->
       input.dirty = true
 
+  offState = undefined
+
   returnObject
     credit: -> (requestForAssistant) ->
       allInputs.forEach (input) ->
         input.dirty = false
       empty gradesContainer
-      state.offerings.on once: true, (offerings) ->
+      state.all ['offerings', 'courses'], once: true, ([offerings, courses]) ->
         offering = (offerings.filter ({id}) -> String(id) is String(requestForAssistant.offeringId))[0]
         grades = offering.requiredCourses
         .map (_id) -> (courses.filter ({id}) -> String(id) is String(_id))[0]
@@ -65,7 +67,7 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
             modal.instance.submit()
           append gradesContainer, g
           {course, input}
-      state.all ['requestForAssistants', 'offerings', 'courses'], once: true, ([requestForAssistants, offerings, courses]) ->
+      offState = state.requestForAssistants.on (requestForAssistants) ->
         requestForAssistant = (requestForAssistants.filter ({id}) -> String(id) is String(requestForAssistant.id))[0]
         unless requestForAssistant
           return modal.instance.hide()
@@ -75,19 +77,22 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
           setStyle message, value: requestForAssistant.message
         unless isTrained.dirty
           setStyle isTrained, checked: requestForAssistant.isTrained
-        modal.instance.display
-          enabled: true
-          autoHide: true
-          title: 'جزئیات/ویرایش درخواست'
-          submitText: 'ثبت تغییرات'
-          closeText: 'لغو تغییرات'
-          contents: contents
-          submit: ->
-            service.updateRequestForAssistant
-              id: requestForAssistant.id
-              gpa: gpa.value()
-              message: message.value()
-              isTrained: isTrained.checked()
-              grades: grades.map ({course, input}) ->
-                courseId: course.id
-                grade: input.value()
+      modal.instance.display
+        enabled: true
+        autoHide: true
+        title: 'جزئیات/ویرایش درخواست'
+        submitText: 'ثبت تغییرات'
+        closeText: 'لغو تغییرات'
+        contents: contents
+        close: ->
+          offState?()
+          offState = null
+        submit: ->
+          service.updateRequestForAssistant
+            id: requestForAssistant.id
+            gpa: gpa.value()
+            message: message.value()
+            isTrained: isTrained.checked()
+            grades: grades.map ({course, input}) ->
+              courseId: course.id
+              grade: input.value()
