@@ -52,18 +52,19 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
       allInputs.forEach (input) ->
         input.dirty = false
       empty gradesContainer
-      offering = (offerings.filter ({id}) -> String(id) is String(requestForAssistant.offeringId))[0]
-      grades = offering.requiredCourses
-      .map (_id) -> (courses.filter ({id}) -> String(id) is String(_id))[0]
-      .forEach (course) ->
-        grade = (requestForAssistant.grades.filter ({courseId}) -> String(courseId) is String(course.id))[0]?.grade
-        grades.push g = E class: 'form-group',
-          E 'label', for: id = generateId(), "نمره درس #{course.name}"
-          input = E 'input', id: id, class: 'form-control', value: grade
-        onEnter g, ->
-          modal.instance.submit()
-        append gradesContainer, g
-        {course, input}
+      state.offerings.once (offerings) ->
+        offering = (offerings.filter ({id}) -> String(id) is String(requestForAssistant.offeringId))[0]
+        grades = offering.requiredCourses
+        .map (_id) -> (courses.filter ({id}) -> String(id) is String(_id))[0]
+        .forEach (course) ->
+          grade = (requestForAssistant.grades.filter ({courseId}) -> String(courseId) is String(course.id))[0]?.grade
+          grades.push g = E class: 'form-group',
+            E 'label', for: id = generateId(), "نمره درس #{course.name}"
+            input = E 'input', id: id, class: 'form-control', value: grade
+          onEnter g, ->
+            modal.instance.submit()
+          append gradesContainer, g
+          {course, input}
       state.all ['requestForAssistants', 'offerings', 'courses'], once: true, ([requestForAssistants, offerings, courses]) ->
         requestForAssistant = (requestForAssistants.filter ({id}) -> String(id) is String(requestForAssistant.id))[0]
         unless requestForAssistant
