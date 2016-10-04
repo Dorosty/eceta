@@ -71,7 +71,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
     if type.value() is 'دانشجو'
       show degreeGroup
     else
-      show degreeGroup
+      hide degreeGroup
 
   getServiceData = ->
     person =

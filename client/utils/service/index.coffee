@@ -26,6 +26,5 @@ exports.getPerson = ->
 exports.autoPing = ->
   do fn = ->
     post 'ping'
-    .then ->
+    .fin ->
       setTimeout fn
-    .done()
