@@ -7,8 +7,8 @@ module.exports =
   login:                           stateName: 'person'
   casLogin:                        stateName: 'person'
   verify:                          stateName: 'person'
-  addRequiredCourse:               stateName: 'offerings' # CHECK: proferrorOfferings
-  removeRequiredCourse:            stateName: 'offerings' # CHECK: proferrorOfferings
+  addRequiredCourse:               stateName: 'proferrorOfferings'
+  removeRequiredCourse:            stateName: 'proferrorOfferings'
   sendRequestForAssistant:         stateName: 'studentRequestForAssistants'
   deleteRequestForAssistant:       stateName: 'studentRequestForAssistants'
   changeRequestForAssistantState:  stateName: 'professorOfferings'

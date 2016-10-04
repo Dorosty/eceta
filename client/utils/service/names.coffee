@@ -30,6 +30,8 @@ exports.posts = [
   'deleteRequestForAssistant'
   'closeOffering'
   'batchAddOfferings'
+  'sendEmail'
+  'resetPassword'
 ]
 
 exports.cruds = [  

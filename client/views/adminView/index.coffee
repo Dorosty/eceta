@@ -1,12 +1,12 @@
 component = require '../../utils/component'
 staticData = require './staticData'
-# persons = require './persons'
-# courses = require './courses'
+persons = require './persons'
+courses = require './courses'
 offerings = require './offerings'
 requestForAssistants = require './requestForAssistants'
 
-tabNames = ['اطلاعات پایه', 'فراخوان‌ها', 'درخواست‌های دستیاری']# 'اشخاص', 'درس‌ها'
-contentComponents = [staticData, offerings, requestForAssistants]# persons, courses
+tabNames = ['اطلاعات پایه', 'اشخاص', 'درس‌ها', 'فراخوان‌ها', 'درخواست‌های دستیاری']
+contentComponents = [staticData, persons, courses, offerings, requestForAssistants]
 tabPermissions = {}
 
 module.exports = component 'adminView', ({dom, events, state}) ->
@@ -19,7 +19,7 @@ module.exports = component 'adminView', ({dom, events, state}) ->
 
   goToRequestForAssistants = (_offeringIds) ->
     offeringIds = _offeringIds
-    changeTabIndex 2 ############################## 4
+    changeTabIndex 4
 
   changeTabIndex = (index) ->
     removeClass tabs[currentTabIndex], 'active'

@@ -94,8 +94,8 @@ module.exports = component 'offeringsCredit', ({dom, events, state, service, ret
           course.setSelectedId offering.courseId
           professor.setSelectedId offering.professorId
           deputy.setSelectedId offering.deputyId
-        unless capacity.dirty
-          setStyle capacity, value: offering.capacity
+          unless capacity.dirty
+            setStyle capacity, value: offering.capacity
       else
         [course, professor].forEach (x) ->
           x.showEmpty true
@@ -116,9 +116,9 @@ module.exports = component 'offeringsCredit', ({dom, events, state, service, ret
         submit: ->
           allInputs.forEach (x) -> disable x
           submitQ = if isEdit
-              service.updateOffering extend id: offering.id, getServiceData()
-            else
-              service.createOffering getServiceData()
+            service.updateOffering extend id: offering.id, getServiceData()
+          else
+            service.createOffering getServiceData()
           submitQ
           .then ->
             allInputs.forEach (x) -> enable x

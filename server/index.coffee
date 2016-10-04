@@ -327,11 +327,12 @@ getPersons = (sql, req) ->
             extend person, extras
             convert.numberDegreeToStringDegree person
 
-      person.canLoginWithEmail = false
-      regularLoginQ = sql.select 'regularLogins', ['email'], personId: person.id
+      person.canLoginWithEmail = person.hasPassword = false
+      regularLoginQ = sql.select 'regularLogins', ['email', 'password'], personId: person.id
       .then ([regularLogin]) ->
         if regularLogin
           person.canLoginWithEmail = regularLogin.email is person.email
+          person.hasPassword = !!regularLogin.password
 
       all [extrasQ, regularLoginQ]
       .then -> person
@@ -594,6 +595,16 @@ post 'deletePersons', (sql, req) ->
     sql.delete 'persons', {id}
   .then -> null
 
+post 'resetPassword', (sql, req) ->
+  {personId} = req.body
+  verificationCode = randomString 16
+  all [
+    sql.select 'persons', ['fullName', 'email'], id: personId
+    sql.update 'regularLogins', {verificationCode} , {personId}
+  ]
+  .then ([[{fullName, email}]]) ->
+    sendEmail(email, fullName).register email, verificationCode
+
 post 'createRole', (sql, req) ->
   sql.insert 'roles', req.body, true
   .then (roleId) ->
@@ -657,6 +668,23 @@ post 'deleteOfferings', (sql, req) ->
   all ids.map (id) ->
     sql.delete 'offerings', {id}
   .then -> null
+
+post 'updateRequestForAssistant', (sql, req) ->
+  {id, gpa, message, isTrained, grades} = req.body
+  requestForAssistantId = id
+  all [
+    sql.update {gpa, message, isTrained}, {id}
+    all grades.map ({courseId, grade}) ->
+      unless grade
+        sql.delete 'grades', {requestForAssistantId, courseId}
+      else
+        sql.exists 'grades', {requestForAssistantId, courseId}
+        .then (exists) ->
+          if exists
+            sql.insert 'grades', {grade}, {requestForAssistantId, courseId}
+          else
+            sql.update 'grades', {requestForAssistantId, courseId, grade}
+  ]
 
 post 'sendRequestForAssistant', (sql, req) ->
   studentId = req.personId
@@ -779,3 +807,18 @@ post 'batchAddOfferings', (sql, req) ->
     .then ([[id: courseId], [id: professorId]]) ->
       sql.insert 'offerings', {courseId, professorId, capacity: entry[14]}
   .then -> null
+
+post 'sendEmail', (sql, req) ->
+  {ids, title, message} = req.body
+  ids.forEach (id) ->
+    sql.select 'persons', ['fullName', 'email'], {id}
+    .then (email) ->
+      if email
+        sendMail email, title,
+                    "#{message}\n
+                    \n
+                    سامانه مدیریت دستیاران آموزشی\n
+                    دانشکده مهندسی برق و کامپیوتر\n
+                    http://eceta.ut.ac.ir",
+                    fullName
+  null

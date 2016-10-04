@@ -19,6 +19,7 @@ module.exports = component 'bugReport', ({dom, events, state, service}) ->
     modal.instance.setEnabled textbox.value()
 
   onEvent bugReport, 'click', ->
+    setStyle textbox, value: ''
     modal.instance.display
       enabled: false
       autoHide: true
@@ -27,11 +28,15 @@ module.exports = component 'bugReport', ({dom, events, state, service}) ->
       closeText: 'بستن'
       contents: contents
       submit: -> Q.Promise (resolve) ->
-        setStyle textbox, value: ''
+        disable textbox
         state.person.on once: true, allowNull: true, (person) ->
           resolve service.reportBug
             description: textbox.value()
             platform: JSON.stringify window.platform
             person: JSON.stringify person
+          .then ->
+            enable textbox
+          .catch ->
+            enable textbox
 
   bugReport

@@ -6,6 +6,6 @@ exports.font =
 exports.input =
   marginTop: 20
   class: 'form-control'
-
-exports.textbox = extend {}, exports.font, exports.input,
   placeholder: 'جستجو...'
+
+exports.textbox = extend {}, exports.font, exports.input

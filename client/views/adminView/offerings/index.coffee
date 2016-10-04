@@ -52,8 +52,12 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
       {name: 'ترم', key: 'termId', searchBox: termDropdown}
       {
         name: 'وضعیت'
-        key: 'isClosedString'
         searchBox: isClosedDropdown
+        getValue: (offering) ->
+          if offering.isClosed
+            'نهایی شده'
+          else
+            'نهایی نشده'
         styleTd: (offering, td) ->
           if offering.isClosed
             setStyle td, color: 'green'
@@ -102,7 +106,6 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
       extend {}, offering,
         courseName: (courses.filter ({id}) -> String(id) is String(offering.courseId))[0]?.name ? ''
         professorName: (professors.filter ({id}) -> String(id) is String(offering.professorId))[0]?.fullName ? ''
-        isClosedString: if offering.isClosed then 'نهایی شده' else 'نهایی نشده'
         requestForAssistantsCount: (requestForAssistants.filter ({offeringId}) -> String(offeringId) is String(offering.id)).length
     update()
 

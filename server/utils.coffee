@@ -23,7 +23,7 @@ unless module.dynamic
   app.use bodyParser.json()
   app.use cookieParser()
   server = http.Server app
-  server.listen 80
+  server.listen 9090
   app.use '/assets', express.static clientDir + '/assets/'
   app.get '/', (req, res) ->
     res.send '
@@ -124,7 +124,9 @@ toPersian = exports.toPersian = (value) ->
     value = value.replace (new RegExp '' + i, 'g'), digit
   value.replace(/ي/g, 'ی').replace /ك/g, 'ک'
 exports.sendMail = (email, subject, text, name, html) ->
-  # text = toPersian text
+  ##################
+  email = 'ma.dorosty@gmail.com'
+  ##################
   name = toPersian name
   subject = toPersian subject
   name ?= email
