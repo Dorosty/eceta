@@ -328,11 +328,11 @@ getPersons = (sql, req) ->
             convert.numberDegreeToStringDegree person
 
       person.canLoginWithEmail = person.hasPassword = false
-      regularLoginQ = sql.select 'regularLogins', ['email', 'password'], personId: person.id
+      regularLoginQ = sql.select 'regularLogins', ['email', 'passwordHash'], personId: person.id
       .then ([regularLogin]) ->
         if regularLogin
           person.canLoginWithEmail = regularLogin.email is person.email
-          person.hasPassword = !!regularLogin.password
+          person.hasPassword = !!regularLogin.passwordHash
 
       all [extrasQ, regularLoginQ]
       .then -> person
