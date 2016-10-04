@@ -17,7 +17,7 @@ module.exports = component 'offeringsMultiselect', ({dom, events, returnObject},
     addClass group, 'open'
   onEvent E(body), 'click', [button, list], ->
     removeClass group, 'open'
-  onEvent [l0, l1, l2, l3], 'click', ->
+  onEvent [l0, l1], 'click', ->
     removeClass group, 'open'
   onEvent checkbox, 'change', ->
     setSelectedRows (rows) -> if checkbox.checked() then rows else []
