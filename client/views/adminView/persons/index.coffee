@@ -9,6 +9,7 @@ numberInput = require '../../../components/restrictedInput/number'
 
 module.exports = component 'personsView', ({dom, events, state, service}) ->
   {E, setStyle} = dom
+  {onEvent} = events
 
   service.getPersons()
 
