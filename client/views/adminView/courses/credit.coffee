@@ -26,7 +26,7 @@ module.exports = component 'coursesCredit', ({dom, events, state, service, retur
 
   allInputs = [name, number]
 
-  onEvent allInputs, ['input', 'pInput'] ->
+  onEvent allInputs, ['input', 'pInput'], ->
     modal.instance.setEnabled ~name.value() and ~number.value()
   
   onEnter allInputs, ->
