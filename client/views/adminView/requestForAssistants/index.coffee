@@ -86,10 +86,10 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
       }
     ]
     extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
-    extraButtons: E extras, {goToRequestForAssistants, offeringIds}
+    extraButtons: extrasInstance = E extras, {goToRequestForAssistants, offeringIds}
     onTableUpdate: (entities) ->
       multiselectInstance.setChecked descriptors
-      extras.update descriptors
+      extrasInstance.update descriptors
     credit: E(credit).credit
     deleteItem: (requestForAssistants) ->
       service.deleteRequestForAssistants requestForAssistant.map ({id}) -> id
