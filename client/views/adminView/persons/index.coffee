@@ -23,7 +23,7 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
   golestanNumberInput = E numberInput, true
   setStyle golestanNumberInput, searchBoxStyle.textbox
 
-  view = crudPage.createElement
+  view = E crudPage,
     entityName: 'شخص'
     requiredStates: ['persons']
     entityId: 'id'
