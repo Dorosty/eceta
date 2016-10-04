@@ -67,7 +67,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
     onEvent input, ['focus', 'input', 'change'], ->
       input.dirty = true
   
-  onEvent type, ['input', 'pInput'], ->
+  onEvent type.input, ['input', 'pInput'], ->
     if type.value() is 'دانشجو'
       show degreeGroup
     else
