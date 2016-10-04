@@ -30,7 +30,7 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
     entityId: 'id'
     extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
     headers: [
-      {name: 'وضعیت', key: 'type', searchBox: typeDropdown}
+      {name: 'نوع', key: 'type', searchBox: typeDropdown}
       {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
       {name: 'شماره دانشجویی / پرسنلی', key: 'golestanNumber', searchBox: golestanNumberInput}
     ]
@@ -55,7 +55,7 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
 
 
   state.persons.on (_persons) ->
-    _persons = persons
+    persons = _persons
     update()
 
   onEvent [typeDropdown.input, fullNameInput, golestanNumberInput], ['input', 'pInput'], update
