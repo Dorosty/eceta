@@ -11,14 +11,14 @@ getFullName = (component) ->
 
 exports.component =
   create: (part, component) ->
-    # return
+    return
     log "#{part}:create:#{getFullName component}"
 
 exports.dom =
   E0: (thisComponent) ->
     part = 0
     (component, args) ->
-      # return
+      return
       try
         stringifiedArgs = JSON.stringify args
       catch
@@ -35,37 +35,37 @@ exports.dom =
     logText += "|#{getFullName thisComponent}"
     part = 0
     ->
-      # return
+      return
       log "#{part++}:#{logText}"
 
   text: (thisComponent, text) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.text:#{text}|#{getFullName thisComponent}"
 
   append: (thisComponent, parent, component) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.append:#{getFullName parent}--->#{getFullName component}|#{getFullName thisComponent}"
 
   detatch: (thisComponent, component) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.detatch:#{getFullName component}|#{getFullName thisComponent}"
 
   destroy: (thisComponent, component) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.destroy:#{getFullName component}|#{getFullName thisComponent}"
 
   empty: (thisComponent, component) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.empty:#{getFullName component}|#{getFullName thisComponent}"
 
   setStyle: (thisComponent, component, style) ->
@@ -75,43 +75,43 @@ exports.dom =
     logText += "|#{getFullName thisComponent}"
     part = 0
     ->
-      # return
+      return
       log "#{part++}:#{logText}"
 
   addClass: (thisComponent, component, klass) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.addClass:#{getFullName component}:#{klass}|#{getFullName thisComponent}"
 
   removeClass: (thisComponent, component, klass) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.removeClass:#{getFullName component}:#{klass}|#{getFullName thisComponent}"
 
   show: (thisComponent, component) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.show:#{getFullName component}|#{getFullName thisComponent}"
 
   hide: (thisComponent, component) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.hide:#{getFullName component}|#{getFullName thisComponent}"
 
   enable: (thisComponent, component) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.enable:#{getFullName component}|#{getFullName thisComponent}"
 
   disable: (thisComponent, component) ->
     part = 0
     ->
-      # return
+      return
       log "#{part++}:dom.disable:#{getFullName component}|#{getFullName thisComponent}"
 
 exports.events =
@@ -122,47 +122,47 @@ exports.events =
     logText += "|#{getFullName thisComponent}"
     parts = [0, 0, 0]
     l = (partIndex, e) ->
-      # return
+      return
       log "#{partIndex}:#{parts[partIndex]++}#{if e then ':' + JSON.stringify e else ''}:#{logText}"
     l.ignore = (ignoredComponent, e) ->
-      # return
+      return
       log "ignore #{getFullName ignoredComponent}#{if e then ':' + JSON.stringify e else ''}:#{logText}"
     l
 
   onLoad: (thisComponent, callback) ->
     parts = [0, 0, 0]
     (partIndex) ->
-      # return
+      return
       log "#{partIndex}:#{parts[partIndex]++}:events.onLoad|#{getFullName thisComponent}"
 
   onResize: (thisComponent, callback) ->
     parts = [0, 0, 0]
     (partIndex) ->
-      # return
+      return
       log "#{partIndex}:#{parts[partIndex]++}:events.onResize|#{getFullName thisComponent}"
 
   onMouseover: (thisComponent, component, callback) ->
     parts = [0, 0, 0]
     (partIndex) ->
-      # return
+      return
       log "#{partIndex}:#{parts[partIndex]++}:events.onMouseover:#{getFullName component}|#{getFullName thisComponent}"
 
   onMouseout: (thisComponent, component, callback) ->
     parts = [0, 0, 0]
     (partIndex) ->
-      # return
+      return
       log "#{partIndex}:#{parts[partIndex]++}:events.onMouseout:#{getFullName component}|#{getFullName thisComponent}"
 
   onMouseup: (thisComponent, callback) ->
     parts = [0, 0, 0]
     (partIndex) ->
-      # return
+      return
       log "#{partIndex}:#{parts[partIndex]++}:events.onMouseup|#{getFullName thisComponent}"
 
   onEnter: (thisComponent, component, callback) ->
     parts = [0, 0, 0]
     (partIndex) ->
-      # return
+      return
       log "#{partIndex}:#{parts[partIndex]++}:events.onEnter:#{getFullName component}|#{getFullName thisComponent}"
 
 exports.state =
@@ -170,7 +170,7 @@ exports.state =
     on: (options, callback) ->
       parts = [0, 0, 0]
       (partIndex, data) ->
-        # return
+        return
         logText = "#{partIndex}:#{parts[partIndex]++}:state.createPubsub.on:#{JSON.stringify options}"
         if partIndex is 1
           logText += ':' + JSON.stringify data
@@ -179,14 +179,14 @@ exports.state =
     set: (data) ->
       part = 0
       ->
-        # return
+        return
         log "#{part++}:state.createPubsub.set:#{JSON.stringify data}|#{getFullName thisComponent}"
 
   pubsub: (thisComponent, name) ->
     on: (options, callback) ->
       parts = [0, 0, 0]
       (partIndex, data) ->
-        # return
+        return
         logText = "#{partIndex}:#{parts[partIndex]++}:state.pubsub.on:#{name}:#{JSON.stringify options}"
         if partIndex is 1
           logText += ':' + JSON.stringify data
@@ -195,22 +195,22 @@ exports.state =
     set: (data) ->
       part = 0
       ->
-        # return
+        return
         log "#{part++}:state.pubsub.set:#{name}:#{JSON.stringify data}|#{getFullName thisComponent}"
 
   all: (thisComponent, options, keys, callback) ->
     parts = [0, 0, 0]
     (partIndex, data) ->
-      # return
+      return
       log "#{partIndex}:#{parts[partIndex]++}:state.all:#{JSON.stringify keys}:#{JSON.stringify options}#{if data then ':' + JSON.stringify data else ''}|#{getFullName thisComponent}"
 
 exports.service =
   get: (thisComponent, url, params) ->
     (data) ->
-      # return
+      return
       log "service.get:#{url}#{if params then ':' + JSON.stringify params else ''}#{if data then ':' + JSON.stringify data else ''}|#{getFullName thisComponent}"
 
   post: (thisComponent, url, params) ->
     (data) ->
-      # return
+      return
       log "service.post:#{url}#{if params then ':' + JSON.stringify params else ''}#{if data then ':' + JSON.stringify data else ''}|#{getFullName thisComponent}"

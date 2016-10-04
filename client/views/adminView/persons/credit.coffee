@@ -55,7 +55,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
 
   allInputs = [type.input, fullName, email, canLoginWithEmail, degree.input]
 
-  onEvent allInputs, ->
+  onEvent allInputs, ['input, pInput', 'change'], ->
     modal.instance.setEnabled ~type.value() and fullName.value() and email.value() and
       emailIsValid(email.value()) and (type.value() isnt 'دانشجو' or ~degree.value())
   
