@@ -33,6 +33,8 @@ exports.instance = (thisComponent) ->
         exports.onEvent.apply null, args
       return -> unbinds.forEach (unbind) -> unbind()
 
+    unless component.fn?.element?
+      debugger
     {element} = component.fn
 
     l = log.onEvent thisComponent, component, event, ignores, callback
