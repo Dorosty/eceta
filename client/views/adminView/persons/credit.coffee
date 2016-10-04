@@ -10,7 +10,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
   {E, setStyle, show, hide, enable, disable} = dom
   {onEvent, onEnter} = events
 
-  ids = [0..5].map -> generateId()
+  ids = [0..4].map -> generateId()
 
   type = E dropdown
   setStyle type, id: ids[0], class: 'form-control'
@@ -24,10 +24,10 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
 
   email = E 'input', id: ids[3], type: 'email', class: 'form-control'
 
-  canLoginWithEmail = E 'input', id: ids[4], type: 'checkbox'
+  canLoginWithEmail = E 'input', type: 'checkbox'
 
   degree = E dropdown
-  setStyle degree, id: ids[5], class: 'form-control'
+  setStyle degree, id: ids[4], class: 'form-control'
   degree.update ['کارشناسی', 'کارشناسی ارشد', 'دکتری']
 
   contents = [
@@ -43,13 +43,14 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
     E class: 'form-group',
       E 'label', for: ids[3], 'ایمیل'
       email
-    E class: 'form-group',
-      E 'label', for: ids[4], 'امکان ورود با ایمیل'
-      canLoginWithEmail
+    E class: 'checkbox',
+      E 'label',
+        text: 'امکان ورود با ایمیل'
+        canLoginWithEmail
     buttonGroup = E class: 'form-group',
       button = E class: 'btn btn-default'
     degreeGroup = E class: 'form-group',
-      E 'label', for: ids[5], 'مقطع'
+      E 'label', for: ids[4], 'مقطع'
       degree
   ]
 
