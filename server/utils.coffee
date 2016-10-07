@@ -23,7 +23,7 @@ unless module.dynamic
   app.use bodyParser.json()
   app.use cookieParser()
   server = http.Server app
-  server.listen 9090
+  server.listen 80
   app.use '/assets', express.static clientDir + '/assets/'
   app.get '/', (req, res) ->
     res.send '
@@ -517,6 +517,8 @@ handle = (methodName) -> (route, handler) ->
           Object.keys(response).forEach (key) ->
             if Array.isArray response[key]
               response[key] = "[#{response[key].length} items]"
+          if req.body.password
+            req.body.password = '[[PASSWORD]]'
           logStream.write "#{new Date()}\n#{route}\n#{JSON.stringify req.body}\n#{JSON.stringify response}\n\n\n"
       .catch (error) ->
         query 'ROLLBACK'
