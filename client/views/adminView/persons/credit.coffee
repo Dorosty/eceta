@@ -92,6 +92,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
       offClick?()
       allInputs.forEach (input) ->
         input.dirty = false
+      hide degreeGroup
       if isEdit
         hide typeGroup
         type.setSelectedId person.type

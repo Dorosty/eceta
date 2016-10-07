@@ -463,6 +463,10 @@ handle = (methodName) -> (route, handler) ->
     appRoute = appRoute[0]
     app._router.stack.splice app._router.stack.indexOf(appRoute), 1
   app[methodName] route, (req, res) ->
+    logBody = extend {}, req.body
+    if logBody.password
+      logBody.password = '[[PASSWORD]]'
+
     delete req.query.rand
     extend req.body, req.query
     dbPoolConnect().then ([client, done]) ->
@@ -517,17 +521,15 @@ handle = (methodName) -> (route, handler) ->
           Object.keys(response).forEach (key) ->
             if Array.isArray response[key]
               response[key] = "[#{response[key].length} items]"
-          if req.body.password
-            req.body.password = '[[PASSWORD]]'
-          logStream.write "#{new Date()}\n#{route}\n#{JSON.stringify req.body}\n#{JSON.stringify response}\n\n\n"
+          logStream.write "#{new Date()}\n#{route}\n#{JSON.stringify logBody}\n#{JSON.stringify response}\n\n\n"
       .catch (error) ->
         query 'ROLLBACK'
         .then ->
           done()
           res.status(400).send if error?.error then error.error else ''
-          logStream.write "ERROR: #{new Date()}\n#{route}\n#{JSON.stringify req.body}\n#{error}\n\n"
+          logStream.write "ERROR: #{new Date()}\n#{route}\n#{JSON.stringify logBody}\n#{error}\n\n"
           try
-            logStream.write "ERROR: #{new Date()}\n#{route}\n#{JSON.stringify req.body}\n#{JSON.stringify error}\n\n\n"
+            logStream.write "ERROR: #{new Date()}\n#{route}\n#{JSON.stringify logBody}\n#{JSON.stringify error}\n\n\n"
 
 exports.config = (x) -> configResponse = x
 exports.get = handle 'get'
