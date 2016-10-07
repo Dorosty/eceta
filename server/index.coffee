@@ -1,7 +1,7 @@
 {config, get, post, requestGet, Q, readFile, hash, sendMail, extend, randomString, jalaali, convert, all, toPersian} = require './utils'
 
-post 'openAllOfferings', (sql) ->
-  sql.query 'UPDATE offerings SET "isClosed" = 0'
+# post 'openAllOfferings', (sql) ->
+#   sql.query 'UPDATE offerings SET "isClosed" = 0'
 
 post 'reportBug', (sql, req) ->
   {description, platform, person} = req.body
@@ -348,7 +348,7 @@ post 'getProfessors', (sql, req) ->
   .then (professors) -> {professors}
 
 getStudentDegree = (sql, req) ->
-  sql.select 'students', 'degree', id: person.id
+  sql.select 'students', 'degree', id: req.personId
   .then ([person]) ->
     convert.numberDegreeToStringDegree person
     person.degree

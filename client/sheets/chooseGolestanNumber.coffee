@@ -1,24 +1,28 @@
-# credit = require '../views/credit'
-# service = require '../service'
-# modal = require '../modal'
-# dropdown = require '../components/dropdown'
-# {toEnglish} = require '../utils'
-# {E} = require '../utils/dom'
+component = require '../utils/component'
+modal = require '../singletons/modal'
+dropdown = require '../components/dropdown'
+{generateId} = require '../utils/dom'
+{toEnglish} = require '../utils'
 
-# golestanNumber = dropdown.createElement ((number) -> number), (number) -> number
-# dialog = credit(
-#   getTitle: -> 'شماره دانشجویی / پرسنلی مورد نظر را انتخاب کنید'
-#   getSubmitText: -> 'ورود'
-#   fields: [
-#     {name: 'شماره دانشجویی / پرسنلی', element: golestanNumber.element, dropdown: golestanNumber}
-#   ]
-#   create: ->
-#     service.casLogin golestanNumber: toEnglish golestanNumber.element.value
-#     .fin ->
-#       modal.hide()
-#  )(false)
+module.exports = component 'chooseGolestanNumber', ({dom, events, service, returnObject}) ->
+  {E, setStyle} = dom
 
-# exports.display = (golestanNumbers) ->
-  # golestanNumber.update golestanNumbers, false
-  # # golestanNumber.setSelectedId golestanNumbers[0]
-  # dialog()
+  id = generateId()
+
+  golestanNumber = E dropdown
+  setStyle, golestanNumber.input, {id}
+
+  contents = E class: 'form-group',
+    E 'label', for: id, 'شماره دانشجویی / پرسنلی'
+    golestanNumber
+
+  returnObject
+    display: (golestanNumbers) ->
+      golestanNumber.update golestanNumbers
+      golestanNumber.setSelectedId golestanNumbers[0]
+      modal.instance.display
+        autoHide: true
+        Title: 'شماره دانشجویی / پرسنلی مورد نظر را انتخاب کنید'
+        SubmitText: 'ورود'
+        submit: ->
+          service.casLogin golestanNumber: toEnglish golestanNumber.value()

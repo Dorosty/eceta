@@ -34,6 +34,8 @@ module.exports = (componentName, create) -> (args...) ->
     component.fn.element = c.fn.element
   if c?.fn?.pInputListeners
     component.fn.pInputListeners = c.fn.pInputListeners
+  if Array.isArray c
+    component.fn.element = c
 
   log.create 1, component
 
