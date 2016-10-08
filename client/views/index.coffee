@@ -1,8 +1,8 @@
 component = require '../utils/component'
 firstPage = require './firstPage'
 adminView = require './adminView'
-# professorView = require './professorView'
-# studentView = require './studentView'
+professorView = require './professorView'
+studentView = require './studentView'
 
 module.exports = component 'views', ({dom, state}) ->
   {E, append, empty} = dom

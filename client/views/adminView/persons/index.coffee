@@ -5,7 +5,7 @@ multiselect = require './multiselect'
 searchBoxStyle = require '../../../components/table/searchBoxStyle'
 dropdown = require '../../../components/dropdown'
 numberInput = require '../../../components/restrictedInput/number'
-{compare, textIsInSearch} = require '../../../utils'
+{textIsInSearch} = require '../../../utils'
 
 module.exports = component 'personsView', ({dom, events, state, service}) ->
   {E, setStyle} = dom
@@ -51,8 +51,7 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.fullName, fullName
     if golestanNumber
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.golestanNumber, golestanNumber
-    view.setData filteredPersons.sort (a, b) -> compare a.id, b.id
-
+    view.setData filteredPersons
 
   state.persons.on (_persons) ->
     persons = _persons

@@ -175,6 +175,15 @@ config (methodName, personId, response, sql, req) ->
   .then ([person]) ->
     unless person
       return response.loggedOut = true
+
+    convert.nubmerTypeToStringType person
+
+    extrasQ = switch person.type
+      when 'دانشجو'
+        sql.select 'students', ['degree'], id: person.id
+        .then ([extras]) ->
+          extend person, extras
+          convert.numberDegreeToStringDegree person
       
     convert.nubmerTypeToStringType person
 
@@ -190,8 +199,8 @@ config (methodName, personId, response, sql, req) ->
     .then (permissions) ->
       person.flattenedPermissions = person.flattenedPermissions.concat permissions.map ({id}) -> id
 
-    all [permissionsQ, permissionsFromRolesQ]
-    .then (data) ->
+    all [extrasQ, permissionsQ, permissionsFromRolesQ]
+    .then ->
       delete person.id
       extend response, {person}
 
@@ -273,7 +282,6 @@ post 'ping', (sql, req) ->
       Qs['requestForAssistants'] = getRequestForAssistants sql, req
     if person.type is 'دانشجو'      
       Qs['professors'] = getProfessors sql, req
-      Qs['studentDegree'] = getStudentDegree sql, req
       Qs['studentRequestForAssistants'] = getStudentRequestForAssistants sql, req
     if person.type is 'استاد' or person.type is 'نماینده استاد'
       Qs['chores'] = getChores sql, req
@@ -347,22 +355,31 @@ post 'getProfessors', (sql, req) ->
   getProfessors sql, req
   .then (professors) -> {professors}
 
-getStudentDegree = (sql, req) ->
-  sql.select 'students', 'degree', id: req.personId
-  .then ([person]) ->
-    convert.numberDegreeToStringDegree person
-    person.degree
-post 'getStudentDegree', (sql, req) ->
-  getStudentDegree sql, req
-  .then (studentDegree) -> {studentDegree}
+# getStudentDegree = (sql, req) ->
+#   sql.select 'students', 'degree', id: req.personId
+#   .then ([person]) ->
+#     convert.numberDegreeToStringDegree person
+#     person.degree
+# post 'getStudentDegree', (sql, req) ->
+#   getStudentDegree sql, req
+#   .then (studentDegree) -> {studentDegree}
 
 getStudentRequestForAssistants = (sql, req) ->
   sql.select 'staticData', 'value', key: 'currentTerm'
   .then ([value: currentTerm]) ->
-    sql.select ['requestForAssistants', 'offerings'], [['id', 'offeringId']], query: 'x0."studentId" = % AND x0."offeringId" = x1.id AND x1."termId" = %', values: [personId, currentTerm]
+    sql.select ['requestForAssistants', 'offerings'], [['id', 'status', 'isTrained', 'message', 'offeringId', 'studentId', 'gpa']],
+      query: 'x0."studentId" = % AND x0."offeringId" = x1.id AND x1."termId" = %', values: [personId, currentTerm]
+  .then (requestForAssistants) ->
+    all requestForAssistants.map (requestForAssistant) ->
+      requestForAssistant.isTrained = !!requestForAssistant.isTrained
+      convert.numberStatusToStringStatus requestForAssistant
+      sql.select 'grades', ['courseId', 'grade'], requestForAssistantId: requestForAssistant.id
+      .then (grades) ->
+        extend requestForAssistant, {grades}
 post 'getStudentRequestForAssistants', (sql, req) ->
   getStudentRequestForAssistants sql, req
-  .then (studentRequestForAssistants) -> {studentRequestForAssistants}
+  .then (requestForAssistants) ->
+    {requestForAssistants}
 
 getChores = (sql, req) ->
   #
@@ -410,7 +427,7 @@ getProfessorOfferings = (sql, req) ->
                 extend requestForAssistant, {chores}
             ]
       .then ->
-        offerings
+        {offerings}
 post 'getProfessorOfferings', (sql, req) ->
   getProfessorOfferings sql, req
   .then (professorOfferings) -> {professorOfferings}
@@ -599,11 +616,12 @@ post 'resetPassword', (sql, req) ->
   {personId} = req.body
   verificationCode = randomString 16
   all [
-    sql.select 'persons', ['fullName', 'email'], id: personId
     sql.update 'regularLogins', {verificationCode} , {personId}
+    sql.select 'persons', ['fullName', 'email'], id: personId
+    .then ([{fullName, email}]) ->
+      sendEmail(email, fullName).register email, verificationCode
+      null
   ]
-  .then ([[{fullName, email}]]) ->
-    sendEmail(email, fullName).register email, verificationCode
 
 post 'createRole', (sql, req) ->
   sql.insert 'roles', req.body, true

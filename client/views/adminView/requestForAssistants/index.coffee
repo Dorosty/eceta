@@ -6,7 +6,7 @@ extras = require './extras'
 searchBoxStyle = require '../../../components/table/searchBoxStyle'
 dropdown = require '../../../components/dropdown'
 stateSyncedDropdown = require '../../../components/dropdown/stateSynced'
-{extend, compare, textIsInSearch} = require '../../../utils'
+{extend, textIsInSearch} = require '../../../utils'
 
 module.exports = component 'requestForAssistantsView', ({dom, events, state, service}, {goToRequestForAssistants, offeringIds}) ->
   {E, setStyle} = dom
@@ -124,7 +124,7 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
     if ~status
       filteredRequestForAssistants = filteredRequestForAssistants.filter (requestForAssistant) ->
         textIsInSearch requestForAssistant.status, status, true, true
-    view.setData filteredRequestForAssistants.sort (a, b) -> compare a.id, b.id
+    view.setData filteredRequestForAssistants
 
   state.all ['requestForAssistants', 'offerings', 'persons', 'courses'], ([_requestForAssistants, offerings, persons, courses]) ->
     requestForAssistants = _requestForAssistants.map (requestForAssistant) ->

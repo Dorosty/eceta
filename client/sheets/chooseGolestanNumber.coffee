@@ -10,7 +10,7 @@ module.exports = component 'chooseGolestanNumber', ({dom, events, service, retur
   id = generateId()
 
   golestanNumber = E dropdown
-  setStyle, golestanNumber.input, {id}
+  setStyle golestanNumber.input, {id}
 
   contents = E class: 'form-group',
     E 'label', for: id, 'شماره دانشجویی / پرسنلی'
@@ -19,7 +19,6 @@ module.exports = component 'chooseGolestanNumber', ({dom, events, service, retur
   returnObject
     display: (golestanNumbers) ->
       golestanNumber.update golestanNumbers
-      golestanNumber.setSelectedId golestanNumbers[0]
       modal.instance.display
         autoHide: true
         Title: 'شماره دانشجویی / پرسنلی مورد نظر را انتخاب کنید'

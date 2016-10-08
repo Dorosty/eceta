@@ -6,7 +6,7 @@ viewRequestForAssistants = require './viewRequestForAssistants'
 searchBoxStyle = require '../../../components/table/searchBoxStyle'
 dropdown = require '../../../components/dropdown'
 stateSyncedDropdown = require '../../../components/dropdown/stateSynced'
-{extend, compare, textIsInSearch} = require '../../../utils'
+{extend, textIsInSearch} = require '../../../utils'
 
 module.exports = component 'offeringsView', ({dom, events, state, service}, {goToRequestForAssistants}) ->
   {E, setStyle} = dom
@@ -99,7 +99,7 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
       filteredOfferings = filteredOfferings.filter (offering) -> textIsInSearch offering.termId, term
     if ~isClosed
       filteredOfferings = filteredOfferings.filter (offering) -> offering.isClosed is !!isClosed
-    view.setData filteredOfferings.sort (a, b) -> compare a.id, b.id
+    view.setData filteredOfferings
 
   state.all ['offerings', 'courses', 'professors', 'requestForAssistants'], ([_offerings, courses, professors, requestForAssistants]) ->
     offerings = _offerings.map (offering) ->

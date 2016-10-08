@@ -12,7 +12,7 @@ module.exports = component 'bugReport', ({dom, events, state, service}) ->
   bugReport = E style.bugReport, 'گزارش خطا'
 
   contents = E class: 'form-group',
-    E 'label', for: id = generateId(), 'توضیحات خطای رخ داده (در صورت تمایل، به منظور ارتباط، نام و ایمیل خود را بنویسید.)'
+    E 'label', for: id = generateId(), 'توضیحات خطای رخ داده (در صورت تمایل، به منظور ارتباط، نام، ایمیل و شماره دانشجویی / پرسنلی خود را بنویسید.)'
     textbox = E 'textarea', extend {id}, style.bugReportTextbox
 
   onEvent textbox, 'input', ->

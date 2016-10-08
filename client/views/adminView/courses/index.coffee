@@ -4,7 +4,7 @@ credit = require './credit'
 multiselect = require './multiselect'
 searchBoxStyle = require '../../../components/table/searchBoxStyle'
 numberInput = require '../../../components/restrictedInput/number'
-{compare, textIsInSearch} = require '../../../utils'
+{textIsInSearch} = require '../../../utils'
 
 module.exports = component 'coursesView', ({dom, events, state, service}) ->
   {E, setStyle} = dom
@@ -41,7 +41,7 @@ module.exports = component 'coursesView', ({dom, events, state, service}) ->
       filteredCourses = filteredCourses.filter (course) -> textIsInSearch course.name, name
     if number
       filteredCourses = filteredCourses.filter (course) -> textIsInSearch course.number, number
-    view.setData filteredCourses.sort (a, b) -> compare a.id, b.id
+    view.setData filteredCourses
 
   state.courses.on (_courses) ->
     courses = _courses

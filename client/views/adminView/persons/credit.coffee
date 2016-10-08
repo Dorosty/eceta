@@ -4,7 +4,6 @@ dropdown = require '../../../components/dropdown'
 numberInput = require '../../../components/restrictedInput/number'
 {generateId} = require '../../../utils/dom'
 {extend, toEnglish} = require '../../../utils'
-{emailIsValid} = require '../../../utils/logic'
 
 module.exports = component 'personsCredit', ({dom, events, state, service, returnObject}) ->
   {E, text, setStyle, show, hide, enable, disable} = dom
@@ -57,8 +56,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
   allInputs = [type.input, fullName, email, canLoginWithEmail, degree.input]
 
   onEvent allInputs, ['input, pInput', 'change'], ->
-    modal.instance.setEnabled ~type.value() and fullName.value() and email.value() and
-      emailIsValid(email.value()) and (type.value() isnt 'دانشجو' or ~degree.value())
+    modal.instance.setEnabled ~type.value() and fullName.value() and (type.value() isnt 'دانشجو' or ~degree.value())
   
   onEnter allInputs, ->
     modal.instance.submit()
