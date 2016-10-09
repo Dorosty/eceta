@@ -4,9 +4,11 @@ persons = require './persons'
 courses = require './courses'
 offerings = require './offerings'
 requestForAssistants = require './requestForAssistants'
+notTrainedStudents = require './notTrainedStudents'
+paymentStudents = require './paymentStudents'
 
-tabNames = ['اطلاعات پایه', 'اشخاص', 'درس‌ها', 'فراخوان‌ها', 'درخواست‌های دستیاری']
-contentComponents = [staticData, persons, courses, offerings, requestForAssistants]
+tabNames = ['اطلاعات پایه', 'اشخاص', 'درس‌ها', 'فراخوان‌ها', 'درخواست‌های دستیاری', 'کارگاه', 'پرداخت']
+contentComponents = [staticData, persons, courses, offerings, requestForAssistants, notTrainedStudents, paymentStudents]
 tabPermissions = {}
 
 module.exports = component 'adminView', ({dom, events, state}) ->

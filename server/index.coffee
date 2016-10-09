@@ -180,7 +180,7 @@ config (methodName, personId, response, sql, req) ->
 
     extrasQ = switch person.type
       when 'دانشجو'
-        sql.select 'students', ['degree'], id: person.id
+        sql.select 'students', 'degree', id: person.id
         .then ([extras]) ->
           extend person, extras
           convert.numberDegreeToStringDegree person
@@ -330,7 +330,7 @@ getPersons = (sql, req) ->
 
       extrasQ = switch person.type
         when 'دانشجو'
-          sql.select 'students', ['degree'], id: person.id
+          sql.select 'students', 'degree', id: person.id
           .then ([extras]) ->
             extend person, extras
             convert.numberDegreeToStringDegree person
@@ -354,15 +354,6 @@ getProfessors = (sql, req) ->
 post 'getProfessors', (sql, req) ->
   getProfessors sql, req
   .then (professors) -> {professors}
-
-# getStudentDegree = (sql, req) ->
-#   sql.select 'students', 'degree', id: req.personId
-#   .then ([person]) ->
-#     convert.numberDegreeToStringDegree person
-#     person.degree
-# post 'getStudentDegree', (sql, req) ->
-#   getStudentDegree sql, req
-#   .then (studentDegree) -> {studentDegree}
 
 getStudentRequestForAssistants = (sql, req) ->
   sql.select 'staticData', 'value', key: 'currentTerm'

@@ -27,7 +27,6 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
   view = E crudPage,
     entityName: 'شخص'
     requiredStates: ['persons']
-    entityId: 'id'
     extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
     headers: [
       {name: 'نوع', key: 'type', searchBox: typeDropdown}

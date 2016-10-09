@@ -43,7 +43,6 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
   view = E crudPage,
     entityName: 'فراخوان'
     requiredStates: ['offerings', 'courses', 'professors', 'terms', 'currentTerm', 'requestForAssistants']
-    entityId: 'id'
     extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
     extraButtons: viewRequestForAssistantsInstance = E viewRequestForAssistants, goToRequestForAssistants
     headers: [
@@ -68,12 +67,17 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
       {
         name: 'تعداد درخواست'
         notClickable: true
+        getValue: (offering) ->
+          if offering.requestForAssistantsCount
+            "مشاهده #{offering.requestForAssistantsCount} درخواست"
+          else
+            'بدون درخواست'
         styleTd: (offering, td, offs) ->
           if offering.requestForAssistantsCount
             setStyle td, color: 'blue', text: "مشاهده #{offering.requestForAssistantsCount} درخواست"
             offs.push onEvent td, 'click', -> goToRequestForAssistants [offering.id]
           else
-            setStyle td, color: 'gray', text: "بدون درخواست"
+            setStyle td, color: 'gray', text: 'بدون درخواست'
           td  
       }
     ]

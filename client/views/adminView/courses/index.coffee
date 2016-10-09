@@ -21,7 +21,6 @@ module.exports = component 'coursesView', ({dom, events, state, service}) ->
   view = E crudPage,
     entityName: 'درس'
     requiredStates: ['courses', 'professors']
-    entityId: 'id'
     extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
     headers: [
       {name: 'نام درس', key: 'name', searchBox: nameInput}

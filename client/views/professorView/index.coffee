@@ -20,7 +20,8 @@ module.exports = component 'profesorView', ({dom, events, state, service}) ->
           offeringsList = E class: 'list-group'
       hide offeringView = offeringsViewInstance = E offeringsView
 
-  offerings = selectedOfferingId = undefined
+  offerings = []
+  selectedOfferingId = undefined
 
   handleSelectedOffering = ->
     return unless selectedOfferingId?
@@ -52,7 +53,8 @@ module.exports = component 'profesorView', ({dom, events, state, service}) ->
 
   offState = state.all ['offerings', 'courses'], ([_offerings, courses]) ->
     offerings = _offerings.map (offering) ->
-      extend {}, offering, courseName: (courses.filter ({id}) -> String(id) is String(offering.courseId))[0].name
+      extend {}, offering,
+        courseName: (courses.filter ({id}) -> String(id) is String(offering.courseId))[0].name
 
     unless offeringsViewInstance.isEditing()
       handleOfferings()

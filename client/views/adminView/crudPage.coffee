@@ -16,7 +16,7 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
   deleteButtonVisible = false
   offDeleteClick = undefined
 
-  element = E null,
+  view = E null,
     noData = E null, 'در حال بارگزاری...'
     yesData = [
       E class: 'row', margin: '10px 0',
@@ -72,4 +72,4 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
     setData: (items) -> tableInstance.setData items
     setSelectedRows: (callback) -> tableInstance.setSelectedRows callback
 
-  element
+  view

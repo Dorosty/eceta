@@ -51,7 +51,6 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
     entityName: 'درخواست'
     requiredStates: ['offerings', 'courses', 'persons', 'terms', 'currentTerm', 'requestForAssistants']
     noCreating: true
-    entityId: 'id'
     headers: [
       {name: 'نام استاد', key: 'professorName', searchBox: professorNameInput}
       {name: 'نام درس', key: 'courseName', searchBox: courseNameInput}

@@ -8,7 +8,8 @@ module.exports = component 'table', ({dom, events, returnObject}, {headers, enti
   {onEvent} = events
 
   hasSearchBoxes = headers.some (header) -> header.searchBox
-  isEqual = isEqual or (a, b) ->
+  entityId ?= 'id'
+  isEqual ?= (a, b) ->
     a[entityId] is b[entityId]
 
   variables =
