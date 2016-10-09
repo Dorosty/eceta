@@ -33,7 +33,7 @@ module.exports = component 'professorOfferingView', ({dom, events, service, retu
         E class: 'btn-group',
           tableViewButton = E 'button', class: 'btn btn-default',
             E class: 'fa fa-table', cursor: 'pointer'
-          listViewButton = E 'button', class: 'btn btn-primary',
+          cardViewButton = E 'button', class: 'btn btn-primary',
             E class: 'fa fa-bars', cursor: 'pointer'
     E 'h4', fontWeight: 'bold', marginBottom: 35, 'لیست درخواست‌های دانشجویان'
     if requestForAssistants.length
@@ -44,24 +44,24 @@ module.exports = component 'professorOfferingView', ({dom, events, service, retu
     else
       requestsList, E null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'
 
-  onEvent listViewButton, 'click', ->
+  onEvent cardViewButton, 'click', ->
     isTableView = false
-    removeClass listViewButton 'btn-default'
+    removeClass cardViewButton 'btn-default'
     removeClass tableViewButton 'btn-primary'
-    addClass listViewButton, 'btn-primary'
+    addClass cardViewButton, 'btn-primary'
     addClass tableViewButton, 'btn-default'
     hide tableViewInstance
-    show tableViewInstance
-    update()
+    show cardViewInstance
+    cardViewInstance.update()
 
   onEvent tableViewButton, 'click', ->
-    removeClass listViewButton 'btn-primary'
+    removeClass cardViewButton 'btn-primary'
     removeClass tableViewButton 'btn-default'
-    addClass listViewButton, 'btn-default'
+    addClass cardViewButton, 'btn-default'
     addClass tableViewButton, 'btn-primary'
     show tableViewInstance
-    hide tableViewInstance
-    update()
+    hide cardViewInstance
+    tableViewInstanceupdate()
 
   onEvent closeOffering, 'click', ->
     hasPending = requestForAssistants.filter(({status}) -> status is 'در حال بررسی').length
