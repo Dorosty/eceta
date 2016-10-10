@@ -1,5 +1,6 @@
+component = require '../../../utils/component'
 
-    if isTableView
+module.exports = component 'professorOfferingsTableView', ({dom, events, returnObject}, {changeRequestForAssistant}) ->
 
       getTds = (requestForAssistant) ->
         {gpa, isTrained, message, fullName, email, degree, grades, chores, status} = requestForAssistant

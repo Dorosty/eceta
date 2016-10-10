@@ -1,5 +1,5 @@
 component = require '../../utils/component'
-offeringsView = require './offeringsView'
+offeringView = require './offeringView'
 {extend} = require '../../utils'
 
 module.exports = component 'profesorView', ({dom, events, state, service}) ->
@@ -18,15 +18,16 @@ module.exports = component 'profesorView', ({dom, events, state, service}) ->
           E class: 'panel-heading',
             E class: 'panel-title', 'لیست درس‌های شما'
           offeringsList = E class: 'list-group'
-      hide offeringView = offeringsViewInstance = E offeringsView
+      hide offeringViewInstance = E offeringView
 
   offerings = []
   selectedOfferingId = undefined
 
   handleSelectedOffering = ->
-    return unless selectedOfferingId?
+    unless selectedOfferingId?
+      return
     show offeringView
-    offeringsViewInstance.update offerings.filter ({id}) -> String(id) is String(selectedOfferingId)[0]
+    offeringViewInstance.update offerings.filter ({id}) -> String(id) is String(selectedOfferingId)[0]
 
   handleOfferings = ->
     empty offeringsList
@@ -56,7 +57,7 @@ module.exports = component 'profesorView', ({dom, events, state, service}) ->
       extend {}, offering,
         courseName: (courses.filter ({id}) -> String(id) is String(offering.courseId))[0].name
 
-    unless offeringsViewInstance.isEditing()
+    unless offeringViewInstance.isEditing()
       handleOfferings()
 
   view

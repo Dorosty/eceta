@@ -4,8 +4,8 @@ requiredCourses = require './requiredCourses'
 cardView = require './cardView'
 tableView = require './tableView'
 
-module.exports = component 'professorOfferingView', ({dom, events, service, returnObject}) ->
-  {E, show, hide, addClass, removeClass} = dom
+module.exports = component 'professorOfferingView', ({dom, events, state, service, returnObject}) ->
+  {E, setStyle, show, hide, addClass, removeClass} = dom
   {onEvent} = events
 
   isEditing = false
@@ -23,36 +23,30 @@ module.exports = component 'professorOfferingView', ({dom, events, service, retu
 
   view = E class: 'col-md-9', marginTop: 40,
     E marginBottom: 100,
-      E 'h1', float: 'right', "درس #{offering.courseName}"
-      unless offering.isClosed
-        closeOffering = E 'button', class: 'btn btn-success', float: 'left', marginTop: 20, 'نهایی کردن انتخاب دستیاران...'
-    E requiredCourses, offering
-    E float: 'left',
-      if requestForAssistants.length
+      title = E 'h1', float: 'right'
+      closeOffering = E 'button', class: 'btn btn-success', float: 'left', marginTop: 20, 'نهایی کردن انتخاب دستیاران...'
+    requiredCoursesInstance = E requiredCourses
+    noRequestForAssistants = E null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'
+    yesRequestForAssistants = [
+      E float: 'left',
         E class: 'btn btn-default', 'ارسال ایمیل به دستیاران' # TODO
         E class: 'btn-group',
           tableViewButton = E 'button', class: 'btn btn-default',
             E class: 'fa fa-table', cursor: 'pointer'
           cardViewButton = E 'button', class: 'btn btn-primary',
             E class: 'fa fa-bars', cursor: 'pointer'
-    E 'h4', fontWeight: 'bold', marginBottom: 35, 'لیست درخواست‌های دانشجویان'
-    if requestForAssistants.length
-      hide tableViewInstance = requestsList, E tableView,
-        {requestForAssistants: offering.requestForAssistants, changeRequestForAssistant}
-      cardViewInstance = requestsList, E cardView,
-        {requestForAssistants: offering.requestForAssistants, changeRequestForAssistant}
-    else
-      requestsList, E null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'
+      E 'h4', fontWeight: 'bold', marginBottom: 35, 'لیست درخواست‌های دانشجویان'
+      hide tableViewInstance = requestsList, E tableView, {changeRequestForAssistant}
+      cardViewInstance = requestsList, E cardView, {changeRequestForAssistant}
+    ]
 
   onEvent cardViewButton, 'click', ->
-    isTableView = false
     removeClass cardViewButton 'btn-default'
     removeClass tableViewButton 'btn-primary'
     addClass cardViewButton, 'btn-primary'
     addClass tableViewButton, 'btn-default'
     hide tableViewInstance
     show cardViewInstance
-    cardViewInstance.update()
 
   onEvent tableViewButton, 'click', ->
     removeClass cardViewButton 'btn-primary'
@@ -61,11 +55,12 @@ module.exports = component 'professorOfferingView', ({dom, events, service, retu
     addClass tableViewButton, 'btn-primary'
     show tableViewInstance
     hide cardViewInstance
-    tableViewInstanceupdate()
+
+  offering = undefined
 
   onEvent closeOffering, 'click', ->
-    hasPending = requestForAssistants.filter(({status}) -> status is 'در حال بررسی').length
-    accepted = requestForAssistants.filter(({status}) -> status is 'تایید شده').map ({fullName}) -> fullName
+    hasPending = offering.requestForAssistants.filter(({status}) -> status is 'در حال بررسی').length
+    accepted = offering.requestForAssistants.filter(({status}) -> status is 'تایید شده').map ({fullName}) -> fullName
     modal.instance.display
       contents: if hasPending
           E 'h2', color: 'red', 'شما هنوز درخواست در حال بررسی دارید. لطفا ابتدا آنها را تایی یا رد کدید.'
@@ -89,5 +84,25 @@ module.exports = component 'professorOfferingView', ({dom, events, service, retu
       submit: ->
         service.closeOffering id: offering.id
 
+  state.chores.on (chores) ->
+    tableViewInstance.setChores chores
+    cardViewInstance.setChores chores
+
   returnObject
-    isEditing = -> isEditing
+    isEditing: -> isEditing
+    update: (_offering) ->
+      offering = _offering
+      setStyle title, text: "درس #{offering.courseName}"
+      requiredCoursesInstance.update offering
+      tableViewInstance.update offering.requestForAssistants
+      cardViewInstance.update offering.requestForAssistants
+      if offering.isClosed
+        hide closeOffering
+      else
+        show closeOffering
+      if offering.requestForAssistants.length
+        hide noRequestForAssistants
+        show yesRequestForAssistants
+      else
+        show noRequestForAssistants
+        hide yesRequestForAssistants

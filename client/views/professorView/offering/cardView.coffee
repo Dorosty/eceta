@@ -1,87 +1,101 @@
+# IMPROVEMENT: rewrite to use `collection`
 component = require '../../../utils/component'
-{extend} = require '../../../utils'
+{extend, remove} = require '../../../utils'
 
-module.exports = component 'professorOfferingsCardView', ({dom, events}, {requestForAssistants, changeRequestForAssistant}) ->
-  {E, setStyle} = dom
+module.exports = component 'professorOfferingsCardView', ({dom, events, returnObject}, {changeRequestForAssistant}) ->
+  {E, text, append, empty, setStyle} = dom
   {onEvent} = events
 
-  requestForAssistants.map (requestForAssistant) ->
-    card = E class: "panel panel-#{if status is 'تایید شده' then 'success' else if status is 'رد شده' then 'danger' else 'info'}",
-      E class: 'panel-heading',
-        E float: 'left',
-          E class: 'btn-group btn-group-xs', do ->
-            # reject = E 'button', class: "btn btn-#{if status is 'رد شده' then 'danger' else 'default'}", 'رد شده'
-            # dismiss = E 'button', class: "btn btn-#{if status is 'در حال بررسی' then 'info' else 'default'}", 'در حال بررسی'
+  requestForAssistants = chores = undefined
+
+  view = E()
+
+  update = ->
+    empty view
+    append view, requestForAssistants.map (requestForAssistant) ->
+      E class: "panel panel-#{if status is 'تایید شده' then 'success' else if status is 'رد شده' then 'danger' else 'info'}",
+        E class: 'panel-heading',
+          E float: 'left',
             unless requestForAssistant.isClosed
-              ['تایید شده', 'رد شده', 'در حال بررسی'].map (x) ->
-                button = E 'button', class: "btn btn-#{if status is x then 'success' else 'default'}", x
-              onEvent [accept, reject, dismiss], 'click', (e) ->
-                status = e.target.innerText or e.target.innerHTML
-                unless status is 'تایید شده'
-                  requestForAssistant.chores = []
-                  requestForAssistant.isChiefTA = false
-                extend requestForAssistant, {status}
-                changeRequestForAssistant requestForAssistant
-        unless isClosed
-          E float: 'left', marginLeft: 10, 'تغییر وضعیت درخواست:'
-        E 'h3', class: 'panel-title', fontWeight: 'bold',
-          document.createTextNode "#{fullName} ("
-          E 'a', cursor: 'pointer', fontWeight: 'lighter', fontSize: 13, target: '_blank', href: "mailto:#{email}", email
-          document.createTextNode ')'
-      cardBody = E class: 'panel-body',
-        E class: 'col-md-5',
-          E 'ul', null,
-            requiredCourses.map (courseId) ->
-              {id, name} = getCourse courseId
-              [grade] = grades.filter ({courseId}) -> String(courseId) is String(id)
-              E 'li', null, "نمره درس #{name}: #{if grade? then grade.grade else '(وارد نشده)'}"
-            E 'li', null,
-              E 'span', fontWeight: 'bold', "معدل کل: #{gpa}"
-            E 'li', null, "مقطع: #{degree}"
-            E 'li', null,
-              document.createTextNode 'در کارگاه آموزش دستیاران آموزشی شرکت '
-              E 'span', fontWeight: 'bold', color: (if isTrained then 'green' else 'red'), if isTrained then 'کرده است.' else 'نکرده است.'
-        cardMessageBorder = E class: 'col-md-4', borderLeft: '1px dashed #AAA', borderRight: '1px dashed #AAA',
-          if message 
-            messageSpan = E 'span'
-            messageSpan.innerHTML = message.replace '\n', '<br />'
-            [
-              E fontWeight: 'bold', marginBottom: 10, 'پیام دانشجو: '
-              messageSpan
+              E class: 'btn-group btn-group-xs',
+                  [
+                    {status: 'تایید شده', klass: 'success'}
+                    {status: 'رد شده', klass: 'danger'}
+                    {status: 'در حال بررسی', klass: 'info'}
+                  ].map ({status, klass}) ->
+                    button = E 'button', class: 'btn btn-' + if status is requestForAssistant.status then klass else 'default', status
+                    onEvent button, 'click', (e) ->
+                      unless status is 'تایید شده'
+                        requestForAssistant.chores = []
+                        requestForAssistant.isChiefTA = false
+                      extend requestForAssistant, {status}
+                      changeRequestForAssistant requestForAssistant
+                    button
+              E float: 'left', marginLeft: 10, 'تغییر وضعیت درخواست:'
+          E 'h3', class: 'panel-title', fontWeight: 'bold',
+            text "#{fullName} ("
+            E 'a', cursor: 'pointer', fontWeight: 'lighter', fontSize: 13, target: '_blank', href: "mailto:#{requestForAssistant.email}", requestForAssistant.email
+            text ')'
+        body = E class: 'panel-body',
+          E class: 'col-md-5',
+            E 'ul', null,
+              requestForAssistant.requiredCourses.map (courseId) ->
+                [course] = courses.filter ({id}) -> String(id) is String(courseId)
+                [grade] = grades.filter ({courseId}) -> String(courseId) is String(course.id)
+                E 'li', null, "نمره درس #{course.name}: #{if grade? then grade.grade else '(وارد نشده)'}"
+              E 'li', null,
+                E 'span', fontWeight: 'bold', "معدل کل: #{gpa}"
+              E 'li', null, "مقطع: #{degree}"
+              E 'li', null,
+                text 'در کارگاه آموزش دستیاران آموزشی شرکت '
+                E 'span', fontWeight: 'bold', color: (if isTrained then 'green' else 'red'), if isTrained then 'کرده است.' else 'نکرده است.'
+          if requestForAssistant.message
+            do ->
+              border = E class: 'col-md-4', borderLeft: '1px dashed #AAA', borderRight: '1px dashed #AAA',
+                [
+                  E fontWeight: 'bold', marginBottom: 10, 'پیام دانشجو: '
+                  E 'span', null, requestForAssistant.replace '\n', '<br />'
+                ]
+              setTimeout ->
+                setStyle border, height: body.offsetHeight - 30
+              border
+          E class: 'col-md-3',
+            if status is 'تایید شده' then [
+              E class: 'checkbox',
+                E 'label', null,
+                  do ->
+                    checkbox = E 'input', type: 'checkbox', cursor: 'pointer', checked: requestForAssistant.isChiefTA
+                    onEvent checkbox, 'change', ->
+                      if requestForAssistant.isClosed
+                        return setStyle checkbox, checked: !checkbox.checked
+                      requestForAssistant.isChiefTA = checkbox.checked
+                      changeRequestForAssistant requestForAssistant
+                    checkbox
+                  text 'دستیار اصلی است.'
+              E 'span', fontWeight: 'bold', 'وظایف:'
+              E class: 'well well-sm',
+                chores.map ({id, persianName}) ->
+                  E class: 'checkbox',
+                    E 'label', null,
+                      do ->
+                        checkbox = E 'input', type: 'checkbox', cursor: 'pointer', checked: requestForAssistant.chores.some (choreId) -> String(choreId) is String(id)
+                        onEvent checkbox, 'change', ->
+                          if requestForAssistant.isClosed
+                            return setStyle checkbox, checked: !checkbox.checked
+                          remove requestForAssistant.chores, id
+                          if checkbox.checked
+                            requestForAssistant.chores.push id
+                          changeRequestForAssistant requestForAssistant
+                        checkbox
+                      text persianName
             ]
-        E class: 'col-md-3',
-          if status is 'تایید شده' then [
-            E class: 'checkbox',
-              E 'label', null,
-                do ->
-                  checkbox = E 'input', type: 'checkbox', cursor: 'pointer', checked: requestForAssistant.isChiefTA
-                  onEvent checkbox, 'change', ->
-                    if isClosed
-                      return setStyle checkbox, checked: !checkbox.checked
-                    requestForAssistant.isChiefTA = checkbox.checked
-                    changeRequestForAssistant requestForAssistant
-                  return checkbox
-                document.createTextNode 'دستیار اصلی است.'
-            E 'span', fontWeight: 'bold', 'وظایف:'
-            E class: 'well well-sm',
-              allChores.map ({id, persianName}) ->
-                E class: 'checkbox',
-                  E 'label', null,
-                    do ->
-                      checkbox = E 'input', type: 'checkbox', cursor: 'pointer', checked: chores.some (choreId) -> String(choreId) is String(id)
-                      onEvent checkbox, 'change', ->
-                        if isClosed
-                          return setStyle checkbox, checked: !checkbox.checked
-                        remove chores, id
-                        if checkbox.checked
-                          chores.push id
-                        changeRequestForAssistant requestForAssistant
-                      return checkbox
-                    document.createTextNode persianName
-          ]
 
-    if message
-      setTimeout ->
-        setStyle cardMessageBorder, height: cardBody.offsetHeight - 30
+  returnObject
+    update: (_requestForAssistants) ->
+      requestForAssistants = _requestForAssistants
+      update()
+    setChores: (_chores) ->
+      chores = _chores
+      update()
 
-    card
+  view
