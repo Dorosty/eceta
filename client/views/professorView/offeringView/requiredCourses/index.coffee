@@ -22,7 +22,7 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
     setStyle cover, opacity: 0, visibility: 'hidden'
 
   addCourseDropdown = dropdown 
-    getId: (course) -> String course.id)
+    getId: (course) -> String course.id
     getTitle: (course) -> course.name
   addCourseDropdown.showEmpty true
   addCourseDropdownId = generateId()

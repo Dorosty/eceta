@@ -27,11 +27,11 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
   view = E null,
     noData = E null, 'در حال بارگزاری...'
     yesData = [
-      E class: 'row', margin: '10px 0'
+      E class: 'row', margin: '10px 0',
         E marginTop: 30,
           E class: 'btn btn-success', 'دریافت فایل اکسل'
           tableInstance = E table,
-            headers: [
+            headers = headers: [
               {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
               {name: 'شماره دانشجویی', key: 'golestanNumber', searchBox: golestanNumberInput}
               {name: 'نام درس', key: 'courseName', searchBox: courseNameInput}
@@ -41,6 +41,9 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
               {name: 'مقطع', key: 'degree'}
               {name: 'دستیار اصلی است', key: 'isChiefTa'}
             ]
+            sort: 
+              header: headers[2]
+              direction: 'up'
     ]
 
   students = []

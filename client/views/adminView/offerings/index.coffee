@@ -78,7 +78,6 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
             offs.push onEvent td, 'click', -> goToRequestForAssistants [offering.id]
           else
             setStyle td, color: 'gray', text: 'بدون درخواست'
-          td  
       }
     ]
     onTableUpdate: (descriptors) ->

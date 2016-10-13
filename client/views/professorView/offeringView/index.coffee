@@ -84,18 +84,14 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
       submit: ->
         service.closeOffering id: offering.id
 
-  state.chores.on (chores) ->
-    tableViewInstance.setChores chores
-    cardViewInstance.setChores chores
-
   returnObject
     isEditing: -> isEditing
     update: (_offering) ->
       offering = _offering
       setStyle title, text: "درس #{offering.courseName}"
       requiredCoursesInstance.update offering
-      tableViewInstance.update offering.requestForAssistants
-      cardViewInstance.update offering.requestForAssistants
+      tableViewInstance.update offering
+      cardViewInstance.update offering
       if offering.isClosed
         hide closeOffering
       else

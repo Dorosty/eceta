@@ -20,7 +20,7 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
   view = E null,
     noData = E null, 'در حال بارگزاری...'
     yesData = [
-      E class: 'row', margin: '10px 0'
+      E class: 'row', margin: '10px 0',
         E marginTop: 30,
           E class: 'btn btn-success', 'دریافت فایل اکسل'
           tableInstance = E table,

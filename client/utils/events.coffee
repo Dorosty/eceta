@@ -126,27 +126,29 @@ exports.instance = (thisComponent) ->
   exports.onMouseout = (component, callback) ->
     l = log.onMouseout thisComponent, component, callback
     allreadyOut = false
-    l 0.0
-    unbind0 = exports.onEvent body(), 'mousemove', (e) ->
-      unless isIn component, e
-        l 1.0, e
-        callback e unless allreadyOut
-        l 1.0, e
-        allreadyOut = true
-      else
-        allreadyOut = false
-    l 0.0
+    if component
+      l 0.0
+      unbind0 = exports.onEvent body(), 'mousemove', (e) ->
+        unless isIn component, e
+          l 1.0, e
+          callback e unless allreadyOut
+          l 1.0, e
+          allreadyOut = true
+        else
+          allreadyOut = false
+      l 0.0
     l 0.1
     unbind1 = exports.onEvent body(), 'mouseout', (e) ->
       from = e.relatedTarget || e.toElement
       if !from || from.nodeName == 'HTML'
         l 1.1, e
+        allreadyOut = true
         callback e
         l 1.1, e
     l 0.1
     ->
       l 2.0
-      unbind0()
+      unbind0?()
       l 2.0
       l 2.1
       unbind1()

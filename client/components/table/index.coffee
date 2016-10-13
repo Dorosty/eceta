@@ -3,7 +3,7 @@ style = require './style'
 _functions = require './functions'
 {extend} = require '../../utils'
 
-module.exports = component 'table', ({dom, events, returnObject}, {headers, entityId, isEqual, properties = {}, handlers = {}}) ->
+module.exports = component 'table', ({dom, events, returnObject}, {headers, entityId, isEqual, sort, properties = {}, handlers = {}}) ->
   {E, text, hide} = dom
   {onEvent} = events
 
@@ -16,9 +16,10 @@ module.exports = component 'table', ({dom, events, returnObject}, {headers, enti
     entityId: entityId
     headers: []
     descriptors: null
-    sort:
+    sort: sort or {
       header: headers[0]
       direction: 'up'
+    }
 
   components = {}
 

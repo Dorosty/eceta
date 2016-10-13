@@ -5,7 +5,7 @@ gradeInput = require '../../components/restrictedInput/grade'
 {toEnglish} = require '../../utils'
 
 module.exports = component 'studentRequestForAssistant', ({dom, state, service, returnObject}) ->
-  {E, text, setStyle, empty} = require './utils'
+  {E, text, setStyle, empty} = require dom
 
   ids = [0..2].map -> generateId()   
 
