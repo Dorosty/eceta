@@ -1,4 +1,5 @@
 component = require '../../../utils/component'
+sendEmail = require './sendEmail'
 Q = require '../../../q'
 requiredCourses = require './requiredCourses'
 cardView = require './cardView'
@@ -29,7 +30,7 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
     noRequestForAssistants = E null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'
     yesRequestForAssistants = [
       E float: 'left',
-        E class: 'btn btn-default', 'ارسال ایمیل به دستیاران' # TODO
+        sendEmailButton = E class: 'btn btn-default', 'ارسال ایمیل به تمام دانشجویان متقاضی دستیاری'
         E class: 'btn-group',
           tableViewButton = E 'button', class: 'btn btn-default',
             E class: 'fa fa-table', cursor: 'pointer'
@@ -57,6 +58,9 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
     hide cardViewInstance
 
   offering = undefined
+
+  onEvent sendEmailButton, 'click', ->
+    _sendEmail.show offering.requestForAssistants.map ({studentId}) -> studentId
 
   onEvent closeOffering, 'click', ->
     hasPending = offering.requestForAssistants.filter(({status}) -> status is 'در حال بررسی').length

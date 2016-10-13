@@ -16,6 +16,7 @@ unless module.dynamic
   nodemailer   = req 'nodemailer'
   fs           = req 'fs'
   request      = req 'request'
+  xlsx         = req 'node-xlsx'  
 
   Q.longStackSupport = true
 
@@ -43,9 +44,9 @@ unless module.dynamic
       </html>
     '
 
-  exports._data = {Q, http, express, bodyParser, cookieParser, pg, jwt, crypto, nodemailer, fs, request, app}
+  exports._data = {Q, http, express, bodyParser, cookieParser, pg, jwt, crypto, nodemailer, xlsx, fs, request, app}
 else
-  {Q, http, express, bodyParser, cookieParser, pg, jwt, crypto, nodemailer, fs, request, app} = module._data
+  {Q, http, express, bodyParser, cookieParser, pg, jwt, crypto, nodemailer, xlsx, fs, request, app} = module._data
 exports.Q = Q
 exports.all = (promises) ->
   promises = promises.map (promise) ->
@@ -516,11 +517,17 @@ handle = (methodName) -> (route, handler) ->
         query if response.error then 'ROLLBACK' else 'COMMIT'
         .then ->
           done()
-          res.json response
+          if response.xlsx
+            setTimeout ->
+              res.set 'Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+              res.send xlsx.build [name: 'sheet', data: res.xlsx]
+          else
+            res.json response
           response = extend {}, response
           Object.keys(response).forEach (key) ->
             if Array.isArray response[key]
               response[key] = "[#{response[key].length} items]"
+          delete response.xlsx
           logStream.write "#{new Date()}\n#{route}\n#{JSON.stringify logBody}\n#{JSON.stringify response}\n\n\n"
       .catch (error) ->
         query 'ROLLBACK'

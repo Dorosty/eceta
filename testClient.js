@@ -6557,8 +6557,9 @@ module.exports = component('notTrainesdStudents', function(arg) {
       margin: '10px 0'
     }, E({
       marginTop: 30
-    }, E({
-      "class": 'btn btn-success'
+    }, E('a', {
+      "class": 'btn btn-success',
+      href: '/notTrainesdStudents.xlsx'
     }, 'دریافت فایل اکسل'), tableInstance = E(table, {
       headers: [
         {
@@ -7197,8 +7198,9 @@ module.exports = component('notTrainesdStudents', function(arg) {
       margin: '10px 0'
     }, E({
       marginTop: 30
-    }, E({
-      "class": 'btn btn-success'
+    }, E('a', {
+      "class": 'btn btn-success',
+      href: '/paymentStudents.xlsx'
     }, 'دریافت فایل اکسل'), tableInstance = E(table, headers = {
       headers: [
         {
@@ -8629,7 +8631,7 @@ module.exports = component('views', function(arg) {
 });
 
 
-},{"../utils/component":34,"./adminView":54,"./firstPage":70,"./professorView":72,"./studentView":78}],72:[function(require,module,exports){
+},{"../utils/component":34,"./adminView":54,"./firstPage":70,"./professorView":72,"./studentView":79}],72:[function(require,module,exports){
 var component, extend, offeringView;
 
 component = require('../../utils/component');
@@ -8908,9 +8910,11 @@ module.exports = component('professorOfferingsCardView', function(arg, arg1) {
 
 
 },{"../../../utils":38,"../../../utils/component":34}],74:[function(require,module,exports){
-var Q, cardView, component, requiredCourses, tableView;
+var Q, cardView, component, requiredCourses, sendEmail, tableView;
 
 component = require('../../../utils/component');
+
+sendEmail = require('./sendEmail');
 
 Q = require('../../../q');
 
@@ -8921,7 +8925,7 @@ cardView = require('./cardView');
 tableView = require('./tableView');
 
 module.exports = component('professorOfferingView', function(arg) {
-  var E, addClass, cardViewButton, cardViewInstance, changeRequestForAssistant, closeOffering, dom, events, hide, isEditing, lastRequest, noRequestForAssistants, offering, onEvent, removeClass, requiredCoursesInstance, returnObject, service, setStyle, show, state, tableViewButton, tableViewInstance, title, view, yesRequestForAssistants;
+  var E, addClass, cardViewButton, cardViewInstance, changeRequestForAssistant, closeOffering, dom, events, hide, isEditing, lastRequest, noRequestForAssistants, offering, onEvent, removeClass, requiredCoursesInstance, returnObject, sendEmailButton, service, setStyle, show, state, tableViewButton, tableViewInstance, title, view, yesRequestForAssistants;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, returnObject = arg.returnObject;
   E = dom.E, setStyle = dom.setStyle, show = dom.show, hide = dom.hide, addClass = dom.addClass, removeClass = dom.removeClass;
   onEvent = events.onEvent;
@@ -8955,9 +8959,9 @@ module.exports = component('professorOfferingView', function(arg) {
   }, 'نهایی کردن انتخاب دستیاران...')), requiredCoursesInstance = E(requiredCourses), noRequestForAssistants = E(null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'), yesRequestForAssistants = [
     E({
       float: 'left'
-    }, E({
+    }, sendEmailButton = E({
       "class": 'btn btn-default'
-    }, 'ارسال ایمیل به دستیاران'), E({
+    }, 'ارسال ایمیل به تمام دانشجویان متقاضی دستیاری'), E({
       "class": 'btn-group'
     }, tableViewButton = E('button', {
       "class": 'btn btn-default'
@@ -8995,6 +8999,13 @@ module.exports = component('professorOfferingView', function(arg) {
     return hide(cardViewInstance);
   });
   offering = void 0;
+  onEvent(sendEmailButton, 'click', function() {
+    return _sendEmail.show(offering.requestForAssistants.map(function(arg1) {
+      var studentId;
+      studentId = arg1.studentId;
+      return studentId;
+    }));
+  });
   onEvent(closeOffering, 'click', function() {
     var accepted, hasPending;
     hasPending = offering.requestForAssistants.filter(function(arg1) {
@@ -9072,7 +9083,7 @@ module.exports = component('professorOfferingView', function(arg) {
 });
 
 
-},{"../../../q":28,"../../../utils/component":34,"./cardView":73,"./requiredCourses":75,"./tableView":77}],75:[function(require,module,exports){
+},{"../../../q":28,"../../../utils/component":34,"./cardView":73,"./requiredCourses":75,"./sendEmail":77,"./tableView":78}],75:[function(require,module,exports){
 var component, style;
 
 component = require('../../../../utils/component');
@@ -9216,6 +9227,8 @@ courseX = extend({}, courseAdorner, {
 
 
 },{"../../../../utils":38}],77:[function(require,module,exports){
+arguments[4][68][0].apply(exports,arguments)
+},{"../../../singletons/modal":33,"../../../utils/component":34,"../../../utils/dom":36,"dup":68}],78:[function(require,module,exports){
 var body, component, document, ref, table;
 
 component = require('../../../utils/component');
@@ -9503,7 +9516,7 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
 });
 
 
-},{"../../../components/table":17,"../../../utils/component":34,"../../../utils/dom":36}],78:[function(require,module,exports){
+},{"../../../components/table":17,"../../../utils/component":34,"../../../utils/dom":36}],79:[function(require,module,exports){
 var compare, component, extend, modal, ref, requestForAssistant, searchBoxStyle, stateSyncedDropdown, table, textIsInSearch;
 
 component = require('../../utils/component');
@@ -9692,7 +9705,7 @@ module.exports = component('studentView', function(arg) {
 });
 
 
-},{"../../components/dropdown/stateSynced":9,"../../components/table":17,"../../components/table/searchBoxStyle":18,"../../singletons/modal":33,"../../utils":38,"../../utils/component":34,"./requestForAssistant":79}],79:[function(require,module,exports){
+},{"../../components/dropdown/stateSynced":9,"../../components/table":17,"../../components/table/searchBoxStyle":18,"../../singletons/modal":33,"../../utils":38,"../../utils/component":34,"./requestForAssistant":80}],80:[function(require,module,exports){
 var component, generateId, gradeInput, modal, toEnglish;
 
 component = require('../../utils/component');
@@ -9826,7 +9839,7 @@ module.exports = component('studentRequestForAssistant', function(arg) {
 });
 
 
-},{"../../components/restrictedInput/grade":13,"../../singletons/modal":33,"../../utils":38,"../../utils/component":34,"../../utils/dom":36}],80:[function(require,module,exports){
+},{"../../components/restrictedInput/grade":13,"../../singletons/modal":33,"../../utils":38,"../../utils/component":34,"../../utils/dom":36}],81:[function(require,module,exports){
 var Q, alertMessages, autoLoginQ, chooseGolestanNumber, includes, page, params, register, service, startQ, ticket;
 
 Q = require('./q');
@@ -9907,4 +9920,4 @@ Q(startQ).then(function() {
 }).done();
 
 
-},{"./alertMessages":2,"./includes":20,"./page":27,"./q":28,"./sheets/chooseGolestanNumber":29,"./sheets/register":31,"./utils/service":44}]},{},[80]);
+},{"./alertMessages":2,"./includes":20,"./page":27,"./q":28,"./sheets/chooseGolestanNumber":29,"./sheets/register":31,"./utils/service":44}]},{},[81]);

@@ -22,7 +22,7 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
     yesData = [
       E class: 'row', margin: '10px 0',
         E marginTop: 30,
-          E class: 'btn btn-success', 'دریافت فایل اکسل'
+          E 'a', class: 'btn btn-success', href: '/notTrainesdStudents.xlsx', 'دریافت فایل اکسل'
           tableInstance = E table,
             headers: [
               {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
@@ -46,7 +46,7 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
     students = persons
     .filter (student) ->
       requestForAssistants.some (requestForAssistant) ->
-        if String(requestForAssistant.studentId) is String(student.id) and requestForAssistant.status is 2 and requestForAssistant.isTrained is false
+        if String(requestForAssistant.studentId) is String(student.id) and requestForAssistant.status is 'تایید شده' and requestForAssistant.isTrained is false
           offerings.some ({id, termId}) -> String(id) is String(requestForAssistant.id) and termId is currentTerm
     update()
 

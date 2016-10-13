@@ -831,3 +831,28 @@ post 'sendEmail', (sql, req) ->
                     http://eceta.ut.ac.ir",
                     fullName
   null
+
+get 'paymentStudents.xlsx', (sql, req) ->
+  sql.select ['persons', 'students', 'courses', 'persons', 'requestForAssistants', 'offerings', 'staticData'],
+    [['fullName', 'golestanNumber'], ['degree'], {courseName: 'name', courseNumber: 'number'},
+      {professorName: 'name', professorGolestanNumber: 'golestanNumber'}, ['isChiefTA']],
+    'x0.id = x4."studentId" AND x4."offeringId" = x5.id AND x4.status = 2 AND x5."termId" = x6.value AND x6.key = \'currentTerm\'
+    AND x0.id = x1.id AND x5."courseId" = x1.id AND x5."professorId" = x3.id'
+    .then (data) ->
+      xlsx: ['نام کامل', 'شماره دانشجویی', 'نام درس', 'شماره درس', 'نام کامل استاد', 'شماره پرسنلی استاد', 'مقطع', 'دستیار اصلی است'].concat data.map (data) ->
+        convert.numberDegreeToStringDegree data
+        {fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, degree, isChiefTA} = data
+        if isChiefTA
+          isChiefTA = 'بله'
+        else
+          isChiefTA = 'خیر'
+        [fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, degree, isChiefTA]
+
+get 'notTrainedStudents.xlsx', (sql, req) ->
+  sql.select ['persons', 'requestForAssistants', 'offerings', 'staticData'], [['fullName', 'golestanNumber']],
+    'x0.id = x1."studentId" AND x1."offeringid" = x2.id AND x1.status = 2  AND x1."isTrained" = 0 AND x2."termId" = x3.value AND x3.key = \'currentTerm\''
+    .then (data) ->
+      xlsx: ['نام کامل', 'شماره دانشجویی', 'مقطع'].concat data.map (data) ->
+        convert.numberDegreeToStringDegree data
+        {fullName, golestanNumber, degree} = data
+        [fullName, golestanNumber, degree]
