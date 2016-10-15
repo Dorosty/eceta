@@ -25,11 +25,11 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
             else
               [first, second] = [b, a]
             if header.getValue
-              firstValue = toPersian header.getValue first
-              secondValue = toPersian header.getValue second
+              firstValue = header.getValue first
+              secondValue = header.getValue second
             else
-              firstValue = toPersian first[header.key]
-              secondValue = toPersian second[header.key]
+              firstValue = first[header.key]
+              secondValue = second[header.key]
             result = compare firstValue, secondValue
             if result is 0 and variables.entityId
               compare first[variables.entityId], second[variables.entityId]
@@ -38,7 +38,7 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
       descriptors = variables.descriptors or []
       variables.selectionMode = descriptors.some ({selected}) -> selected
       functions.handleRows descriptors
-      handlers.update descriptors
+      handlers.update? descriptors
 
     setData: (entities) ->
       unless variables.descriptors
@@ -73,15 +73,13 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
         variables.sort = header: header, direction: 'up'
       functions.update()
 
-    getRowTdValue: (entity, header) ->
-      if header.key
-        entity[header.key]
-      else if header.getValue
-        header.getValue entity
-
     styleTd: (header, {entity}, td, offs) ->
-      if header.key or header.getValue
-        setStyle td, text: functions.getRowTdValue entity, header
+      if header.key
+        setStyle td, text: entity[header.key]
+      else if header.englishKey
+        setStyle td, englishText: entity[header.englishKey]
+      else if header.getValue
+        setStyle td, text: header.getValue entity
       if header.styleTd
         header.styleTd entity, td, offs
       td
@@ -90,7 +88,6 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
       row.off = ->
         row.offs.forEach (x) -> x()
         row.offs = []
-      setStyle row.checkbox, checked: !!descriptor.selected
       setStyle row.tr, class: if descriptor.selected then 'info' else ''
       if handlers.select and not descriptor.unselectable
         row.offs.push onEvent row.tr, 'mousemove', ->
@@ -104,6 +101,7 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
           else
             removeClass row.tr, 'info'
       if properties.multiSelect
+        setStyle row.checkbox, checked: !!descriptor.selected
         row.offs.push onEvent row.checkbox, 'change', ->
           descriptor.selected = row.checkbox.checked()
           functions.update()

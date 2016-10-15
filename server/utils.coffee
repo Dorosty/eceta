@@ -520,15 +520,15 @@ handle = (methodName) -> (route, handler) ->
           if response.xlsx
             setTimeout ->
               res.set 'Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-              res.send xlsx.build [name: 'sheet', data: res.xlsx]
+              res.send xlsx.build [name: 'sheet', data: response.xlsx]
           else
             res.json response
-          response = extend {}, response
-          Object.keys(response).forEach (key) ->
-            if Array.isArray response[key]
-              response[key] = "[#{response[key].length} items]"
-          delete response.xlsx
-          logStream.write "#{new Date()}\n#{route}\n#{JSON.stringify logBody}\n#{JSON.stringify response}\n\n\n"
+          logResponse = extend {}, response
+          Object.keys(logResponse).forEach (key) ->
+            if Array.isArray logResponse[key]
+              logResponse[key] = "[#{logResponse[key].length} items]"
+          delete logResponse.xlsx
+          logStream.write "#{new Date()}\n#{route}\n#{JSON.stringify logBody}\n#{JSON.stringify logResponse}\n\n\n"
       .catch (error) ->
         query 'ROLLBACK'
         .then ->

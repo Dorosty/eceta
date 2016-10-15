@@ -67,11 +67,7 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
       {
         name: 'تعداد درخواست'
         notClickable: true
-        getValue: (offering) ->
-          if offering.requestForAssistantsCount
-            "مشاهده #{offering.requestForAssistantsCount} درخواست"
-          else
-            'بدون درخواست'
+        key: 'requestForAssistantsCount'
         styleTd: (offering, td, offs) ->
           if offering.requestForAssistantsCount
             setStyle td, color: 'blue', text: "مشاهده #{offering.requestForAssistantsCount} درخواست"

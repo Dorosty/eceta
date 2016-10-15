@@ -1,12 +1,13 @@
 component = require '../../utils/component'
-crudPage = require './crudPage'
+table = require '../../components/table'
 searchBoxStyle = require '../../components/table/searchBoxStyle'
 numberInput = require '../../components/restrictedInput/number'
 {textIsInSearch} = require '../../utils'
 
-module.exports = component 'notTrainesdStudents', ({dom, events, state, service}) ->
+module.exports = component 'notTrainesdStudents', ({dom, events, state, service, others}) ->
   {E, setStyle} = dom
   {onEvent} = events
+  {loading} = others
 
   service.getPersons()
   service.getOfferings()
@@ -21,15 +22,18 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
     noData = E null, 'در حال بارگزاری...'
     yesData = [
       E class: 'row', margin: '10px 0',
+        E 'a', class: 'btn btn-success', href: '/notTrainedStudents.xlsx', 'دریافت فایل اکسل'
         E marginTop: 30,
-          E 'a', class: 'btn btn-success', href: '/notTrainesdStudents.xlsx', 'دریافت فایل اکسل'
           tableInstance = E table,
             headers: [
               {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
               {name: 'شماره دانشجویی', key: 'golestanNumber', searchBox: golestanNumberInput}
+              {name: 'ایمیل', englishKey: 'email'}
               {name: 'مقطع', key: 'degree'}
             ]
     ]
+
+  loading ['persons', 'offerings', 'currentTerm', 'requestForAssistants'], yesData, noData
 
   students = []
   update = ->
@@ -47,7 +51,7 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
     .filter (student) ->
       requestForAssistants.some (requestForAssistant) ->
         if String(requestForAssistant.studentId) is String(student.id) and requestForAssistant.status is 'تایید شده' and requestForAssistant.isTrained is false
-          offerings.some ({id, termId}) -> String(id) is String(requestForAssistant.id) and termId is currentTerm
+          offerings.some ({id, termId}) -> String(id) is String(requestForAssistant.offeringId) and termId is currentTerm
     update()
 
   onEvent [fullNameInput, golestanNumberInput], ['input', 'pInput'], update

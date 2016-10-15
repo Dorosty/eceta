@@ -1,12 +1,13 @@
 component = require '../../utils/component'
-crudPage = require './crudPage'
+table = require '../../components/table'
 searchBoxStyle = require '../../components/table/searchBoxStyle'
 numberInput = require '../../components/restrictedInput/number'
 {extend, textIsInSearch} = require '../../utils'
 
-module.exports = component 'notTrainesdStudents', ({dom, events, state, service}) ->
+module.exports = component 'notTrainesdStudents', ({dom, events, state, service, others}) ->
   {E, setStyle} = dom
   {onEvent} = events
+  {loading} = others
 
   service.getPersons()
   service.getOfferings()
@@ -28,25 +29,27 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
     noData = E null, 'در حال بارگزاری...'
     yesData = [
       E class: 'row', margin: '10px 0',
+        E 'a', class: 'btn btn-success', href: '/paymentStudents.xlsx', 'دریافت فایل اکسل'
         E marginTop: 30,
-          E 'a', class: 'btn btn-success', href: '/paymentStudents.xlsx', 'دریافت فایل اکسل'
           tableInstance = E table,
-            headers = headers: [
+            headers: headers = [
               {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
               {name: 'شماره دانشجویی', key: 'golestanNumber', searchBox: golestanNumberInput}
               {name: 'نام درس', key: 'courseName', searchBox: courseNameInput}
-              {name: 'شماره درس', key: 'courseName', searchBox: courseNumberInput}
+              {name: 'شماره درس', key: 'courseNumber', searchBox: courseNumberInput}
               {name: 'نام کامل استاد', key: 'professorFullName', searchBox: professorFullNameInput}
               {name: 'شماره پرسنلی استاد', key: 'professorGolestanNumber', searchBox: professorGolestanNumberInput}
               {name: 'مقطع', key: 'degree'}
-              {name: 'دستیار اصلی است', key: 'isChiefTa'}
+              {name: 'دستیار اصلی است', key: 'isChiefTA'}
             ]
             sort: 
               header: headers[2]
               direction: 'up'
     ]
 
-  students = []
+  loading ['persons', 'professors', 'offerings', 'currentTerm', 'courses', 'requestForAssistants'], yesData, noData
+
+  requests = []
   update = ->
     fullName = fullNameInput.value()
     golestanNumber = golestanNumberInput.value()
@@ -54,40 +57,45 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service}
     courseNumber = courseNumberInput.value()
     professorFullName = professorFullNameInput.value()
     professorGolestanNumber = professorGolestanNumberInput.value()
-    filteredStudents = students
+    filteredRequests = requests
     if fullName
-      filteredStudents = filteredStudents.filter (person) -> textIsInSearch person.fullName, fullName
+      filteredRequests = filteredRequests.filter (request) -> textIsInSearch request.fullName, fullName
     if golestanNumber
-      filteredStudents = filteredStudents.filter (person) -> textIsInSearch person.golestanNumber, golestanNumber
+      filteredRequests = filteredRequests.filter (request) -> textIsInSearch request.golestanNumber, golestanNumber
     if courseName
-      filteredStudents = filteredStudents.filter (person) -> textIsInSearch person.courseName, courseName
+      filteredRequests = filteredRequests.filter (request) -> textIsInSearch request.courseName, courseName
     if courseNumber
-      filteredStudents = filteredStudents.filter (person) -> textIsInSearch person.courseNumber, courseNumber
+      filteredRequests = filteredRequests.filter (request) -> textIsInSearch request.courseNumber, courseNumber
     if professorFullName
-      filteredStudents = filteredStudents.filter (person) -> textIsInSearch person.professorFullName, professorFullName
+      filteredRequests = filteredRequests.filter (request) -> textIsInSearch request.professorFullName, professorFullName
     if professorGolestanNumber
-      filteredStudents = filteredStudents.filter (person) -> textIsInSearch person.professorGolestanNumber, professorGolestanNumber
-    tablein.setData filteredStudents
+      filteredRequests = filteredRequests.filter (request) -> textIsInSearch request.professorGolestanNumber, professorGolestanNumber
+    tableInstance.setData filteredRequests
 
   state.all ['persons', 'professors', 'offerings', 'currentTerm', 'courses', 'requestForAssistants'],
     ([persons, professors, offerings, currentTerm, courses, requestForAssistants]) ->
-    students = persons
-    .filter (student) ->
-      requestForAssistants.some (requestForAssistant) ->
-        if String(requestForAssistant.studentId) is String(student.id) and requestForAssistant.status is 'تایید شده'
-          offerings.some (offering) ->
-            if String(offering.id) is String(requestForAssistant.id) and offering.termId is currentTerm
-              [course] = courses.filter ({id}) -> String(id) is String(offering.courseId)
-              [professor] = professors.filter ({id}) -> String(id) is String(offering.professorId)
-              extend student,
-                courseName: course.name
-                courseNumber: course.number
-                professorFullName: professor.fullName
-                professorGolestanNumber: professor.golestanNumber
-                isChiefTa: requestForAssistant.isChiefTa
-              true
-    update()
+      requests = requestForAssistants
+      .filter (request) ->
+        if request.status isnt 'تایید شده'
+          return false
+        persons.some (student) ->
+          if String(request.studentId) is String(student.id)
+            offerings.some (offering) ->
+              if String(offering.id) is String(request.offeringId) and offering.termId is currentTerm
+                [course] = courses.filter ({id}) -> String(id) is String(offering.courseId)
+                [professor] = professors.filter ({id}) -> String(id) is String(offering.professorId)
+                extend request,
+                  fullName: student.fullName
+                  golestanNumber: student.golestanNumber
+                  degree: student.degree
+                  courseName: course.name
+                  courseNumber: course.number
+                  professorFullName: professor.fullName
+                  professorGolestanNumber: professor.golestanNumber
+                  isChiefTA: if request.isChiefTA then 'بله' else 'خیر'
+                true
+      update()
 
-  onEvent [fullNameInput, golestanNumberInput], ['input', 'pInput'], update
+  onEvent [fullNameInput, golestanNumberInput, courseNameInput, courseNumberInput, professorFullNameInput, professorGolestanNumberInput] , ['input', 'pInput'], update
 
   view

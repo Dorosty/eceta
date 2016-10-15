@@ -176,8 +176,6 @@ config (methodName, personId, response, sql, req) ->
     unless person
       return response.loggedOut = true
 
-    convert.nubmerTypeToStringType person
-
     extrasQ = switch person.type
       when 'دانشجو'
         sql.select 'students', 'degree', id: person.id
@@ -458,10 +456,11 @@ post 'getCourses', (sql, req) ->
   .then (courses) -> {courses}
 
 getRequestForAssistants = (sql, req) ->
-  sql.select 'requestForAssistants', ['id', 'status', 'isTrained', 'message', 'offeringId', 'studentId', 'gpa']
+  sql.select 'requestForAssistants', ['id', 'status', 'isTrained', 'message', 'offeringId', 'studentId', 'gpa', 'isChiefTA']
   .then (requestForAssistants) ->
     all requestForAssistants.map (requestForAssistant) ->
       requestForAssistant.isTrained = !!requestForAssistant.isTrained
+      requestForAssistant.isChiefTA = !!requestForAssistant.isChiefTA
       convert.numberStatusToStringStatus requestForAssistant
       sql.select 'grades', ['courseId', 'grade'], requestForAssistantId: requestForAssistant.id
       .then (grades) ->
@@ -835,24 +834,24 @@ post 'sendEmail', (sql, req) ->
 get 'paymentStudents.xlsx', (sql, req) ->
   sql.select ['persons', 'students', 'courses', 'persons', 'requestForAssistants', 'offerings', 'staticData'],
     [['fullName', 'golestanNumber'], ['degree'], {courseName: 'name', courseNumber: 'number'},
-      {professorName: 'name', professorGolestanNumber: 'golestanNumber'}, ['isChiefTA']],
+      {professorName: 'fullName', professorGolestanNumber: 'golestanNumber'}, ['isChiefTA']],
     'x0.id = x4."studentId" AND x4."offeringId" = x5.id AND x4.status = 2 AND x5."termId" = x6.value AND x6.key = \'currentTerm\'
-    AND x0.id = x1.id AND x5."courseId" = x1.id AND x5."professorId" = x3.id'
-    .then (data) ->
-      xlsx: ['نام کامل', 'شماره دانشجویی', 'نام درس', 'شماره درس', 'نام کامل استاد', 'شماره پرسنلی استاد', 'مقطع', 'دستیار اصلی است'].concat data.map (data) ->
-        convert.numberDegreeToStringDegree data
-        {fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, degree, isChiefTA} = data
-        if isChiefTA
-          isChiefTA = 'بله'
-        else
-          isChiefTA = 'خیر'
-        [fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, degree, isChiefTA]
+    AND x0.id = x1.id AND x5."courseId" = x2.id AND x5."professorId" = x3.id'
+  .then (data) ->
+    xlsx: [['نام کامل', 'شماره دانشجویی', 'نام درس', 'شماره درس', 'نام کامل استاد', 'شماره پرسنلی استاد', 'مقطع', 'دستیار اصلی است']].concat data.map (data) ->
+      convert.numberDegreeToStringDegree data
+      {fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, degree, isChiefTA} = data
+      if isChiefTA
+        isChiefTA = 'بله'
+      else
+        isChiefTA = 'خیر'
+      [fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, degree, isChiefTA]
 
 get 'notTrainedStudents.xlsx', (sql, req) ->
-  sql.select ['persons', 'requestForAssistants', 'offerings', 'staticData'], [['fullName', 'golestanNumber']],
-    'x0.id = x1."studentId" AND x1."offeringid" = x2.id AND x1.status = 2  AND x1."isTrained" = 0 AND x2."termId" = x3.value AND x3.key = \'currentTerm\''
-    .then (data) ->
-      xlsx: ['نام کامل', 'شماره دانشجویی', 'مقطع'].concat data.map (data) ->
-        convert.numberDegreeToStringDegree data
-        {fullName, golestanNumber, degree} = data
-        [fullName, golestanNumber, degree]
+  sql.select ['persons', 'students', 'requestForAssistants', 'offerings', 'staticData'], [['fullName', 'golestanNumber', 'email'], ['degree']],
+    'x0.id = x1.id AND x0.id = x2."studentId" AND x2."offeringId" = x3.id AND x2.status = 2 AND x2."isTrained" = 0 AND x3."termId" = x4.value AND x4.key = \'currentTerm\''
+  .then (data) ->
+    xlsx: [['نام کامل', 'شماره دانشجویی', 'ایمیل', 'مقطع']].concat data.map (data) ->
+      convert.numberDegreeToStringDegree data
+      {fullName, golestanNumber, email, degree} = data
+      [fullName, golestanNumber, email, degree]
