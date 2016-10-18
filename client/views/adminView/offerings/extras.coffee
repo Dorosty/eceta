@@ -11,9 +11,9 @@ module.exports = component 'offeringsExtras', ({dom, events, returnObject}, {goT
 
   _sendEmail = E sendEmail
 
-  professors = undefined
+  professorIds = undefined
 
-  onEvent sendEmailToProfessors, 'click', -> _sendEmail.show professors.map ({id}) -> id
+  onEvent sendEmailToProfessors, 'click', -> _sendEmail.show professorIds
 
   offViewRequestForAssistantsClick = undefined
 
@@ -23,11 +23,11 @@ module.exports = component 'offeringsExtras', ({dom, events, returnObject}, {goT
       offViewRequestForAssistantsClick?()
       if selectedDescriptors.length
         show [sendEmailToProfessors, viewRequestForAssistants]
-        professors = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
+        professorIds = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
           acc[entity.professorId] = true
           acc
         ), {})
-        setStyle sendEmailToProfessors, text: "ارسال ایمیل به #{professors.length} استاد انتخاب شده"
+        setStyle sendEmailToProfessors, text: "ارسال ایمیل به #{professorIds.length} استاد انتخاب شده"
         setStyle viewRequestForAssistants, text: "مشاهده درخواست‌های #{selectedDescriptors.length} فراخوان انتخاب شده"
         offViewRequestForAssistantsClick = onEvent viewRequestForAssistants, 'click', ->
           goToRequestForAssistants selectedDescriptors.map ({entity}) -> entity.id

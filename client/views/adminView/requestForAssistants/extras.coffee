@@ -21,10 +21,10 @@ module.exports = component 'requestForAssistantsExtras', ({dom, events, returnOb
 
   _sendEmail = E sendEmail
 
-  students = professors = undefined
+  studentIds = professorIds = undefined
 
-  onEvent sendEmailToProfessors, 'click', -> _sendEmail.show professors.map ({id}) -> id
-  onEvent sendEmailToStudents, 'click', -> _sendEmail.show students.map ({id}) -> id
+  onEvent sendEmailToProfessors, 'click', -> _sendEmail.show professorIds
+  onEvent sendEmailToStudents, 'click', -> _sendEmail.show studentIds
 
   returnObject
     update: (descriptors) ->
@@ -32,16 +32,16 @@ module.exports = component 'requestForAssistantsExtras', ({dom, events, returnOb
       if selectedDescriptors.length
         show sendEmailToStudents
         show sendEmailToProfessors
-        students = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
+        studentIds = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
           acc[entity.studentId] = true
           acc
         ), {})
-        setStyle sendEmailToStudents, text: "ارسال ایمیل به #{students.length} دانشجو انتخاب شده"
-        professors = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
+        setStyle sendEmailToStudents, text: "ارسال ایمیل به #{studentIds.length} دانشجو انتخاب شده"
+        professorIds = Object.keys(selectedDescriptors.reduce ((acc, {entity}) ->
           acc[entity.professorId] = true
           acc
         ), {})
-        setStyle sendEmailToProfessors, text: "ارسال ایمیل به #{professors.length} استاد انتخاب شده"
+        setStyle sendEmailToProfessors, text: "ارسال ایمیل به #{professorIds.length} استاد انتخاب شده"
       else
         hide sendEmailToStudents
         hide sendEmailToProfessors
