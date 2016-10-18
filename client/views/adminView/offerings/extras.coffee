@@ -32,6 +32,6 @@ module.exports = component 'offeringsExtras', ({dom, events, returnObject}, {goT
         offViewRequestForAssistantsClick = onEvent viewRequestForAssistants, 'click', ->
           goToRequestForAssistants selectedDescriptors.map ({entity}) -> entity.id
       else
-        hide [sendEmailToStudents, viewRequestForAssistants]
+        hide [sendEmailToProfessors, viewRequestForAssistants]
 
   view
