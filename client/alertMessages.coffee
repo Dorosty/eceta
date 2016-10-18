@@ -44,6 +44,7 @@ exports.do = ->
   addMessage 'removeRequiredCourse', success: 'تغییرات با موفقیت ذخیره شد.'
   addMessage 'closeOffering', success: 'درس با موفقیت نهایی شد.'
   addMessage 'batchAddOfferings', success: 'عملیات با موفقیت انجام شد.', failure: 'در انجام عملیات مشکلی پیش آمد.'
+  addMessage 'sendEmail', success: 'ایمیل با موفقیت ارسال شد.', failure: 'در انجام عملیات مشکلی پیش آمد.'
   [
     {name:'person', persianName: 'شخص'}
     {name:'course', persianName: 'درس'}
