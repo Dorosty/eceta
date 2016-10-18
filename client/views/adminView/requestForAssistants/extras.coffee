@@ -1,5 +1,5 @@
 component = require '../../../utils/component'
-sendEmail = require './sendEmail'
+sendEmail = require '../sendEmail'
 
 module.exports = component 'requestForAssistantsExtras', ({dom, events, returnObject}, {offeringIds, goToRequestForAssistants}) ->
   {E, setStyle, show, hide} = dom

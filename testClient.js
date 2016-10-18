@@ -1021,11 +1021,11 @@ exports.create = function(arg) {
               ref2 = [b, a], first = ref2[0], second = ref2[1];
             }
             if (header.getValue) {
-              firstValue = toPersian(header.getValue(first));
-              secondValue = toPersian(header.getValue(second));
+              firstValue = header.getValue(first);
+              secondValue = header.getValue(second);
             } else {
-              firstValue = toPersian(first[header.key]);
-              secondValue = toPersian(second[header.key]);
+              firstValue = first[header.key];
+              secondValue = second[header.key];
             }
             result = compare(firstValue, secondValue);
             if (result === 0 && variables.entityId) {
@@ -1043,7 +1043,7 @@ exports.create = function(arg) {
         return selected;
       });
       functions.handleRows(descriptors);
-      return handlers.update(descriptors);
+      return typeof handlers.update === "function" ? handlers.update(descriptors) : void 0;
     },
     setData: function(entities) {
       if (!variables.descriptors) {
@@ -1107,19 +1107,20 @@ exports.create = function(arg) {
       }
       return functions.update();
     },
-    getRowTdValue: function(entity, header) {
-      if (header.key) {
-        return entity[header.key];
-      } else if (header.getValue) {
-        return header.getValue(entity);
-      }
-    },
     styleTd: function(header, arg1, td, offs) {
       var entity;
       entity = arg1.entity;
-      if (header.key || header.getValue) {
+      if (header.key) {
         setStyle(td, {
-          text: functions.getRowTdValue(entity, header)
+          text: entity[header.key]
+        });
+      } else if (header.englishKey) {
+        setStyle(td, {
+          englishText: entity[header.englishKey]
+        });
+      } else if (header.getValue) {
+        setStyle(td, {
+          text: header.getValue(entity)
         });
       }
       if (header.styleTd) {
@@ -1135,9 +1136,6 @@ exports.create = function(arg) {
         });
         return row.offs = [];
       };
-      setStyle(row.checkbox, {
-        checked: !!descriptor.selected
-      });
       setStyle(row.tr, {
         "class": descriptor.selected ? 'info' : ''
       });
@@ -1158,6 +1156,9 @@ exports.create = function(arg) {
         }));
       }
       if (properties.multiSelect) {
+        setStyle(row.checkbox, {
+          checked: !!descriptor.selected
+        });
         row.offs.push(onEvent(row.checkbox, 'change', function() {
           descriptor.selected = row.checkbox.checked();
           return functions.update();
@@ -4242,9 +4243,6 @@ module.exports = function(componentName, create) {
     if (c != null ? (ref1 = c.fn) != null ? ref1.pInputListeners : void 0 : void 0) {
       component.fn.pInputListeners = c.fn.pInputListeners;
     }
-    if (Array.isArray(c)) {
-      component.fn.element = c;
-    }
     log.create(1, component);
     return component;
   };
@@ -6526,12 +6524,12 @@ module.exports = component('adminView', function(arg) {
 });
 
 
-},{"../../utils/component":34,"./courses":51,"./notTrainedStudents":55,"./offerings":57,"./paymentStudents":60,"./persons":62,"./requestForAssistants":66,"./staticData":69}],55:[function(require,module,exports){
-var component, crudPage, numberInput, searchBoxStyle, textIsInSearch;
+},{"../../utils/component":34,"./courses":51,"./notTrainedStudents":55,"./offerings":58,"./paymentStudents":60,"./persons":62,"./requestForAssistants":66,"./staticData":69}],55:[function(require,module,exports){
+var component, numberInput, searchBoxStyle, table, textIsInSearch;
 
 component = require('../../utils/component');
 
-crudPage = require('./crudPage');
+table = require('../../components/table');
 
 searchBoxStyle = require('../../components/table/searchBoxStyle');
 
@@ -6540,10 +6538,11 @@ numberInput = require('../../components/restrictedInput/number');
 textIsInSearch = require('../../utils').textIsInSearch;
 
 module.exports = component('notTrainesdStudents', function(arg) {
-  var E, dom, events, fullNameInput, golestanNumberInput, noData, onEvent, service, setStyle, state, students, tableInstance, update, view, yesData;
-  dom = arg.dom, events = arg.events, state = arg.state, service = arg.service;
+  var E, dom, events, fullNameInput, golestanNumberInput, loading, noData, onEvent, others, service, setStyle, state, students, tableInstance, update, view, yesData;
+  dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, others = arg.others;
   E = dom.E, setStyle = dom.setStyle;
   onEvent = events.onEvent;
+  loading = others.loading;
   service.getPersons();
   service.getOfferings();
   service.getCurrentTerm();
@@ -6555,12 +6554,12 @@ module.exports = component('notTrainesdStudents', function(arg) {
     E({
       "class": 'row',
       margin: '10px 0'
-    }, E({
-      marginTop: 30
     }, E('a', {
       "class": 'btn btn-success',
-      href: '/notTrainesdStudents.xlsx'
-    }, 'دریافت فایل اکسل'), tableInstance = E(table, {
+      href: '/notTrainedStudents.xlsx'
+    }, 'دریافت فایل اکسل'), E({
+      marginTop: 30
+    }, tableInstance = E(table, {
       headers: [
         {
           name: 'نام کامل',
@@ -6571,12 +6570,16 @@ module.exports = component('notTrainesdStudents', function(arg) {
           key: 'golestanNumber',
           searchBox: golestanNumberInput
         }, {
+          name: 'ایمیل',
+          englishKey: 'email'
+        }, {
           name: 'مقطع',
           key: 'degree'
         }
       ]
     })))
   ]);
+  loading(['persons', 'offerings', 'currentTerm', 'requestForAssistants'], yesData, noData);
   students = [];
   update = function() {
     var filteredStudents, fullName, golestanNumber;
@@ -6600,11 +6603,11 @@ module.exports = component('notTrainesdStudents', function(arg) {
     persons = arg1[0], offerings = arg1[1], currentTerm = arg1[2], requestForAssistants = arg1[3];
     students = persons.filter(function(student) {
       return requestForAssistants.some(function(requestForAssistant) {
-        if (String(requestForAssistant.studentId) === String(student.id) && requestForAssistant.status === 2 && requestForAssistant.isTrained === false) {
+        if (String(requestForAssistant.studentId) === String(student.id) && requestForAssistant.status === 'تایید شده' && requestForAssistant.isTrained === false) {
           return offerings.some(function(arg2) {
             var id, termId;
             id = arg2.id, termId = arg2.termId;
-            return String(id) === String(requestForAssistant.id) && termId === currentTerm;
+            return String(id) === String(requestForAssistant.offeringId) && termId === currentTerm;
           });
         }
       });
@@ -6616,7 +6619,7 @@ module.exports = component('notTrainesdStudents', function(arg) {
 });
 
 
-},{"../../components/restrictedInput/number":15,"../../components/table/searchBoxStyle":18,"../../utils":38,"../../utils/component":34,"./crudPage":53}],56:[function(require,module,exports){
+},{"../../components/restrictedInput/number":15,"../../components/table":17,"../../components/table/searchBoxStyle":18,"../../utils":38,"../../utils/component":34}],56:[function(require,module,exports){
 var component, extend, generateId, modal, numberInput, ref, stateSyncedDropdown, toEnglish;
 
 component = require('../../../utils/component');
@@ -6814,7 +6817,78 @@ module.exports = component('offeringsCredit', function(arg) {
 
 
 },{"../../../components/dropdown/stateSynced":9,"../../../components/restrictedInput/number":15,"../../../singletons/modal":33,"../../../utils":38,"../../../utils/component":34,"../../../utils/dom":36}],57:[function(require,module,exports){
-var component, credit, crudPage, dropdown, extend, multiselect, ref, searchBoxStyle, stateSyncedDropdown, textIsInSearch, viewRequestForAssistants;
+var component, sendEmail;
+
+component = require('../../../utils/component');
+
+sendEmail = require('../sendEmail');
+
+module.exports = component('offeringsExtras', function(arg, arg1) {
+  var E, _sendEmail, dom, events, goToRequestForAssistants, hide, offViewRequestForAssistantsClick, onEvent, professors, returnObject, sendEmailToProfessors, setStyle, show, viewRequestForAssistants;
+  dom = arg.dom, events = arg.events, returnObject = arg.returnObject;
+  goToRequestForAssistants = arg1.goToRequestForAssistants;
+  E = dom.E, setStyle = dom.setStyle, show = dom.show, hide = dom.hide;
+  onEvent = events.onEvent;
+  E('span', null, hide(sendEmailToProfessors = E({
+    "class": 'btn btn-default',
+    marginRight: 10
+  })), hide(viewRequestForAssistants = E({
+    "class": 'btn btn-default',
+    marginRight: 10
+  })));
+  _sendEmail = E(sendEmail);
+  professors = void 0;
+  onEvent(sendEmailToProfessors, 'click', function() {
+    return _sendEmail.show(professors.map(function(arg2) {
+      var id;
+      id = arg2.id;
+      return id;
+    }));
+  });
+  offViewRequestForAssistantsClick = void 0;
+  returnObject({
+    update: function(descriptors) {
+      var selectedDescriptors;
+      selectedDescriptors = descriptors.filter(function(arg2) {
+        var selected;
+        selected = arg2.selected;
+        return selected;
+      });
+      if (typeof offViewRequestForAssistantsClick === "function") {
+        offViewRequestForAssistantsClick();
+      }
+      if (selectedDescriptors.length) {
+        show([sendEmailToProfessors, viewRequestForAssistants]);
+        professors = Object.keys(selectedDescriptors.reduce((function(acc, arg2) {
+          var entity;
+          entity = arg2.entity;
+          acc[entity.professorId] = true;
+          return acc;
+        }), {}));
+        setStyle(sendEmailToProfessors, {
+          text: "ارسال ایمیل به " + professors.length + " استاد انتخاب شده"
+        });
+        setStyle(viewRequestForAssistants, {
+          text: "مشاهده درخواست‌های " + selectedDescriptors.length + " فراخوان انتخاب شده"
+        });
+        return offViewRequestForAssistantsClick = onEvent(viewRequestForAssistants, 'click', function() {
+          return goToRequestForAssistants(selectedDescriptors.map(function(arg2) {
+            var entity;
+            entity = arg2.entity;
+            return entity.id;
+          }));
+        });
+      } else {
+        return hide([sendEmailToStudents, viewRequestForAssistants]);
+      }
+    }
+  });
+  return view;
+});
+
+
+},{"../../../utils/component":34,"../sendEmail":68}],58:[function(require,module,exports){
+var component, credit, crudPage, dropdown, extend, extras, multiselect, ref, searchBoxStyle, stateSyncedDropdown, textIsInSearch;
 
 component = require('../../../utils/component');
 
@@ -6824,7 +6898,7 @@ credit = require('./credit');
 
 multiselect = require('./multiselect');
 
-viewRequestForAssistants = require('./viewRequestForAssistants');
+extras = require('./extras');
 
 searchBoxStyle = require('../../../components/table/searchBoxStyle');
 
@@ -6835,7 +6909,7 @@ stateSyncedDropdown = require('../../../components/dropdown/stateSynced');
 ref = require('../../../utils'), extend = ref.extend, textIsInSearch = ref.textIsInSearch;
 
 module.exports = component('offeringsView', function(arg, arg1) {
-  var E, courseNameInput, dom, events, goToRequestForAssistants, isClosedDropdown, multiselectInstance, offerings, onEvent, professorNameInput, service, setStyle, state, termDropdown, update, view, viewRequestForAssistantsInstance;
+  var E, courseNameInput, dom, events, extrasInstance, goToRequestForAssistants, isClosedDropdown, multiselectInstance, offerings, onEvent, professorNameInput, service, setStyle, state, termDropdown, update, view;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service;
   goToRequestForAssistants = arg1.goToRequestForAssistants;
   E = dom.E, setStyle = dom.setStyle;
@@ -6875,7 +6949,7 @@ module.exports = component('offeringsView', function(arg, arg1) {
     extraButtonsBefore: multiselectInstance = E(multiselect, function(callback) {
       return view.setSelectedRows(callback);
     }),
-    extraButtons: viewRequestForAssistantsInstance = E(viewRequestForAssistants, goToRequestForAssistants),
+    extraButtons: extrasInstance = E(extras, goToRequestForAssistants),
     headers: [
       {
         name: 'نام درس',
@@ -6916,13 +6990,7 @@ module.exports = component('offeringsView', function(arg, arg1) {
       }, {
         name: 'تعداد درخواست',
         notClickable: true,
-        getValue: function(offering) {
-          if (offering.requestForAssistantsCount) {
-            return "مشاهده " + offering.requestForAssistantsCount + " درخواست";
-          } else {
-            return 'بدون درخواست';
-          }
-        },
+        key: 'requestForAssistantsCount',
         styleTd: function(offering, td, offs) {
           if (offering.requestForAssistantsCount) {
             setStyle(td, {
@@ -6943,7 +7011,7 @@ module.exports = component('offeringsView', function(arg, arg1) {
     ],
     onTableUpdate: function(descriptors) {
       multiselectInstance.setChecked(descriptors);
-      return viewRequestForAssistantsInstance.update(descriptors);
+      return extrasInstance.update(descriptors);
     },
     credit: E(credit).credit,
     deleteItems: function(offerings) {
@@ -7014,7 +7082,7 @@ module.exports = component('offeringsView', function(arg, arg1) {
 });
 
 
-},{"../../../components/dropdown":6,"../../../components/dropdown/stateSynced":9,"../../../components/table/searchBoxStyle":18,"../../../utils":38,"../../../utils/component":34,"../crudPage":53,"./credit":56,"./multiselect":58,"./viewRequestForAssistants":59}],58:[function(require,module,exports){
+},{"../../../components/dropdown":6,"../../../components/dropdown/stateSynced":9,"../../../components/table/searchBoxStyle":18,"../../../utils":38,"../../../utils/component":34,"../crudPage":53,"./credit":56,"./extras":57,"./multiselect":59}],59:[function(require,module,exports){
 var body, component;
 
 component = require('../../../utils/component');
@@ -7113,59 +7181,12 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
 });
 
 
-},{"../../../utils/component":34,"../../../utils/dom":36}],59:[function(require,module,exports){
-var component;
-
-component = require('../../../utils/component');
-
-module.exports = component('offeringsViewRequestForAssistants', function(arg, goToRequestForAssistants) {
-  var E, dom, events, hide, offClick, onEvent, returnObject, setStyle, show, view;
-  dom = arg.dom, events = arg.events, returnObject = arg.returnObject;
-  E = dom.E, show = dom.show, hide = dom.hide, setStyle = dom.setStyle;
-  onEvent = events.onEvent;
-  hide(view = E({
-    "class": 'btn btn-default',
-    marginRight: 10
-  }));
-  offClick = void 0;
-  returnObject({
-    update: function(descriptors) {
-      var selectedEntities;
-      selectedEntities = descriptors.filter(function(arg1) {
-        var selected;
-        selected = arg1.selected;
-        return selected;
-      });
-      if (typeof offClick === "function") {
-        offClick();
-      }
-      if (selectedEntities.length) {
-        show(view);
-        setStyle(view, {
-          text: "مشاهده درخواست‌های " + selectedEntities.length + " فراخوان انتخاب شده"
-        });
-        return offClick = onEvent(view, 'click', function() {
-          return goToRequestForAssistants(selectedEntities.map(function(arg1) {
-            var entity;
-            entity = arg1.entity;
-            return entity.id;
-          }));
-        });
-      } else {
-        return hide(view);
-      }
-    }
-  });
-  return view;
-});
-
-
-},{"../../../utils/component":34}],60:[function(require,module,exports){
-var component, crudPage, extend, numberInput, ref, searchBoxStyle, textIsInSearch;
+},{"../../../utils/component":34,"../../../utils/dom":36}],60:[function(require,module,exports){
+var component, extend, numberInput, ref, searchBoxStyle, table, textIsInSearch;
 
 component = require('../../utils/component');
 
-crudPage = require('./crudPage');
+table = require('../../components/table');
 
 searchBoxStyle = require('../../components/table/searchBoxStyle');
 
@@ -7174,10 +7195,11 @@ numberInput = require('../../components/restrictedInput/number');
 ref = require('../../utils'), extend = ref.extend, textIsInSearch = ref.textIsInSearch;
 
 module.exports = component('notTrainesdStudents', function(arg) {
-  var E, courseNameInput, courseNumberInput, dom, events, fullNameInput, golestanNumberInput, headers, noData, onEvent, professorFullNameInput, professorGolestanNumberInput, service, setStyle, state, students, tableInstance, update, view, yesData;
-  dom = arg.dom, events = arg.events, state = arg.state, service = arg.service;
+  var E, courseNameInput, courseNumberInput, dom, events, fullNameInput, golestanNumberInput, headers, loading, noData, onEvent, others, professorFullNameInput, professorGolestanNumberInput, requests, service, setStyle, state, tableInstance, update, view, yesData;
+  dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, others = arg.others;
   E = dom.E, setStyle = dom.setStyle;
   onEvent = events.onEvent;
+  loading = others.loading;
   service.getPersons();
   service.getOfferings();
   service.getCourses();
@@ -7196,13 +7218,13 @@ module.exports = component('notTrainesdStudents', function(arg) {
     E({
       "class": 'row',
       margin: '10px 0'
-    }, E({
-      marginTop: 30
     }, E('a', {
       "class": 'btn btn-success',
       href: '/paymentStudents.xlsx'
-    }, 'دریافت فایل اکسل'), tableInstance = E(table, headers = {
-      headers: [
+    }, 'دریافت فایل اکسل'), E({
+      marginTop: 30
+    }, tableInstance = E(table, {
+      headers: headers = [
         {
           name: 'نام کامل',
           key: 'fullName',
@@ -7217,7 +7239,7 @@ module.exports = component('notTrainesdStudents', function(arg) {
           searchBox: courseNameInput
         }, {
           name: 'شماره درس',
-          key: 'courseName',
+          key: 'courseNumber',
           searchBox: courseNumberInput
         }, {
           name: 'نام کامل استاد',
@@ -7232,96 +7254,104 @@ module.exports = component('notTrainesdStudents', function(arg) {
           key: 'degree'
         }, {
           name: 'دستیار اصلی است',
-          key: 'isChiefTa'
+          key: 'isChiefTA'
         }
-      ]
-    }, {
+      ],
       sort: {
         header: headers[2],
         direction: 'up'
       }
     })))
   ]);
-  students = [];
+  loading(['persons', 'professors', 'offerings', 'currentTerm', 'courses', 'requestForAssistants'], yesData, noData);
+  requests = [];
   update = function() {
-    var courseName, courseNumber, filteredStudents, fullName, golestanNumber, professorFullName, professorGolestanNumber;
+    var courseName, courseNumber, filteredRequests, fullName, golestanNumber, professorFullName, professorGolestanNumber;
     fullName = fullNameInput.value();
     golestanNumber = golestanNumberInput.value();
     courseName = courseNameInput.value();
     courseNumber = courseNumberInput.value();
     professorFullName = professorFullNameInput.value();
     professorGolestanNumber = professorGolestanNumberInput.value();
-    filteredStudents = students;
+    filteredRequests = requests;
     if (fullName) {
-      filteredStudents = filteredStudents.filter(function(person) {
-        return textIsInSearch(person.fullName, fullName);
+      filteredRequests = filteredRequests.filter(function(request) {
+        return textIsInSearch(request.fullName, fullName);
       });
     }
     if (golestanNumber) {
-      filteredStudents = filteredStudents.filter(function(person) {
-        return textIsInSearch(person.golestanNumber, golestanNumber);
+      filteredRequests = filteredRequests.filter(function(request) {
+        return textIsInSearch(request.golestanNumber, golestanNumber);
       });
     }
     if (courseName) {
-      filteredStudents = filteredStudents.filter(function(person) {
-        return textIsInSearch(person.courseName, courseName);
+      filteredRequests = filteredRequests.filter(function(request) {
+        return textIsInSearch(request.courseName, courseName);
       });
     }
     if (courseNumber) {
-      filteredStudents = filteredStudents.filter(function(person) {
-        return textIsInSearch(person.courseNumber, courseNumber);
+      filteredRequests = filteredRequests.filter(function(request) {
+        return textIsInSearch(request.courseNumber, courseNumber);
       });
     }
     if (professorFullName) {
-      filteredStudents = filteredStudents.filter(function(person) {
-        return textIsInSearch(person.professorFullName, professorFullName);
+      filteredRequests = filteredRequests.filter(function(request) {
+        return textIsInSearch(request.professorFullName, professorFullName);
       });
     }
     if (professorGolestanNumber) {
-      filteredStudents = filteredStudents.filter(function(person) {
-        return textIsInSearch(person.professorGolestanNumber, professorGolestanNumber);
+      filteredRequests = filteredRequests.filter(function(request) {
+        return textIsInSearch(request.professorGolestanNumber, professorGolestanNumber);
       });
     }
-    return tablein.setData(filteredStudents);
+    return tableInstance.setData(filteredRequests);
   };
   state.all(['persons', 'professors', 'offerings', 'currentTerm', 'courses', 'requestForAssistants'], function(arg1) {
     var courses, currentTerm, offerings, persons, professors, requestForAssistants;
     persons = arg1[0], professors = arg1[1], offerings = arg1[2], currentTerm = arg1[3], courses = arg1[4], requestForAssistants = arg1[5];
-  }, students = persons.filter(function(student) {
-    return requestForAssistants.some(function(requestForAssistant) {
-      if (String(requestForAssistant.studentId) === String(student.id) && requestForAssistant.status === 2) {
-        return offerings.some(function(offering) {
-          var course, professor;
-          if (String(offering.id) === String(requestForAssistant.id) && offering.termId === currentTerm) {
-            course = courses.filter(function(arg1) {
-              var id;
-              id = arg1.id;
-              return String(id) === String(offering.courseId);
-            })[0];
-            professor = professors.filter(function(arg1) {
-              var id;
-              id = arg1.id;
-              return String(id) === String(offering.professorId);
-            })[0];
-            extend(student, {
-              courseName: course.name,
-              courseNumber: course.number,
-              professorFullName: professor.fullName,
-              professorGolestanNumber: professor.golestanNumber,
-              isChiefTa: requestForAssistant.isChiefTa
-            });
-            return true;
-          }
-        });
+    requests = requestForAssistants.filter(function(request) {
+      if (request.status !== 'تایید شده') {
+        return false;
       }
+      return persons.some(function(student) {
+        if (String(request.studentId) === String(student.id)) {
+          return offerings.some(function(offering) {
+            var course, professor;
+            if (String(offering.id) === String(request.offeringId) && offering.termId === currentTerm) {
+              course = courses.filter(function(arg2) {
+                var id;
+                id = arg2.id;
+                return String(id) === String(offering.courseId);
+              })[0];
+              professor = professors.filter(function(arg2) {
+                var id;
+                id = arg2.id;
+                return String(id) === String(offering.professorId);
+              })[0];
+              extend(request, {
+                fullName: student.fullName,
+                golestanNumber: student.golestanNumber,
+                degree: student.degree,
+                courseName: course.name,
+                courseNumber: course.number,
+                professorFullName: professor.fullName,
+                professorGolestanNumber: professor.golestanNumber,
+                isChiefTA: request.isChiefTA ? 'بله' : 'خیر'
+              });
+              return true;
+            }
+          });
+        }
+      });
     });
-  }), update());
-  onEvent([fullNameInput, golestanNumberInput], ['input', 'pInput'], update);
+    return update();
+  });
+  onEvent([fullNameInput, golestanNumberInput, courseNameInput, courseNumberInput, professorFullNameInput, professorGolestanNumberInput], ['input', 'pInput'], update);
   return view;
 });
 
 
-},{"../../components/restrictedInput/number":15,"../../components/table/searchBoxStyle":18,"../../utils":38,"../../utils/component":34,"./crudPage":53}],61:[function(require,module,exports){
+},{"../../components/restrictedInput/number":15,"../../components/table":17,"../../components/table/searchBoxStyle":18,"../../utils":38,"../../utils/component":34}],61:[function(require,module,exports){
 var component, dropdown, extend, generateId, modal, numberInput, ref, toEnglish;
 
 component = require('../../../utils/component');
@@ -7954,7 +7984,7 @@ var component, sendEmail;
 
 component = require('../../../utils/component');
 
-sendEmail = require('./sendEmail');
+sendEmail = require('../sendEmail');
 
 module.exports = component('requestForAssistantsExtras', function(arg, arg1) {
   var E, _sendEmail, dom, events, goToRequestForAssistants, hide, offeringIds, onEvent, professors, returnObject, sendEmailToProfessors, sendEmailToStudents, setStyle, show, students, view;
@@ -7962,30 +7992,28 @@ module.exports = component('requestForAssistantsExtras', function(arg, arg1) {
   offeringIds = arg1.offeringIds, goToRequestForAssistants = arg1.goToRequestForAssistants;
   E = dom.E, setStyle = dom.setStyle, show = dom.show, hide = dom.hide;
   onEvent = events.onEvent;
-  view = [
-    offeringIds ? [
-      E('span', {
-        marginRight: 10
-      }, "شما در حال مشاهده درخواست‌های مربوط به " + offeringIds.length + " فراخوان هستید."), (function() {
-        var button;
-        button = E({
-          "class": 'btn btn-default',
-          marginRight: 10
-        }, 'مشاهده همه درخواست‌ها');
-        onEvent(button, 'click', function() {
-          return goToRequestForAssistants();
-        });
-        return button;
-      })()
-    ] : void 0, E({
-      "class": 'btn-group',
+  view = E('span', null, offeringIds ? [
+    E('span', {
       marginRight: 10
-    }, hide(sendEmailToStudents = E({
-      "class": 'btn btn-default'
-    })), hide(sendEmailToProfessors = E({
-      "class": 'btn btn-default'
-    })))
-  ];
+    }, "شما در حال مشاهده درخواست‌های مربوط به " + offeringIds.length + " فراخوان هستید."), (function() {
+      var button;
+      button = E({
+        "class": 'btn btn-default',
+        marginRight: 10
+      }, 'مشاهده همه درخواست‌ها');
+      onEvent(button, 'click', function() {
+        return goToRequestForAssistants();
+      });
+      return button;
+    })()
+  ] : void 0, E({
+    "class": 'btn-group',
+    marginRight: 10
+  }, hide(sendEmailToStudents = E({
+    "class": 'btn btn-default'
+  })), hide(sendEmailToProfessors = E({
+    "class": 'btn btn-default'
+  }))));
   _sendEmail = E(sendEmail);
   students = professors = void 0;
   onEvent(sendEmailToProfessors, 'click', function() {
@@ -8041,7 +8069,7 @@ module.exports = component('requestForAssistantsExtras', function(arg, arg1) {
 });
 
 
-},{"../../../utils/component":34,"./sendEmail":68}],66:[function(require,module,exports){
+},{"../../../utils/component":34,"../sendEmail":68}],66:[function(require,module,exports){
 var component, credit, crudPage, dropdown, extend, extras, multiselect, ref, searchBoxStyle, stateSyncedDropdown, textIsInSearch,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -8412,11 +8440,11 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
 },{"../../../utils/component":34,"../../../utils/dom":36}],68:[function(require,module,exports){
 var component, generateId, modal;
 
-component = require('../../../utils/component');
+component = require('../../utils/component');
 
-modal = require('../../../singletons/modal');
+modal = require('../../singletons/modal');
 
-generateId = require('../../../utils/dom').generateId;
+generateId = require('../../utils/dom').generateId;
 
 module.exports = component('requestForAssistantsExtras', function(arg) {
   var E, contents, disable, dom, enable, events, hide, id0, id1, message, onEvent, returnObject, service, setStyle, show, title;
@@ -8479,7 +8507,7 @@ module.exports = component('requestForAssistantsExtras', function(arg) {
 });
 
 
-},{"../../../singletons/modal":33,"../../../utils/component":34,"../../../utils/dom":36}],69:[function(require,module,exports){
+},{"../../singletons/modal":33,"../../utils/component":34,"../../utils/dom":36}],69:[function(require,module,exports){
 var component, generateId, stateSyncedDropdown, toEnglish;
 
 component = require('../../utils/component');
@@ -9227,8 +9255,76 @@ courseX = extend({}, courseAdorner, {
 
 
 },{"../../../../utils":38}],77:[function(require,module,exports){
-arguments[4][68][0].apply(exports,arguments)
-},{"../../../singletons/modal":33,"../../../utils/component":34,"../../../utils/dom":36,"dup":68}],78:[function(require,module,exports){
+var component, generateId, modal;
+
+component = require('../../../utils/component');
+
+modal = require('../../../singletons/modal');
+
+generateId = require('../../../utils/dom').generateId;
+
+module.exports = component('requestForAssistantsExtras', function(arg) {
+  var E, contents, disable, dom, enable, events, hide, id0, id1, message, onEvent, returnObject, service, setStyle, show, title;
+  dom = arg.dom, events = arg.events, service = arg.service, returnObject = arg.returnObject;
+  E = dom.E, setStyle = dom.setStyle, show = dom.show, hide = dom.hide, enable = dom.enable, disable = dom.disable;
+  onEvent = events.onEvent;
+  contents = [
+    E({
+      "class": 'form-group'
+    }, E('label', {
+      "for": id0 = generateId()
+    }, 'موضوع ایمیل'), title = E('input', {
+      id: id0,
+      "class": 'form-control'
+    })), E({
+      "class": 'form-group'
+    }, E('label', {
+      "for": id1 = generateId()
+    }, 'متن ایمیل'), message = E('textarea', {
+      id: id1,
+      "class": 'form-control',
+      minHeight: 100,
+      minWidth: '100%',
+      maxWidth: '100%'
+    }))
+  ];
+  onEvent([title, message], 'input', function() {
+    return modal.instance.setEnabled(title.value() && message.value());
+  });
+  return returnObject({
+    show: function(ids) {
+      setStyle(title, {
+        value: ''
+      });
+      setStyle(message, {
+        value: ''
+      });
+      return modal.instance.display({
+        enabled: false,
+        autoHide: true,
+        title: 'ارسال ایمیل',
+        submitText: 'ارسال',
+        closeText: 'لغو',
+        contents: contents,
+        submit: function() {
+          disable([title, message]);
+          return service.sendEmail({
+            ids: ids,
+            title: title.value(),
+            message: message.value()
+          }).then(function() {
+            return enable([title, message]);
+          })["catch"](function() {
+            return enable([title, message]);
+          });
+        }
+      });
+    }
+  });
+});
+
+
+},{"../../../singletons/modal":33,"../../../utils/component":34,"../../../utils/dom":36}],78:[function(require,module,exports){
 var body, component, document, ref, table;
 
 component = require('../../../utils/component');

@@ -2,7 +2,7 @@ component = require '../../../utils/component'
 crudPage = require '../crudPage'
 credit = require './credit'
 multiselect = require './multiselect'
-viewRequestForAssistants = require './viewRequestForAssistants'
+extras = require './extras'
 searchBoxStyle = require '../../../components/table/searchBoxStyle'
 dropdown = require '../../../components/dropdown'
 stateSyncedDropdown = require '../../../components/dropdown/stateSynced'
@@ -44,7 +44,7 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
     entityName: 'فراخوان'
     requiredStates: ['offerings', 'courses', 'professors', 'terms', 'currentTerm', 'requestForAssistants']
     extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
-    extraButtons: viewRequestForAssistantsInstance = E viewRequestForAssistants, goToRequestForAssistants
+    extraButtons: extrasInstance = E extras, goToRequestForAssistants
     headers: [
       {name: 'نام درس', key: 'courseName', searchBox: courseNameInput}
       {name: 'نام استاد', key: 'professorName', searchBox: professorNameInput}
@@ -78,7 +78,7 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
     ]
     onTableUpdate: (descriptors) ->
       multiselectInstance.setChecked descriptors
-      viewRequestForAssistantsInstance.update descriptors
+      extrasInstance.update descriptors
     credit: E(credit).credit
     deleteItems: (offerings) ->
       service.deleteOfferings offerings.map ({id}) -> id

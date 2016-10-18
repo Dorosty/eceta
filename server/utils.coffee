@@ -24,7 +24,7 @@ unless module.dynamic
   app.use bodyParser.json()
   app.use cookieParser()
   server = http.Server app
-  server.listen 80
+  server.listen 9090
   app.use '/assets', express.static clientDir + '/assets/'
   app.get '/', (req, res) ->
     res.send '
