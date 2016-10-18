@@ -5,7 +5,7 @@ module.exports = component 'offeringsExtras', ({dom, events, returnObject}, {goT
   {E, setStyle, show, hide} = dom
   {onEvent} = events
 
-  E 'span', null,
+  view = E 'span', null,
     hide sendEmailToProfessors = E class: 'btn btn-default', marginRight: 10
     hide viewRequestForAssistants = E class: 'btn btn-default', marginRight: 10
 
