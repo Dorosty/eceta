@@ -109,7 +109,9 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
         row.tds.forEach (td) ->
           setStyle td, cursor: 'pointer'
         notClickableTds = row.tds.filter (_, i) -> headers[i].notClickable
-        row.offs.push onEvent row.tr, 'click', notClickableTds.concat(row.checkboxTd), ->
+        if properties.multiSelect
+          notClickableTds.push row.checkboxTd
+        row.offs.push onEvent row.tr, 'click', notClickableTds, ->
           handlers.select descriptor.entity
       row
 

@@ -73,6 +73,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
 
   getServiceData = ->
     person =
+      type: type.value()
       fullName: fullName.value()
       email: email.value()
       canLoginWithEmail: canLoginWithEmail.checked()
@@ -128,6 +129,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
         setStyle golestanNumber, value: ''
         setStyle email, value: ''
         setStyle canLoginWithEmail, value: ''
+        setStyle canLoginWithEmail, checked: false
       modal.instance.display
         enabled: isEdit
         autoHide: true

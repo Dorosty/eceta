@@ -4,8 +4,9 @@ gradeInput = require '../../components/restrictedInput/grade'
 {generateId} = require '../../utils/dom'
 {toEnglish} = require '../../utils'
 
-module.exports = component 'studentRequestForAssistant', ({dom, state, service, returnObject}) ->
-  {E, text, setStyle, empty} = require dom
+module.exports = component 'studentRequestForAssistant', ({dom, events, state, service, returnObject}) ->
+  {E, text, append, empty, setStyle, empty} = dom
+  {onEvent, onEnter} = events
 
   ids = [0..2].map -> generateId()   
 
@@ -37,7 +38,8 @@ module.exports = component 'studentRequestForAssistant', ({dom, state, service, 
     modal.instance.submit()
 
   display = (isEdit) -> (offering) ->
-    state.all allowNull: true, once: true, ['grades', 'gpa', 'isTrained'], ([gradeValues = {}, gpaValue, isTrainedValue]) ->
+    empty gradeInputsPlaceholder
+    state.all ['grades', 'gpa', 'isTrained'], allowNull: true, once: true, ([gradeValues = {}, gpaValue, isTrainedValue]) ->
       grades = offering.requiredCourses.map ({id, name}) ->
         input = E gradeInput
         id = generateId()
@@ -59,6 +61,7 @@ module.exports = component 'studentRequestForAssistant', ({dom, state, service, 
         autoHide: true
         title: "ثبت درخواست دستیاری برای درس #{offering.courseName}"
         submitText: if isEdit then 'ویرایش درخواست' else 'ثبت'
+        closeText: 'بستن'
         contents: contents
         submit: ->
           offering.requiredCourses.forEach ({id}, i) ->
@@ -71,10 +74,10 @@ module.exports = component 'studentRequestForAssistant', ({dom, state, service, 
 
           service.sendRequestForAssistant
             offeringId: offering.id
-            gpa: +toEnglish gpa.value
-            grades: grades.map (grade, i) -> grade: +toEnglish(grade.value), courseId: +offering.requiredCourses[i].id
-            isTrained: isTrained.checked
-            message: message.value
+            gpa: +toEnglish gpa.value()
+            grades: grades.map (grade, i) -> grade: +toEnglish(grade.value()), courseId: +offering.requiredCourses[i].id
+            isTrained: isTrained.checked()
+            message: message.value()
 
   returnObject
     send: display false

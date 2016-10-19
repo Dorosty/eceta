@@ -357,7 +357,7 @@ getStudentRequestForAssistants = (sql, req) ->
   sql.select 'staticData', 'value', key: 'currentTerm'
   .then ([value: currentTerm]) ->
     sql.select ['requestForAssistants', 'offerings'], [['id', 'status', 'isTrained', 'message', 'offeringId', 'studentId', 'gpa']],
-      query: 'x0."studentId" = % AND x0."offeringId" = x1.id AND x1."termId" = %', values: [personId, currentTerm]
+      query: 'x0."studentId" = % AND x0."offeringId" = x1.id AND x1."termId" = %', values: [req.personId, currentTerm]
   .then (requestForAssistants) ->
     all requestForAssistants.map (requestForAssistant) ->
       requestForAssistant.isTrained = !!requestForAssistant.isTrained

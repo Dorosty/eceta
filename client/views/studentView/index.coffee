@@ -27,21 +27,37 @@ module.exports = component 'studentView', ({dom, events, state, service, others}
   setStyle termDropdown.input, searchBoxStyle.input
 
   courseNameInput = E 'input', searchBoxStyle.textbox
-  courseNameInput = E 'input', searchBoxStyle.textbox
+  professorNameInput = E 'input', searchBoxStyle.textbox
 
-  view = [
+  view = E 'span', null,
     noData = E null, 'در حال بارگزاری...'
     yesData = E null,
       E marginTop: 30,
         yourRequests = E class: 'panel panel-success',
           E class: 'panel-heading',
-            E 'h3', class: 'panel-title', 'درخواست‌های ارسال شده توسط شما در این ترم'
+            E 'h3', class: 'panel-title', 'درخواست‌های ارسال شده توسط شما در ترم جاری'
           setntTable = table {
             headers: [
               {name: 'نام درس', key: 'courseName'}
               {name: 'نام استاد', key: 'professorName'}
+              {
+                name: ''
+                styleTd: (offering, td, offs) ->
+                  setStyle td, text: 'حذف', color: 'red', cursor: 'pointer', width: 100
+                  offs.push onEvent td, 'click', ->
+                    modal.instance.display
+                      contents: E 'p', null, "آیا از حذف این #{selectedEntities.length} درخواست اطمینان دارید؟"
+                      submitText: 'حذف'
+                      submitType: 'danger'
+                      closeText: 'انصراف'
+                      submit: ->
+                        tableInstance.cover()
+                        service.deleteRequestForAssistants [offering.id]
+                        .fin -> tableInstance.uncover()
+                        modal.instance.hide()
+              }
             ]
-            hanlders:
+            handlers:
               select: (offering) -> requestForAssistantPage.edit offering
           }
       E class: 'panel panel-info',
@@ -51,40 +67,16 @@ module.exports = component 'studentView', ({dom, events, state, service, others}
           headers: [
             {name: 'نام درس', key: 'courseName', searchBox: courseNameInput}
             {name: 'نام استاد', key: 'professorName', searchBox: professorNameInput}
-            {name: 'ترم', key: 'termId', searchBox, termDropdown}
-            {
-              name: 'حذف'
-              styleTd: (offering, td, offs) ->
-                setStyle td, color: 'red', width: 100
-                offs.push onEvent td, 'click', ->
-                  modal.instance.display
-                    contents: E 'p', null," آیا از حذف این #{selectedEntities.length} درخواست اطمینان دارید؟"
-                    submitText: 'حذف'
-                    submitType: 'danger'
-                    closeText: 'انصراف'
-                    submit: ->
-                      tableInstance.cover()
-                      service.deleteRequestForAssistants [offering.id]
-                      .fin -> tableInstance.uncover()
-                      modal.instance.hide()
-            }
+            {name: 'ترم', key: 'termId', searchBox: termDropdown}
           ]
-          hanlders:
+          handlers:
             select: (offering) -> requestForAssistantPage.send offering
         }
-  ]
 
   loading ['terms', 'offerings', 'courses', 'professors', 'requestForAssistants'], yesData, noData
 
-  state.all ['offerings', 'courses', 'professors', 'requestForAssistants'], ([offerings, courses, professors, requestForAssistants]) ->
-
-    offerings = offerings.map (offering) ->
-      extend {}, offering,
-        courseName: (courses.filter ({id}) -> String(id) is String(offering.courseId))[0]?.name ? ''
-        professorName: (professors.filter ({id}) -> String(id) is String(offering.professorId))[0]?.fullName ? ''
-        requestForAssistant: (requestForAssistants.filter ({offeringId}) -> String(offeringId) is String(offering.id))[0]
-        requiredCourses: offering.requiredCourses.map (courseId) -> id: courseId, name: (courses.filter ({id}) -> String(id) is String(courseId))[0]?.name ? ''
-
+  offerings = undefined
+  update = ->
     courseName = courseNameInput.value()
     professorName = professorNameInput.value()
     term = termDropdown.value()
@@ -103,5 +95,16 @@ module.exports = component 'studentView', ({dom, events, state, service, others}
       show yourRequests
     else
       hide yourRequests
+
+  state.all ['offerings', 'courses', 'professors', 'requestForAssistants'], ([_offerings, courses, professors, requestForAssistants]) ->
+    console.log requestForAssistants
+    offerings = _offerings.map (offering) ->
+      extend {}, offering,
+        courseName: (courses.filter ({id}) -> String(id) is String(offering.courseId))[0]?.name ? ''
+        professorName: (professors.filter ({id}) -> String(id) is String(offering.professorId))[0]?.fullName ? ''
+        requestForAssistant: (requestForAssistants.filter ({offeringId}) -> String(offeringId) is String(offering.id))[0]
+        requiredCourses: offering.requiredCourses.map (courseId) -> id: courseId, name: (courses.filter ({id}) -> String(id) is String(courseId))[0]?.name ? ''
+
+  onEvent [termDropdown.input, professorNameInput, courseNameInput], ['input', 'pInput'], update
 
   view
