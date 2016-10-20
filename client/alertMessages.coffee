@@ -52,7 +52,7 @@ exports.do = ->
   ].forEach ({name, persianName}) ->
     addMessage "create#{uppercaseFirst(name)}", success: "#{persianName} با موفقیت ایجاد شد."
     addMessage "update#{uppercaseFirst(name)}", success: "تغییرات #{persianName} با موفقیت ذخیره شد."
-    addMessage "delete#{uppercaseFirst(name)}", success: "#{persianName} با موفقیت حذف شد."
+    addMessage "delete#{uppercaseFirst(name)}s", success: "#{persianName} با موفقیت حذف شد."
   ['createPerson', 'updatePerson'].forEach (x) ->
     addMessage x, failure: (error) ->
       switch error

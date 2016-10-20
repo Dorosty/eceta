@@ -42,14 +42,14 @@ module.exports = component 'studentRequestForAssistant', ({dom, events, state, s
     state.all ['grades', 'gpa', 'isTrained'], allowNull: true, once: true, ([gradeValues = {}, gpaValue, isTrainedValue]) ->
       grades = offering.requiredCourses.map ({id, name}) ->
         input = E gradeInput
-        id = generateId()
+        inputId = generateId()
         setStyle input, class: 'form-control', value: if offering.requestForAssistant
-            (offering.requestForAssistant.grades.filter ({courseId}) -> String(courseId) is String(id))[0].grade
+            offering.requestForAssistant.grades.filter(({courseId}) -> String(courseId) is String(id))[0].grade
           else
             gradeValues[id]
         onEvent input, ['input', 'pInput'], setEnabled
         append gradeInputsPlaceholder, E class: 'form-group',
-          E 'label', for: id, "نمره درس #{name}"
+          E 'label', for: inputId, "نمره درس #{name}"
           input
         input
 
@@ -65,12 +65,12 @@ module.exports = component 'studentRequestForAssistant', ({dom, events, state, s
         contents: contents
         submit: ->
           offering.requiredCourses.forEach ({id}, i) ->
-            gradeValues[id] = grades[i].value
+            gradeValues[id] = grades[i].value()
           state.grades.set gradeValues
 
-          state.gpa.set gpa.value
+          state.gpa.set gpa.value()
 
-          state.isTrained.set isTrained.checked
+          state.isTrained.set isTrained.checked()
 
           service.sendRequestForAssistant
             offeringId: offering.id

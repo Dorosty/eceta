@@ -1,9 +1,9 @@
 component = require '../../../utils/component'
 sendEmail = require './sendEmail'
-Q = require '../../../q'
 requiredCourses = require './requiredCourses'
 cardView = require './cardView'
 tableView = require './tableView'
+Q = require '../../../q'
 
 module.exports = component 'professorOfferingView', ({dom, events, state, service, returnObject}) ->
   {E, setStyle, show, hide, addClass, removeClass} = dom
@@ -37,8 +37,8 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
           cardViewButton = E 'button', class: 'btn btn-primary',
             E class: 'fa fa-bars', cursor: 'pointer'
       E 'h4', fontWeight: 'bold', marginBottom: 35, 'لیست درخواست‌های دانشجویان'
-      hide tableViewInstance = requestsList, E tableView, {changeRequestForAssistant}
-      cardViewInstance = requestsList, E cardView, {changeRequestForAssistant}
+      hide tableViewInstance = E tableView, {changeRequestForAssistant}
+      cardViewInstance = E cardView, {changeRequestForAssistant}
     ]
 
   onEvent cardViewButton, 'click', ->
@@ -106,3 +106,5 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
       else
         show noRequestForAssistants
         hide yesRequestForAssistants
+
+  view

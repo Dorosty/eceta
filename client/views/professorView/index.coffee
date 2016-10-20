@@ -2,9 +2,10 @@ component = require '../../utils/component'
 offeringView = require './offeringView'
 {extend} = require '../../utils'
 
-module.exports = component 'profesorView', ({dom, events, state, service}) ->
-  {E, append, empty, addClass, removeClass, hide, show, loading} = dom
+module.exports = component 'profesorView', ({dom, events, state, service, others}) ->
+  {E, append, empty, addClass, removeClass, hide, show} = dom
   {onEvent} = events
+  {loading} = others
 
   service.getProfessorOfferings()
   service.getCourses()
@@ -26,8 +27,8 @@ module.exports = component 'profesorView', ({dom, events, state, service}) ->
   handleSelectedOffering = ->
     unless selectedOfferingId?
       return
-    show offeringView
-    offeringViewInstance.update offerings.filter ({id}) -> String(id) is String(selectedOfferingId)[0]
+    show offeringViewInstance
+    offeringViewInstance.update offerings.filter(({id}) -> String(id) is String(selectedOfferingId))[0]
 
   handleOfferings = ->
     empty offeringsList

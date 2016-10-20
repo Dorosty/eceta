@@ -90,8 +90,8 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
       multiselectInstance.setChecked descriptors
       extrasInstance.update descriptors
     credit: E(credit).credit
-    deleteItem: (requestForAssistants) ->
-      service.deleteRequestForAssistants requestForAssistant.map ({id}) -> id
+    deleteItems: (requestForAssistants) ->
+      service.deleteRequestForAssistants requestForAssistants.map ({id}) -> id
 
   requestForAssistants = []
   update = ->

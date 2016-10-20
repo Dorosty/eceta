@@ -13,6 +13,8 @@ module.exports = component 'professorOfferingsCardView', ({dom, events, state, r
 
   update = ->
     empty view
+    unless offering
+      return
     append view, offering.requestForAssistants.map (requestForAssistant) ->
       E class: "panel panel-#{if requestForAssistant.status is 'تایید شده' then 'success' else if requestForAssistant.status is 'رد شده' then 'danger' else 'info'}",
         E class: 'panel-heading',
@@ -34,7 +36,7 @@ module.exports = component 'professorOfferingsCardView', ({dom, events, state, r
                   button
               E float: 'left', marginLeft: 10, 'تغییر وضعیت درخواست:'
           E 'h3', class: 'panel-title', fontWeight: 'bold',
-            text "#{fullName} ("
+            text "#{requestForAssistant.fullName} ("
             E 'a', cursor: 'pointer', fontWeight: 'lighter', fontSize: 13, target: '_blank', href: "mailto:#{requestForAssistant.email}", requestForAssistant.email
             text ')'
         body = E class: 'panel-body',
@@ -55,7 +57,7 @@ module.exports = component 'professorOfferingsCardView', ({dom, events, state, r
               border = E class: 'col-md-4', borderLeft: '1px dashed #AAA', borderRight: '1px dashed #AAA',
                 [
                   E fontWeight: 'bold', marginBottom: 10, 'پیام دانشجو: '
-                  E 'span', null, requestForAssistant.replace '\n', '<br />'
+                  E 'span', englishHtml: requestForAssistant.message.replace '\n', '<br />'
                 ]
               setTimeout ->
                 setStyle border, height: body.offsetHeight - 30

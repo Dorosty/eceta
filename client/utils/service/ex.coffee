@@ -4,7 +4,7 @@ stateChangingServices = require './stateChangingServices'
 {gets, posts, cruds} = require './names'
 {get, post} = require './getPost'
 {eraseCookie} = require '../cookies'
-{uppercaseFirst} = require '..'
+{extend, uppercaseFirst} = require '..'
 
 exports.logout = (automatic) ->
   unless automatic is true
@@ -43,6 +43,17 @@ exports.setStaticData = (x) ->
       if x.key is 'currentTerm'
         state.currentTerm.set x.value
 
+exports.sendRequestForAssistant = (requestForAssistant) ->
+  post 'sendRequestForAssistant', requestForAssistant
+  .then (id) ->
+    state.all ['requestForAssistants', 'offerings', 'currentTerm'], once: true, ([requestForAssistants, offerings, currentTerm]) ->
+      [offering] =  offerings.filter ({id}) -> String(id) is String(requestForAssistant.offeringId)
+      if offering.termId is currentTerm
+        extend requestForAssistant, {id}
+        requestForAssistants = requestForAssistants.filter ({offeringId}) -> String(offeringId) isnt String(requestForAssistant.offeringId)
+        requestForAssistants.push requestForAssistant
+        state.requestForAssistants.set requestForAssistants
+
 gets.forEach (x) ->
   exports[x] = (params) ->
     get x, params
@@ -52,23 +63,24 @@ posts.forEach (x) ->
     post x, params
 
 cruds.forEach ({name, persianName}) ->
-  posts.push serviceName = "update#{uppercaseFirst(name)}"  
-  exports[serviceName] = (entity) ->
-    post serviceName, entity
-    .then ->
-      state["#{name}s"].on once: true, (entities) ->
-        entities = entities.filter ({id}) -> id isnt entity.id
-        entities.push entity
-        state["#{name}s"].set entities
-
-cruds.forEach ({name, persianName}) ->
   posts.push serviceName = "create#{uppercaseFirst(name)}"
   exports[serviceName] = (entity) ->
     post serviceName, entity
     .then (id) ->
       state["#{name}s"].on once: true, (entities) ->
+        entities = entities.slice()
         extend entity, {id}
         entities.push entity
+        state["#{name}s"].set entities
+
+cruds.forEach ({name, persianName}) ->
+  posts.push serviceName = "update#{uppercaseFirst(name)}"  
+  exports[serviceName] = (entity) ->
+    post serviceName, entity
+    .then ->
+      state["#{name}s"].on once: true, (entities) ->
+        [previousEntitiy] = entities.filter ({id}) -> id is entity.id
+        previousEntitiy = extend {}, previousEntitiy, entity
         state["#{name}s"].set entities
 
 cruds.forEach ({name, persianName}) ->

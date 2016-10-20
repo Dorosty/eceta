@@ -15,14 +15,17 @@ module.exports = component 'professorOfferingsTableView', ({dom, events, state, 
   update = ->
     hidePopovers.forEach (x) -> x()
     empty view
+    unless offering
+      return
     append view, tableInstance = table
       properties:
         notStriped: true
       headers: [
         name: 'نام', key: 'fullName'
       ].concat(offering.requiredCourses.map (courseId) ->
+        [course] = courses.filter ({id}) -> String(id) is String(courseId)
         {
-          name: "نمره درس #{getCourse(courseId).name}"
+          name: "نمره درس #{course.name}"
           getValue: (requestForAssistant) ->
             [course] = courses.filter ({id}) -> String(id) is String(courseId)
             [grade] = requestForAssistant.grades.filter ({courseId}) -> String(courseId) is String(course.id)
@@ -161,9 +164,9 @@ module.exports = component 'professorOfferingsTableView', ({dom, events, state, 
 
   returnObject
     update: (_offering) ->
-      if _offering.id is offering.id and JSON.stringify(_offering.requiredCourses) is JSON.stringify(offering.requiredCourses) and _offering.isClosed is offering.isClosed
+      if not offering or _offering.id is offering.id and JSON.stringify(_offering.requiredCourses) is JSON.stringify(offering.requiredCourses) and _offering.isClosed is offering.isClosed
         unless popoverOpen
-          tableInstance.setData offering.requestForAssistants
+          tableInstance?.setData offering.requestForAssistants
         return
       offering = _offering
       update()

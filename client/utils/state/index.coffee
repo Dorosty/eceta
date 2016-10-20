@@ -48,6 +48,28 @@ pubSubs = names.map (name) ->
   name: name
   pubSub: exports[name] = createPubSub name
 
+exports.all = ->
+  if arguments.length is 2
+    [keys, callback] = arguments
+    options = {}
+  else
+    [keys, options, callback] = arguments
+
+  resolved = {}
+  values = {}
+  unsubscribes = keys.map (key) ->
+    exports[key].on options, (value) ->
+      resolved[key] = true
+      values[key] = value
+      if (keys.every (keys) -> resolved[keys])
+        callback keys.map (key) -> values[key]
+
+  unsubscribe = ->
+    unsubscribes.forEach (unsubscribe) -> unsubscribe()
+
+  unsubscribe
+
+
 exports.instance = (thisComponent) ->
 
   exports = {}

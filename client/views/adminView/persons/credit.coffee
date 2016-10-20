@@ -55,7 +55,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
 
   allInputs = [type.input, fullName, email, canLoginWithEmail, degree.input]
 
-  onEvent allInputs, ['input, pInput', 'change'], ->
+  onEvent allInputs, ['input', 'pInput', 'change'], ->
     modal.instance.setEnabled ~type.value() and fullName.value() and (type.value() isnt 'دانشجو' or ~degree.value())
   
   onEnter allInputs, ->
@@ -75,7 +75,7 @@ module.exports = component 'personsCredit', ({dom, events, state, service, retur
     person =
       type: type.value()
       fullName: fullName.value()
-      email: email.value()
+      email: email.value() or null
       canLoginWithEmail: canLoginWithEmail.checked()
       golestanNumber: if golestanNumber.value() then toEnglish golestanNumber.value() else null
     switch type.value()

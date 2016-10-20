@@ -166,6 +166,10 @@ exports.instance = (thisComponent) ->
     Object.keys(style).forEach (key) ->
       value = style[key]
       switch key
+        when 'html'
+          element.innerHTML = toPersian value
+        when 'englishHtml'
+          element.innerHTML = value ? ''
         when 'text'
           element.textContent = element.innerText = toPersian value
         when 'englishText'

@@ -51,6 +51,7 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
               returnValue = x
               true
           if shouldReturn
+            returnValue.entity = entity
             returnValue
           else
             {entity}

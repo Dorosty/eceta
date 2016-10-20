@@ -24,7 +24,6 @@ exports.posts = [
 
   'addRequiredCourse'
   'removeRequiredCourse'
-  'sendRequestForAssistant'
   'changeRequestForAssistant'
   'deleteRequestForAssistant'
   'closeOffering'
@@ -44,6 +43,7 @@ exports.others = [
   'logout'
   'casLogin'
   'setStaticData'
+  'sendRequestForAssistant'
 ]
 
 exports.states = [

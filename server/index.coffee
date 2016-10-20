@@ -169,39 +169,6 @@ config (methodName, personId, response, sql, req) ->
   unless personId
     return response.loggedOut = true
 
-  return unless methodName is 'post'
-
-  sql.select 'persons', ['id', 'fullName', 'email', 'golestanNumber', 'type'], id: personId
-  .then ([person]) ->
-    unless person
-      return response.loggedOut = true
-
-    extrasQ = switch person.type
-      when 'دانشجو'
-        sql.select 'students', 'degree', id: person.id
-        .then ([extras]) ->
-          extend person, extras
-          convert.numberDegreeToStringDegree person
-      
-    convert.nubmerTypeToStringType person
-
-    person.flattenedPermissions = []
-
-    permissionsQ = sql.select ['permissions', 'personPermissions'], ['id'],
-      query: 'x0.id = x1."permissionId" AND x1."personId" = %', values: [person.id]
-    .then (permissions) ->
-      person.flattenedPermissions = person.flattenedPermissions.concat permissions.map ({id}) -> id
-
-    permissionsFromRolesQ = sql.select ['permissions', 'rolePermissions', 'personRoles'], ['id'],
-      query: 'x0.id = x1."permissionId" AND x1."roleId" = x2."roleId" AND x2."personId" = %', values: [person.id]
-    .then (permissions) ->
-      person.flattenedPermissions = person.flattenedPermissions.concat permissions.map ({id}) -> id
-
-    all [extrasQ, permissionsQ, permissionsFromRolesQ]
-    .then ->
-      delete person.id
-      extend response, {person}
-
 get 'loginEmailValid', (sql, req) ->
   {email} = req.query
   sql.exists 'regularLogins', query: 'x0.email = % AND x0."passwordHash" IS NOT NULL', values: [email]
@@ -249,15 +216,23 @@ post 'casLogin', (sql, req) ->
   throw error: 'not you' unless golestanNumber in golestanNumbers
   sql.select 'persons', 'id', {golestanNumber}
   .then ([{id}]) ->
-    setPersonId: id
-    setData: {}
+    req.personId = id
+    getPerson sql, req
+    .then (person) ->
+      person: person
+      setPersonId: id
+      setData: {}
 
 post 'verify', (sql, req) ->
   {email, verificationCode} = req.body
   sql.update 'regularLogins', {}, {email, verificationCode}, 'personId'
   .then (regularLogins) ->
     if regularLogins.length
-      setPersonId: regularLogins[0].personId
+      req.personId = regularLogins[0].personId
+      getPerson sql, req
+      .then (person) ->
+        person: person
+        setPersonId: regularLogins[0].personId
 
 
 
@@ -273,6 +248,8 @@ post 'ping', (sql, req) ->
 
     Qs = {}
 
+    Qs['person'] = getPerson sql, req
+    Qs['courses'] = getCourses sql, req
     if person.type is 'کارشناس آموزش'
       Qs['permissions'] = getPermissions sql, req
       Qs['roles'] = getRoles sql, req
@@ -280,26 +257,56 @@ post 'ping', (sql, req) ->
       Qs['requestForAssistants'] = getRequestForAssistants sql, req
     if person.type is 'دانشجو'      
       Qs['professors'] = getProfessors sql, req
-      Qs['studentRequestForAssistants'] = getStudentRequestForAssistants sql, req
+      Qs['requestForAssistants'] = getStudentRequestForAssistants sql, req
     if person.type is 'استاد' or person.type is 'نماینده استاد'
       Qs['chores'] = getChores sql, req
-      Qs['professorOfferings'] = getProfessorOfferings sql, req
+      Qs['offerings'] = getProfessorOfferings sql, req
     if person.type is 'کارشناس آموزش' or person.type is 'دانشجو'
       Qs['currentTerm'] = getCurrentTerm sql, req
       Qs['terms'] = getTerms sql, req
       Qs['offerings'] = getOfferings sql, req
-    Qs['courses'] = getCourses sql, req
 
-    QNames = ['currentTerm', 'permissions', 'professors', 'roles', 'terms', 'courses', 'offerings', 'persons', 'chores', 'requestForAssistants']
-    all QNames.map (name) -> Qs[name]
+    all Object.keys(Qs).map (name) -> Qs[name]
     .then (data) ->
-      QNames.reduce ((response, name, i) ->
+      Object.keys(Qs).reduce ((response, name, i) ->
         if data[i]
           response[name] = data[i]
-        return response
+        response
       ), {}
 
-post 'getPerson', -> null
+getPerson = (sql, req) ->
+  sql.select 'persons', ['id', 'fullName', 'email', 'golestanNumber', 'type'], id: req.personId
+  .then ([person]) ->
+    return unless person
+
+    extrasQ = switch person.type
+      when 'دانشجو'
+        sql.select 'students', 'degree', id: person.id
+        .then ([extras]) ->
+          extend person, extras
+          convert.numberDegreeToStringDegree person
+      
+    convert.nubmerTypeToStringType person
+
+    person.flattenedPermissions = []
+
+    permissionsQ = sql.select ['permissions', 'personPermissions'], ['id'],
+      query: 'x0.id = x1."permissionId" AND x1."personId" = %', values: [person.id]
+    .then (permissions) ->
+      person.flattenedPermissions = person.flattenedPermissions.concat permissions.map ({id}) -> id
+
+    permissionsFromRolesQ = sql.select ['permissions', 'rolePermissions', 'personRoles'], ['id'],
+      query: 'x0.id = x1."permissionId" AND x1."roleId" = x2."roleId" AND x2."personId" = %', values: [person.id]
+    .then (permissions) ->
+      person.flattenedPermissions = person.flattenedPermissions.concat permissions.map ({id}) -> id
+
+    all [extrasQ, permissionsQ, permissionsFromRolesQ]
+    .then ->
+      delete person.id
+      person
+post 'getPerson', (sql, req) ->
+  getPerson sql, req
+  .then (person) -> {person}
 
 getPermissions = (sql, req) ->
   #
@@ -378,7 +385,7 @@ post 'getChores', (sql, req) ->
   .then (chores) -> {chores}
 
 getProfessorOfferings = (sql, req) ->
-  sql.select 'persons', ['type'], id: req.personId
+  sql.select 'persons', ['id', 'type'], id: req.personId
   .then ([person]) ->
     unless person
       return null
@@ -386,7 +393,7 @@ getProfessorOfferings = (sql, req) ->
 
     sql.select 'staticData', 'value', key: 'currentTerm'
     .then ([value: currentTerm]) ->
-      sql.select 'offerings', ['id', 'capacity', 'isClosed', 'courseId'], extend termId: currentTerm, (if person.type is 'استاد' then professorId: personId else deputyId: personId)
+      sql.select 'offerings', ['id', 'capacity', 'isClosed', 'courseId'], extend termId: currentTerm, (if person.type is 'استاد' then professorId: person.id else deputyId: person.id)
     .then (offerings) ->
       all offerings.map (offering) ->
         offering.isClosed = !!offering.isClosed
@@ -416,10 +423,10 @@ getProfessorOfferings = (sql, req) ->
                 extend requestForAssistant, {chores}
             ]
       .then ->
-        {offerings}
+        offerings
 post 'getProfessorOfferings', (sql, req) ->
   getProfessorOfferings sql, req
-  .then (professorOfferings) -> {professorOfferings}
+  .then (offerings) -> {offerings}
 
 getCurrentTerm = (sql, req) ->
   sql.select 'staticData', 'value', key: 'currentTerm'
@@ -475,7 +482,11 @@ post 'register', (sql, req) ->
   sql.update 'regularLogins', {passwordHash, verificationCode: null}, {email, verificationCode}, 'personId'
   .then (regularLogins) ->
     if regularLogins.length
-      setPersonId: regularLogins[0].personId
+      req.personId = regularLogins[0].personId
+      getPerson sql, req
+      .then (person) ->
+        person: person
+        setPersonId: regularLogins[0].personId
 
 post 'login', (sql, req) ->
   {email, password} = req.body
@@ -483,7 +494,11 @@ post 'login', (sql, req) ->
   sql.select 'regularLogins', ['id', 'email', 'personId'], query: 'x0.email = % AND x0."passwordHash" = %', values: [email, passwordHash]
   .then ([regularLogin]) ->
     throw 'wrong' unless regularLogin?
-    setPersonId: regularLogin.personId
+    req.personId = regularLogin.personId
+    getPerson sql, req
+    .then (person) ->
+      person: person
+      setPersonId: regularLogin.personId
 
 post 'changeEmail', (sql, req) ->
   {email} = req.body
@@ -504,9 +519,9 @@ post 'createPerson', (sql, req) ->
   sql.insert 'persons', convert.stringTypeToNumberType({fullName, email, golestanNumber, type}), true
   .catch (err) ->
     if ~err.detail.indexOf('email')
-      throw error: 'email'
+      throw 'email'
     else
-      throw error: 'golestanNumber'
+      throw 'golestanNumber'
   .then (personId) ->
 
     regularLoginQ = Q().then ->
@@ -545,7 +560,7 @@ post 'createPerson', (sql, req) ->
 
   .catch (error) ->
     if error in ['golestanNumber', 'email']
-      return {error}
+      throw {error}
     else
       throw error
 
@@ -563,9 +578,9 @@ post 'updatePerson', (sql, req) ->
         sql.update 'students', {degree}, id: personId
   .catch (err) ->
     if ~err.detail.indexOf('email')
-      throw error: 'email'
+      throw 'email'
     else
-      throw error: 'golestanNumber'
+      throw 'golestanNumber'
 
   regularLoginQ = if canLoginWithEmail and email
     sql.select 'regularLogins', ['email', 'passwordHash'], {personId}
@@ -592,7 +607,7 @@ post 'updatePerson', (sql, req) ->
   .then -> null
   .catch (error) ->
     if error in ['golestanNumber', 'email']
-      return {error}
+      throw {error}
     else
       throw error
 
@@ -679,9 +694,10 @@ post 'deleteOfferings', (sql, req) ->
 
 post 'updateRequestForAssistant', (sql, req) ->
   {id, gpa, message, isTrained, grades} = req.body
+  isTrained = +isTrained
   requestForAssistantId = id
   all [
-    sql.update {gpa, message, isTrained}, {id}
+    sql.update 'requestForAssistants', {gpa, message, isTrained}, {id}
     all grades.map ({courseId, grade}) ->
       unless grade
         sql.delete 'grades', {requestForAssistantId, courseId}
@@ -689,10 +705,11 @@ post 'updateRequestForAssistant', (sql, req) ->
         sql.exists 'grades', {requestForAssistantId, courseId}
         .then (exists) ->
           if exists
-            sql.insert 'grades', {grade}, {requestForAssistantId, courseId}
+            sql.update 'grades', {grade}, {requestForAssistantId, courseId}
           else
-            sql.update 'grades', {requestForAssistantId, courseId, grade}
+            sql.insert 'grades', {requestForAssistantId, courseId, grade}
   ]
+  .then -> null
 
 post 'sendRequestForAssistant', (sql, req) ->
   studentId = req.personId
@@ -706,19 +723,19 @@ post 'sendRequestForAssistant', (sql, req) ->
   .then (requestForAssistantId) ->
     all grades.map ({courseId, grade}) ->
       sql.insert 'grades', {requestForAssistantId, courseId, grade}
-  .then ->
-    all [
-      sql.select 'persons', ['fullName', 'email'], id: req.personId
-      .then ([person]) -> person
+    .then ->
+      all [
+        sql.select 'persons', ['fullName', 'email'], id: req.personId
+        .then ([person]) -> person
 
-      sql.select 'offerings', 'courseId', id: offeringId
-      .then ([{courseId}]) ->
-        sql.select 'courses', 'name', id: courseId
-        .then ([{name}]) -> name
-    ]
-    .then ([{fullName, email}, courseName]) ->
-      sendEmail(email, fullName).requestForAssistantSent courseName
-  .then -> null
+        sql.select 'offerings', 'courseId', id: offeringId
+        .then ([{courseId}]) ->
+          sql.select 'courses', 'name', id: courseId
+          .then ([{name}]) -> name
+      ]
+      .then ([{fullName, email}, courseName]) ->
+        sendEmail(email, fullName).requestForAssistantSent courseName
+    requestForAssistantId
 
 post 'deleteRequestForAssistants', (sql, req) ->
   {ids} = req.body
@@ -820,7 +837,7 @@ post 'sendEmail', (sql, req) ->
   {ids, title, message} = req.body
   ids.forEach (id) ->
     sql.select 'persons', ['fullName', 'email'], {id}
-    .then (email) ->
+    .then ([{fullName, email}]) ->
       if email
         sendMail email, title,
                     "#{message}\n

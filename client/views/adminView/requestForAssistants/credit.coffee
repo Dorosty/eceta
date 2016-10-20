@@ -62,7 +62,8 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
           grade = (requestForAssistant.grades.filter ({courseId}) -> String(courseId) is String(course.id))[0]?.grade
           append gradesContainer, g = E class: 'form-group',
             E 'label', for: id = generateId(), "نمره درس #{course.name}"
-            input = E 'input', id: id, class: 'form-control', value: grade
+            input = E gradeInput
+            setStyle input, id: id, class: 'form-control', value: grade
           onEnter g, ->
             modal.instance.submit()          
           {course, input}
@@ -89,9 +90,9 @@ module.exports = component 'requestForAssistantsCredit', ({dom, events, state, s
         submit: ->
           service.updateRequestForAssistant
             id: requestForAssistant.id
-            gpa: gpa.value()
+            gpa: toEnglish gpa.value()
             message: message.value()
             isTrained: isTrained.checked()
             grades: grades.map ({course, input}) ->
               courseId: course.id
-              grade: input.value()
+              grade: toEnglish input.value()

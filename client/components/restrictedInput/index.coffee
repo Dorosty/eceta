@@ -9,7 +9,7 @@ module.exports = component 'restrictedInput', ({dom, events, returnObject}, rege
 
   prevValue = ''
 
-  onEvent input, 'input', ->
+  onEvent input, ['input', 'pInput'], ->
     value = toEnglish input.value()
     if regex.test value
       prevValue = value

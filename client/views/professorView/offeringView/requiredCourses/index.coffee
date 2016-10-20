@@ -1,11 +1,13 @@
 component = require '../../../../utils/component'
 style = require './style'
+dropdown = require '../../../../components/dropdown'
+{generateId} = require '../../../../utils/dom'
 
-module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events, service, returnObject}) ->
+module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events, state, service, returnObject}) ->
   {E, setStyle, empty, append, show, hide} = dom
   {onEvent} = events
 
-  view = [
+  view = E 'span', null,
     E 'h4', fontWeight: 'bold', display: 'inline-block', 'لیست دروس مرتبط'
     E 'span', null, ' (درس‌هایی که دانشجو موظف است نمره خود را در آنها اعلام کند)'
     E margin: '10px 0 60px', position: 'relative',
@@ -14,7 +16,6 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
         E 'span', style.courseAdorner, '+ '
         E 'span', cursor: 'pointer', 'افزودن درس'
       cover = E position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'white', transition: '0.5s'
-  ]
 
   doCover = ->
     setStyle cover, opacity: 0.5, visibility: 'visible'
@@ -49,21 +50,22 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
   returnObject
     update: (_offering) ->
       offering = _offering
-      empty requiredCoursesList
-      append requiredCoursesList, offering.requiredCourses.map (courseId) ->
-        {name} = getCourse courseId
-        course = E style.course,
-          unless offerin.isClosed
-            x = E 'span', style.courseX, '× '
-          E 'span', null, name
-        onEvent x, 'click', ->
-          doCover()
-          service.removeRequiredCourse {courseId, offeringId: offering.id}
-          .fin doUncover
-        course
-      if offering.isClosed
-        hide addCourse
-      else
-        show addCourse
+      state.courses.on once: true, (courses) ->
+        empty requiredCoursesList
+        append requiredCoursesList, offering.requiredCourses.map (courseId) ->
+          [{name}] = courses.filter ({id}) -> String(id) is String(courseId)
+          course = E style.course,
+            unless offering.isClosed
+              x = E 'span', style.courseX, '× '
+            E 'span', null, name
+          onEvent x, 'click', ->
+            doCover()
+            service.removeRequiredCourse {courseId, offeringId: offering.id}
+            .fin doUncover
+          course
+        if offering.isClosed
+          hide addCourse
+        else
+          show addCourse
 
   view

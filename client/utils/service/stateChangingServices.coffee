@@ -7,12 +7,12 @@ module.exports =
   login:                           stateName: 'person'
   casLogin:                        stateName: 'person'
   verify:                          stateName: 'person'
-  addRequiredCourse:               stateName: 'proferrorOfferings'
-  removeRequiredCourse:            stateName: 'proferrorOfferings'
-  sendRequestForAssistant:         stateName: 'studentRequestForAssistants'
-  deleteRequestForAssistant:       stateName: 'studentRequestForAssistants'
-  changeRequestForAssistantState:  stateName: 'professorOfferings'
-  closeOffering:                   stateName: 'professorOfferings'
+  sendRequestForAssistant:         stateName: 'requestForAssistants'
+  deleteRequestForAssistant:       stateName: 'requestForAssistants'
+  addRequiredCourse:               stateName: 'offerings'
+  removeRequiredCourse:            stateName: 'offerings'
+  changeRequestForAssistantState:  stateName: 'offerings'
+  closeOffering:                   stateName: 'offerings'
   batchAddOfferings:               stateName: 'offerings'
 
 cruds.forEach ({name}) ->
