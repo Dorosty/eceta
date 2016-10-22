@@ -16,7 +16,6 @@ exports.posts = [
   'getStudentRequestForAssistants'
   'getProfessorOfferings'
   'reportBug'
-  'cas'
   'login'
   'register'
   'changeEmail'
@@ -34,7 +33,6 @@ exports.cruds = [
 
 exports.others = [
   'logout'
-  'casLogin'
   'setStaticData'
   'sendRequestForAssistant'
   'addRequiredCourse'

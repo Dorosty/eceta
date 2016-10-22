@@ -24,4 +24,4 @@ module.exports = component 'chooseGolestanNumber', ({dom, events, service, retur
         Title: 'شماره دانشجویی / پرسنلی مورد نظر را انتخاب کنید'
         SubmitText: 'ورود'
         submit: ->
-          service.casLogin golestanNumber: toEnglish golestanNumber.value()
+          service.casLogin toEnglish golestanNumber.value()

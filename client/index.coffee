@@ -16,7 +16,7 @@ alertMessages.do()
 
 autoLoginQ = if params.length > 1 and params[1].indexOf('ticket=') is 0
   ticket = params[1].substr 'ticket='.length
-  service.cas {ticket}
+  service.cas ticket
   .then (golestanNumbers) ->
     if Array.isArray(golestanNumbers) and golestanNumbers.length
       if golestanNumbers.length > 1
