@@ -116,7 +116,7 @@ cruds.forEach ({name, persianName}) ->
       state["#{name}s"].on once: true, (entities) ->
         entities = entities.slice()
         [previousEntitiy] = entities.filter ({id}) -> id is entity.id
-        entities[entities.indexOf previousEntitiy] = entity
+        entities[entities.indexOf previousEntitiy] = extend {}, previousEntitiy,  entity
         state["#{name}s"].set entities
 
 cruds.forEach ({name, persianName}) ->
