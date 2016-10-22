@@ -26,4 +26,4 @@ module.exports = component 'chooseGolestanNumber', ({dom, events, service, retur
         submitText: 'ورود'
         contents: contents
         submit: ->
-          service.casLogin toEnglish golestanNumber.value()
+          service.casLogin golestanNumber: toEnglish golestanNumber.value()
