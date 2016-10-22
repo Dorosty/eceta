@@ -21,6 +21,7 @@ exports.posts = [
   'changeEmail'
   'sendEmail'
   'resetPassword'
+  'casLogin'
   'changeRequestForAssistant' # side effects are handled in the page itself and not the service handler
 ]
 

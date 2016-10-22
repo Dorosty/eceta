@@ -27,9 +27,6 @@ exports.getPerson = ->
 exports.cas = (ticket) ->
   post 'cas', {ticket}
 
-exports.casLogin = (golestanNumber) ->
-  post 'casLogin', {golestanNumber}
-
 exports.autoPing = ->
   do fn = ->
     Q.all [post('ping'), Q.delay 5000]
