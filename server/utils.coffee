@@ -126,7 +126,7 @@ toPersian = exports.toPersian = (value) ->
   value.replace(/ي/g, 'ی').replace /ك/g, 'ک'
 exports.sendMail = (email, subject, text, name, html) ->
   ##################
-  email = 'ma.dorosty@gmail.com'
+  # email = 'ma.dorosty@gmail.com'
   ##################
   name = toPersian name
   subject = toPersian subject
