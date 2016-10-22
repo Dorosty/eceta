@@ -11,6 +11,7 @@ module.exports = component 'chooseGolestanNumber', ({dom, events, service, retur
 
   golestanNumber = E dropdown
   setStyle golestanNumber.input, {id}
+  golestanNumber.showEmpty true
 
   contents = E class: 'form-group',
     E 'label', for: id, 'شماره دانشجویی / پرسنلی'
@@ -22,6 +23,7 @@ module.exports = component 'chooseGolestanNumber', ({dom, events, service, retur
       modal.instance.display
         autoHide: true
         Title: 'شماره دانشجویی / پرسنلی مورد نظر را انتخاب کنید'
-        SubmitText: 'ورود'
+        submitText: 'ورود'
+        contents: contents
         submit: ->
           service.casLogin toEnglish golestanNumber.value()

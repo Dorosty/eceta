@@ -1,0 +1,228 @@
+Sat Oct 22 2016 19:08:18 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]}}
+
+
+Sat Oct 22 2016 19:08:18 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:18 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Sat Oct 22 2016 19:08:18 GMT+0330 (Iran Standard Time)
+/getChores
+{}
+{"chores":"[4 items]"}
+
+
+Sat Oct 22 2016 19:08:18 GMT+0330 (Iran Standard Time)
+/getProfessorOfferings
+{}
+{"offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:23 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:28 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:33 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:38 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:43 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:46 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]}}
+
+
+Sat Oct 22 2016 19:08:46 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:46 GMT+0330 (Iran Standard Time)
+/getChores
+{}
+{"chores":"[4 items]"}
+
+
+Sat Oct 22 2016 19:08:46 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Sat Oct 22 2016 19:08:47 GMT+0330 (Iran Standard Time)
+/getProfessorOfferings
+{}
+{"offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:51 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:08:56 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:01 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:06 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:08 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]}}
+
+
+Sat Oct 22 2016 19:09:08 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:08 GMT+0330 (Iran Standard Time)
+/getChores
+{}
+{"chores":"[4 items]"}
+
+
+Sat Oct 22 2016 19:09:08 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Sat Oct 22 2016 19:09:08 GMT+0330 (Iran Standard Time)
+/getProfessorOfferings
+{}
+{"offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:13 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:18 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:23 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:28 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:33 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:36 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]}}
+
+
+Sat Oct 22 2016 19:09:36 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:37 GMT+0330 (Iran Standard Time)
+/getChores
+{}
+{"chores":"[4 items]"}
+
+
+Sat Oct 22 2016 19:09:37 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Sat Oct 22 2016 19:09:37 GMT+0330 (Iran Standard Time)
+/getProfessorOfferings
+{}
+{"offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:43 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:50 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:09:57 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
+Sat Oct 22 2016 19:10:04 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
+
+
