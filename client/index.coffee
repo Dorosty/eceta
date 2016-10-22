@@ -17,6 +17,8 @@ alertMessages.do()
 _register = register()
 _chooseGolestanNumber = chooseGolestanNumber()
 
+console.log _register, _chooseGolestanNumber
+
 autoLoginQ = if params.length > 1 and params[1].indexOf('ticket=') is 0
   ticket = params[1].substr 'ticket='.length
   service.cas ticket
