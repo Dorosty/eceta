@@ -401,7 +401,7 @@ getProfessorOfferings = (sql, req) ->
         .then (requiredCourses) ->
           extend offering, requiredCourses: requiredCourses.map ({courseId}) -> courseId
 
-        sql.select ['requestForAssistants', 'persons', 'students'], [['id', 'gpa', 'isTrained', 'message', 'status', 'isChiefTA'], ['fullName', 'email'], ['degree']],
+        sql.select ['requestForAssistants', 'persons', 'students'], [['id', 'gpa', 'isTrained', 'message', 'status', 'isChiefTA', 'studentId'], ['fullName', 'email'], ['degree']],
           query: 'x0."studentId" = x1.id AND x1.id = x2.id AND x0."offeringId" = %', values: [offering.id]
         .then (requestForAssistants) ->
           extend offering, {requestForAssistants}

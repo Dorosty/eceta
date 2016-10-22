@@ -33,6 +33,7 @@ module.exports = component 'profesorView', ({dom, events, state, service, others
   handleOfferings = ->
     empty offeringsList
     append offeringsList, offerings.map ({id, courseName, requestForAssistants, isClosed}) ->
+      x = offerings
       count = requestForAssistants.length
       element = E 'li', cursor: 'pointer', class: 'list-group-item',
         E 'span', cursor: 'pointer', courseName
@@ -53,7 +54,7 @@ module.exports = component 'profesorView', ({dom, events, state, service, others
 
   loading ['offerings', 'courses', 'chores'], yesData, noData
 
-  offState = state.all ['offerings', 'courses'], ([_offerings, courses]) ->
+  state.all ['offerings', 'courses'], ([_offerings, courses]) ->
     offerings = _offerings.map (offering) ->
       extend {}, offering,
         courseName: (courses.filter ({id}) -> String(id) is String(offering.courseId))[0].name

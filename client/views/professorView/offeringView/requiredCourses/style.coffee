@@ -1,6 +1,6 @@
 {extend} = require '../../../../utils'
 
-course =
+exports.course =
   borderRadius: 3
   display: 'inline-block'
   fontWeight: 'bold'
@@ -12,16 +12,16 @@ course =
   backgroundColor: '#d9edf7'
   border: '1px solid #bce8f1'
 
-addCourse = extend {}, course,
+exports.addCourse = extend {}, exports.course,
   color: '#3c763d'
   backgroundColor: '#dff0d8'
   borderColor: '#d6e9c6'
   cursor: 'pointer'
 
-courseAdorner =
+exports.courseAdorner =
   fontWeight: 'bold'
   cursor: 'pointer'
   cursor: 'pointer'
 
-courseX = extend {}, courseAdorner,
+exports.courseX = extend {}, exports.courseAdorner,
   color: '#d43f3a'

@@ -22,12 +22,6 @@ exports.posts = [
   'register'
   'changeEmail'
 
-  'addRequiredCourse'
-  'removeRequiredCourse'
-  'changeRequestForAssistant'
-  'deleteRequestForAssistant'
-  'closeOffering'
-  'batchAddOfferings'
   'sendEmail'
   'resetPassword'
 ]
@@ -44,6 +38,12 @@ exports.others = [
   'casLogin'
   'setStaticData'
   'sendRequestForAssistant'
+  'addRequiredCourse'
+  'removeRequiredCourse'
+  'changeRequestForAssistant'
+  'deleteRequestForAssistant'
+  'closeOffering'
+  'batchAddOfferings'
 ]
 
 exports.states = [

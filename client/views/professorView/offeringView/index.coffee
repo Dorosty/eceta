@@ -3,11 +3,14 @@ sendEmail = require './sendEmail'
 requiredCourses = require './requiredCourses'
 cardView = require './cardView'
 tableView = require './tableView'
+modal = require '../../../singletons/modal'
 Q = require '../../../q'
 
 module.exports = component 'professorOfferingView', ({dom, events, state, service, returnObject}) ->
   {E, setStyle, show, hide, addClass, removeClass} = dom
   {onEvent} = events
+
+  _sendEmail = E sendEmail
 
   isEditing = false
   lastRequest = Q()
@@ -30,28 +33,28 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
     noRequestForAssistants = E null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'
     yesRequestForAssistants = [
       E float: 'left',
-        sendEmailButton = E class: 'btn btn-default', 'ارسال ایمیل به تمام دانشجویان متقاضی دستیاری'
         E class: 'btn-group',
           tableViewButton = E 'button', class: 'btn btn-default',
             E class: 'fa fa-table', cursor: 'pointer'
           cardViewButton = E 'button', class: 'btn btn-primary',
             E class: 'fa fa-bars', cursor: 'pointer'
-      E 'h4', fontWeight: 'bold', marginBottom: 35, 'لیست درخواست‌های دانشجویان'
+      E 'h4', fontWeight: 'bold', 'لیست درخواست‌های دانشجویان'
+      sendEmailButton = E class: 'btn btn-default', marginBottom: 35, 'ارسال ایمیل به تمام دانشجویان متقاضی دستیاری'
       hide tableViewInstance = E tableView, {changeRequestForAssistant}
       cardViewInstance = E cardView, {changeRequestForAssistant}
     ]
 
   onEvent cardViewButton, 'click', ->
-    removeClass cardViewButton 'btn-default'
-    removeClass tableViewButton 'btn-primary'
+    removeClass cardViewButton, 'btn-default'
+    removeClass tableViewButton, 'btn-primary'
     addClass cardViewButton, 'btn-primary'
     addClass tableViewButton, 'btn-default'
     hide tableViewInstance
     show cardViewInstance
 
   onEvent tableViewButton, 'click', ->
-    removeClass cardViewButton 'btn-primary'
-    removeClass tableViewButton 'btn-default'
+    removeClass cardViewButton, 'btn-primary'
+    removeClass tableViewButton, 'btn-default'
     addClass cardViewButton, 'btn-default'
     addClass tableViewButton, 'btn-primary'
     show tableViewInstance
@@ -67,7 +70,7 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
     accepted = offering.requestForAssistants.filter(({status}) -> status is 'تایید شده').map ({fullName}) -> fullName
     modal.instance.display
       contents: if hasPending
-          E 'h2', color: 'red', 'شما هنوز درخواست در حال بررسی دارید. لطفا ابتدا آنها را تایی یا رد کدید.'
+          E 'h4', fontWeight: 'bold', color: 'red', 'شما هنوز درخواست در حال بررسی دارید. لطفا ابتدا آنها را تایید یا رد کنید.'
         else
           [
             E 'h2', color: 'red', marginBottom: 30, 'آیا از نهایی کردن فهرست دستیاران اطمینان دارید؟'

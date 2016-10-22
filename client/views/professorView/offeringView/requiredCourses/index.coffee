@@ -1,6 +1,7 @@
 component = require '../../../../utils/component'
 style = require './style'
-dropdown = require '../../../../components/dropdown'
+modal = require '../../../../singletons/modal'
+stateSyncedDropdown = require '../../../../components/dropdown/stateSynced'
 {generateId} = require '../../../../utils/dom'
 
 module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events, state, service, returnObject}) ->
@@ -11,8 +12,8 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
     E 'h4', fontWeight: 'bold', display: 'inline-block', 'لیست دروس مرتبط'
     E 'span', null, ' (درس‌هایی که دانشجو موظف است نمره خود را در آنها اعلام کند)'
     E margin: '10px 0 60px', position: 'relative',
-      requiredCoursesList = E()        
-      addCourse = E style.addCourse
+      requiredCoursesList = E 'span'
+      addCourse = E style.addCourse,
         E 'span', style.courseAdorner, '+ '
         E 'span', cursor: 'pointer', 'افزودن درس'
       cover = E position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'white', transition: '0.5s'
@@ -22,7 +23,8 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
   do doUncover = ->
     setStyle cover, opacity: 0, visibility: 'hidden'
 
-  addCourseDropdown = dropdown 
+  addCourseDropdown = stateSyncedDropdown 
+    stateName: 'courses'
     getId: (course) -> String course.id
     getTitle: (course) -> course.name
   addCourseDropdown.showEmpty true
@@ -40,11 +42,11 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
       title: 'افزودن درس'
       submitText: 'افزودن'
       contents: E class: 'form-group',
-        E 'label', for: id = addCourseDropdownId, 'شماره دانشجویی / پرسنلی'
+        E 'label', for: id = addCourseDropdownId, 'نام درس'
         addCourseDropdown
       submit: ->
         service.addRequiredCourse
-          courseId: addCourseDropdown.element.value
+          courseId: addCourseDropdown.value().id
           offeringId: offering.id
 
   returnObject

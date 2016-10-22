@@ -15,7 +15,7 @@ handle = (isGet) -> (serviceName, params) ->
     states.forEach (name) ->
       dontSetState = Object.keys(stateChangingServices).some (_serviceName) ->
         service = stateChangingServices[_serviceName]
-        if service.stateName is name
+        if service.stateName is name or _serviceName is 'logout'
           if _serviceName is serviceName
             false
           else if service.running
