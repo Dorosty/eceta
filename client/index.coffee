@@ -14,6 +14,9 @@ params = location.href.split '?'
 includes.do()
 alertMessages.do()
 
+_register = register()
+_chooseGolestanNumber = chooseGolestanNumber()
+
 autoLoginQ = if params.length > 1 and params[1].indexOf('ticket=') is 0
   ticket = params[1].substr 'ticket='.length
   service.cas ticket
@@ -21,7 +24,7 @@ autoLoginQ = if params.length > 1 and params[1].indexOf('ticket=') is 0
     if Array.isArray(golestanNumbers) and golestanNumbers.length
       if golestanNumbers.length > 1
         $ -> setTimeout -> setTimeout -> setTimeout -> setTimeout -> setTimeout ->
-          chooseGolestanNumber.display golestanNumbers
+          _chooseGolestanNumber.display golestanNumbers
       else
         service.casLogin golestanNumber: golestanNumbers[0]
 
@@ -39,6 +42,6 @@ Q startQ
     params = params[1].split '&'
     if params.length > 1 and (params[0].indexOf('email=') is 0) and (params[1].indexOf('verificationCode=') is 0)
       $ -> setTimeout -> setTimeout -> setTimeout -> setTimeout -> setTimeout ->
-        register.display()
+        _register.display()
 
 .done()

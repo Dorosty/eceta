@@ -1,1 +1,0 @@
-exports.set = (x) -> exports.instance = x
