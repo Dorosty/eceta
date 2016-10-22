@@ -774,7 +774,7 @@ post 'removeRequiredCourse', (sql, req) ->
     sendOfferingCoursesChangedEmail sql, offeringId
   .then -> null
 
-post 'changeRequestForAssistantState', (sql, req) ->
+post 'changeRequestForAssistant', (sql, req) ->
   {id, status, isChiefTA, choreIds} = convert.stringStatusToNumberStatus req.body
   isChiefTA = +isChiefTA
   all [

@@ -1,6 +1,6 @@
 # IMPROVEMENT: rewrite to use `collection`
 component = require '../../../utils/component'
-{extend, remove} = require '../../../utils'
+{extend, remove, compare} = require '../../../utils'
 
 module.exports = component 'professorOfferingsCardView', ({dom, events, state, returnObject}, {changeRequestForAssistant}) ->
   {E, text, append, empty, setStyle} = dom
@@ -15,11 +15,11 @@ module.exports = component 'professorOfferingsCardView', ({dom, events, state, r
     empty view
     unless offering
       return
-    append view, offering.requestForAssistants.map (requestForAssistant) ->
+    append view, offering.requestForAssistants.sort((a, b) -> compare a.id, b.id).map (requestForAssistant) ->
       E class: "panel panel-#{if requestForAssistant.status is 'تایید شده' then 'success' else if requestForAssistant.status is 'رد شده' then 'danger' else 'info'}",
         E class: 'panel-heading',
-          E float: 'left',
-            unless requestForAssistant.isClosed
+          unless offering.isClosed
+            E float: 'left',
               E class: 'btn-group btn-group-xs',
                 [
                   {status: 'تایید شده', klass: 'success'}
@@ -34,7 +34,8 @@ module.exports = component 'professorOfferingsCardView', ({dom, events, state, r
                     extend requestForAssistant, {status}
                     changeRequestForAssistant requestForAssistant
                   button
-              E float: 'left', marginLeft: 10, 'تغییر وضعیت درخواست:'
+          unless offering.isClosed
+            E float: 'left', marginLeft: 10, 'تغییر وضعیت درخواست:'
           E 'h3', class: 'panel-title', fontWeight: 'bold',
             text "#{requestForAssistant.fullName} ("
             E 'a', cursor: 'pointer', fontWeight: 'lighter', fontSize: 13, target: '_blank', href: "mailto:#{requestForAssistant.email}", requestForAssistant.email
@@ -52,27 +53,27 @@ module.exports = component 'professorOfferingsCardView', ({dom, events, state, r
               E 'li', null,
                 text 'در کارگاه آموزش دستیاران آموزشی شرکت '
                 E 'span', fontWeight: 'bold', color: (if requestForAssistant.isTrained then 'green' else 'red'), if requestForAssistant.isTrained then 'کرده است.' else 'نکرده است.'
-          if requestForAssistant.message
-            do ->
-              border = E class: 'col-md-4', borderLeft: '1px dashed #AAA', borderRight: '1px dashed #AAA',
+          do ->
+            border = E class: 'col-md-4', borderLeft: '1px dashed #AAA', borderRight: '1px dashed #AAA',
+              if requestForAssistant.message
                 [
                   E fontWeight: 'bold', marginBottom: 10, 'پیام دانشجو: '
                   E 'span', englishHtml: requestForAssistant.message.replace '\n', '<br />'
                 ]
-              setTimeout ->
-                setStyle border, height: body.offsetHeight - 30
-              border
+            setTimeout ->
+              setStyle border, height: body.fn.element.offsetHeight - 30
+            border
           E class: 'col-md-3',
-            if requestForAssistant.status is 'تایید شده' 
+            if requestForAssistant.status is 'تایید شده'
               [
                 E class: 'checkbox',
                   E 'label', null,
                     do ->
                       checkbox = E 'input', type: 'checkbox', cursor: 'pointer', checked: requestForAssistant.isChiefTA
                       onEvent checkbox, 'change', ->
-                        if requestForAssistant.isClosed
-                          return setStyle checkbox, checked: !checkbox.checked
-                        requestForAssistant.isChiefTA = checkbox.checked
+                        if offering.isClosed
+                          return setStyle checkbox, checked: !checkbox.checked()
+                        requestForAssistant.isChiefTA = checkbox.checked()
                         changeRequestForAssistant requestForAssistant
                       checkbox
                     text 'دستیار اصلی است.'
@@ -84,10 +85,10 @@ module.exports = component 'professorOfferingsCardView', ({dom, events, state, r
                         do ->
                           checkbox = E 'input', type: 'checkbox', cursor: 'pointer', checked: requestForAssistant.chores.some (choreId) -> String(choreId) is String(id)
                           onEvent checkbox, 'change', ->
-                            if requestForAssistant.isClosed
-                              return setStyle checkbox, checked: !checkbox.checked
+                            if offering.isClosed
+                              return setStyle checkbox, checked: !checkbox.checked()
                             remove requestForAssistant.chores, id
-                            if checkbox.checked
+                            if checkbox.checked()
                               requestForAssistant.chores.push id
                             changeRequestForAssistant requestForAssistant
                           checkbox

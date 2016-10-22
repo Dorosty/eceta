@@ -1,3 +1,4 @@
+Q = require 'q'
 ex = require './ex'
 {gets, posts, others} = require './names'
 {post} = require './getPost'
@@ -25,6 +26,6 @@ exports.getPerson = ->
 
 exports.autoPing = ->
   do fn = ->
-    post 'ping'
+    Q.all [post('ping'), Q.delay 5000]
     .fin ->
       setTimeout fn

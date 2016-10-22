@@ -2,18 +2,18 @@
 {uppercaseFirst} = require '..'
 
 module.exports =
-  logout:                          stateName: 'person'
-  register:                        stateName: 'person'
-  login:                           stateName: 'person'
-  casLogin:                        stateName: 'person'
-  verify:                          stateName: 'person'
-  sendRequestForAssistant:         stateName: 'requestForAssistants'
-  deleteRequestForAssistant:       stateName: 'requestForAssistants'
-  addRequiredCourse:               stateName: 'offerings'
-  removeRequiredCourse:            stateName: 'offerings'
-  changeRequestForAssistantState:  stateName: 'offerings'
-  closeOffering:                   stateName: 'offerings'
-  batchAddOfferings:               stateName: 'offerings'
+  logout:                    stateName: 'person'
+  register:                  stateName: 'person'
+  login:                     stateName: 'person'
+  casLogin:                  stateName: 'person'
+  verify:                    stateName: 'person'
+  sendRequestForAssistant:   stateName: 'requestForAssistants'
+  deleteRequestForAssistant: stateName: 'requestForAssistants'
+  addRequiredCourse:         stateName: 'offerings'
+  removeRequiredCourse:      stateName: 'offerings'
+  changeRequestForAssistant: stateName: 'offerings'
+  closeOffering:             stateName: 'offerings'
+  batchAddOfferings:         stateName: 'offerings'
 
 cruds.forEach ({name}) ->
   ['create', 'update'].forEach (method) ->

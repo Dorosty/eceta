@@ -15,15 +15,14 @@ exports.posts = [
   'getRequestForAssistants'
   'getStudentRequestForAssistants'
   'getProfessorOfferings'
-
   'reportBug'
   'cas'
   'login'
   'register'
   'changeEmail'
-
   'sendEmail'
   'resetPassword'
+  'changeRequestForAssistant' # side effects are handled in the page itself and not the service handler
 ]
 
 exports.cruds = [  
@@ -40,8 +39,6 @@ exports.others = [
   'sendRequestForAssistant'
   'addRequiredCourse'
   'removeRequiredCourse'
-  'changeRequestForAssistant'
-  'deleteRequestForAssistant'
   'closeOffering'
   'batchAddOfferings'
 ]

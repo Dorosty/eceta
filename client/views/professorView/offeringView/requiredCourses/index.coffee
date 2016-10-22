@@ -37,10 +37,12 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
   offering = undefined
 
   onEvent addCourse, 'click', ->
+    addCourseDropdown.reset()
     modal.instance.display
       autoHide: true
       title: 'افزودن درس'
       submitText: 'افزودن'
+      closeText: 'لغو'
       contents: E class: 'form-group',
         E 'label', for: id = addCourseDropdownId, 'نام درس'
         addCourseDropdown
@@ -58,12 +60,14 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
           [{name}] = courses.filter ({id}) -> String(id) is String(courseId)
           course = E style.course,
             unless offering.isClosed
-              x = E 'span', style.courseX, '× '
+              do ->
+                x = E 'span', style.courseX, '× '
+                onEvent x, 'click', ->
+                  doCover()
+                  service.removeRequiredCourse {courseId, offeringId: offering.id}
+                  .fin doUncover
+                x
             E 'span', null, name
-          onEvent x, 'click', ->
-            doCover()
-            service.removeRequiredCourse {courseId, offeringId: offering.id}
-            .fin doUncover
           course
         if offering.isClosed
           hide addCourse

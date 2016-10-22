@@ -9,6 +9,10 @@ handle = (isGet) -> (serviceName, params) ->
   stateChangingServices[serviceName]?.running = true
   startedAt = +new Date()
   ajax isGet, serviceName, params
+  .catch (ex) ->
+    stateChangingServices[serviceName]?.running = false
+    stateChangingServices[serviceName]?.endedAt = +new Date()
+    throw ex
   .then (response) ->
     stateChangingServices[serviceName]?.running = false
     stateChangingServices[serviceName]?.endedAt = +new Date()

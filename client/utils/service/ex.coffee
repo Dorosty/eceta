@@ -46,7 +46,7 @@ exports.sendRequestForAssistant = (requestForAssistant) ->
   post 'sendRequestForAssistant', requestForAssistant
   .then (id) ->
     state.all ['requestForAssistants', 'offerings', 'currentTerm'], once: true, ([requestForAssistants, offerings, currentTerm]) ->
-      [offering] =  offerings.filter ({id}) -> String(id) is String(requestForAssistant.offeringId)
+      [offering] = offerings.filter ({id}) -> String(id) is String(requestForAssistant.offeringId)
       if offering.termId is currentTerm
         extend requestForAssistant, {id}
         requestForAssistants = requestForAssistants.filter ({offeringId}) -> String(offeringId) isnt String(requestForAssistant.offeringId)
@@ -57,34 +57,36 @@ exports.addRequiredCourse = ({offeringId, courseId}) ->
   post 'addRequiredCourse', {offeringId, courseId}
   .then ->
     state.offerings.on once: true, (offerings) ->
-      [offering] = offerings.filter ({id}) -> String(id) is String(offeringId)
-      offering = extend {}, offering
+      offerings = offerings.slice()
+      [previousOffering] = offerings.filter ({id}) -> String(id) is String(offeringId)
+      offering = extend {}, previousOffering
       offering.requiredCourses ?= []
       offering.requiredCourses = offering.requiredCourses.slice()
       offering.requiredCourses.push courseId
+      offerings[offerings.indexOf previousOffering] = offering
       state.offerings.set offerings
 
 exports.removeRequiredCourse = ({offeringId, courseId}) ->
   post 'removeRequiredCourse', {offeringId, courseId}
   .then ->
     state.offerings.on once: true, (offerings) ->
-      [offering] = offerings.filter ({id}) -> String(id) is String(offeringId)
-      offering = extend {}, offering
+      offerings = offerings.slice()
+      [previousOffering] = offerings.filter ({id}) -> String(id) is String(offeringId)
+      offering = extend {}, previousOffering
       offering.requiredCourses ?= []
       offering.requiredCourses = offering.requiredCourses.slice()
       remove offering.requiredCourses, courseId
+      offerings[offerings.indexOf previousOffering] = offering
       state.offerings.set offerings
 
-exports.changeRequestForAssistant = ->
-
-exports.deleteRequestForAssistant = ->
 
 exports.closeOffering = (id) ->
   post 'closeOffering', {id}
   .then ->
     state.offerings.on once: true, (offerings) ->
+      offerings = offerings.slice()
       [offering] = offerings.filter (offering) -> String(offering.id) is String(id)
-      offering.isClosed = true
+      offerings[offerings.indexOf offering] = extend {}, offering, isClosed: true
       state.offerings.set offerings
 
 gets.forEach (x) ->
@@ -102,7 +104,7 @@ cruds.forEach ({name, persianName}) ->
     .then (id) ->
       state["#{name}s"].on once: true, (entities) ->
         entities = entities.slice()
-        extend entity, {id}
+        entity = extend {}, entity, {id}
         entities.push entity
         state["#{name}s"].set entities
 
@@ -112,8 +114,9 @@ cruds.forEach ({name, persianName}) ->
     post serviceName, entity
     .then ->
       state["#{name}s"].on once: true, (entities) ->
+        entities = entities.slice()
         [previousEntitiy] = entities.filter ({id}) -> id is entity.id
-        previousEntitiy = extend {}, previousEntitiy, entity
+        entities[entities.indexOf previousEntitiy] = entity
         state["#{name}s"].set entities
 
 cruds.forEach ({name, persianName}) ->

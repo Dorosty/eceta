@@ -12,6 +12,24 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
 
   _sendEmail = E sendEmail
 
+  offering = undefined
+  update = (_offering) ->
+    offering = _offering
+    setStyle title, text: "درس #{offering.courseName}"
+    requiredCoursesInstance.update offering
+    tableViewInstance.update offering
+    cardViewInstance.update offering
+    if offering.isClosed
+      hide closeOffering
+    else
+      show closeOffering
+    if offering.requestForAssistants.length
+      hide noRequestForAssistants
+      show yesRequestForAssistants
+    else
+      show noRequestForAssistants
+      hide yesRequestForAssistants
+
   isEditing = false
   lastRequest = Q()
   changeRequestForAssistant = (requestForAssistant) ->
@@ -23,7 +41,9 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
         isChiefTA: requestForAssistant.isChiefTA
         choreIds: requestForAssistant.chores
         status: requestForAssistant.status
-    .fin -> isEditing = false
+    .fin ->
+      isEditing = false
+      update offering
 
   view = E class: 'col-md-9', marginTop: 40,
     E marginBottom: 100,
@@ -32,7 +52,7 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
     requiredCoursesInstance = E requiredCourses
     noRequestForAssistants = E null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'
     yesRequestForAssistants = [
-      E float: 'left',
+      E float: 'left', display: 'none',
         E class: 'btn-group',
           tableViewButton = E 'button', class: 'btn btn-default',
             E class: 'fa fa-table', cursor: 'pointer'
@@ -59,8 +79,6 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
     addClass tableViewButton, 'btn-primary'
     show tableViewInstance
     hide cardViewInstance
-
-  offering = undefined
 
   onEvent sendEmailButton, 'click', ->
     _sendEmail.show offering.requestForAssistants.map ({studentId}) -> studentId
@@ -89,25 +107,10 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
       closeText: if hasPending then 'بستن' else 'انصراف'
       submitType: 'danger'
       submit: ->
-        service.closeOffering id: offering.id
+        service.closeOffering offering.id
 
   returnObject
     isEditing: -> isEditing
-    update: (_offering) ->
-      offering = _offering
-      setStyle title, text: "درس #{offering.courseName}"
-      requiredCoursesInstance.update offering
-      tableViewInstance.update offering
-      cardViewInstance.update offering
-      if offering.isClosed
-        hide closeOffering
-      else
-        show closeOffering
-      if offering.requestForAssistants.length
-        hide noRequestForAssistants
-        show yesRequestForAssistants
-      else
-        show noRequestForAssistants
-        hide yesRequestForAssistants
+    update: update
 
   view
