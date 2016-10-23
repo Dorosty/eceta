@@ -144,27 +144,6 @@ sendEmail = (email, name) ->
                     <a href=\"http://eceta.ut.ac.ir\">http://eceta.ut.ac.ir</a>"
     return null
 
-prevSendEmail = sendEmail
-sendEmail = (_, name) ->
-  emails = [
-    'ma.dorosty@gmail.com'
-  ]
-  register: (args...) ->
-    emails.forEach (email) ->
-      prevSendEmail(email, name).register.apply null, args
-  requestForAssistantSent: (args...) ->
-    emails.forEach (email) ->
-      prevSendEmail(email, name).requestForAssistantSent.apply null, args
-  offeringCoursesChanged: (args...) ->
-    emails.forEach (email) ->
-      prevSendEmail(email, name).offeringCoursesChanged.apply null, args
-  requestForAssistantAccepted: (args...) ->
-    emails.forEach (email) ->
-      prevSendEmail(email, name).requestForAssistantAccepted.apply null, args
-  requestForAssistantRejected: (args...) ->
-    emails.forEach (email) ->
-      prevSendEmail(email, name).requestForAssistantRejected.apply null, args
-  
 config (methodName, personId, response, sql, req) ->
   unless personId
     return response.loggedOut = true
