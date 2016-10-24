@@ -74,7 +74,7 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
         variables.sort = header: header, direction: 'up'
       functions.update()
 
-    styleTd: (header, {entity}, td, offs) ->
+    styleTd: (header, {entity}, td, row) ->
       if header.key
         setStyle td, text: entity[header.key]
       else if header.englishKey
@@ -82,14 +82,20 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
       else if header.getValue
         setStyle td, text: header.getValue entity
       if header.styleTd
-        header.styleTd entity, td, offs
+        header.styleTd entity, td, row.offs, row
       td
 
     setupRow: (row, descriptor) ->
       row.off = ->
         row.offs.forEach (x) -> x()
         row.offs = []
-      setStyle row.tr, class: if descriptor.selected then 'info' else ''
+      unless functions.styleRow
+        setStyle row.tr, class: if descriptor.selected
+          'info'
+        else
+          ''
+      else
+        functions.styleRow descriptor.entity, row.tr
       if handlers.select and not descriptor.unselectable
         row.offs.push onEvent row.tr, 'mousemove', ->
           if not variables.selectionMode or descriptor.selected
@@ -123,13 +129,13 @@ exports.create = ({headers, properties, handlers, variables, components, dom, ev
           row.checkboxTd = E 'td', null,
             row.checkbox = E 'input', type: 'checkbox'
         row.tds = headers.map (header) ->
-          functions.styleTd header, descriptor, E('td'), row.offs
+          functions.styleTd header, descriptor, E('td'), row
       functions.setupRow row, descriptor
 
     changeRow: (descriptor, row) ->
       row.off()
       row.tds.forEach (td, index) ->
-        functions.styleTd headers[index], descriptor, td, row.offs
+        functions.styleTd headers[index], descriptor, td, row
       functions.setupRow row, descriptor
 
     removeRow: (row) ->

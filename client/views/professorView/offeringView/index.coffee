@@ -7,7 +7,7 @@ modal = require '../../../singletons/modal'
 Q = require '../../../q'
 
 module.exports = component 'professorOfferingView', ({dom, events, state, service, returnObject}) ->
-  {E, setStyle, show, hide, addClass, removeClass} = dom
+  {E, text, setStyle, show, hide, addClass, removeClass} = dom
   {onEvent} = events
 
   _sendEmail = E sendEmail
@@ -52,16 +52,19 @@ module.exports = component 'professorOfferingView', ({dom, events, state, servic
     requiredCoursesInstance = E requiredCourses
     noRequestForAssistants = E null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'
     yesRequestForAssistants = [
-      E float: 'left', display: 'none',
+      E float: 'left',
         E class: 'btn-group',
           tableViewButton = E 'button', class: 'btn btn-default',
-            E class: 'fa fa-table', cursor: 'pointer'
+            text 'نمایش جدولی'
+            E class: 'fa fa-table', cursor: 'pointer', marginRight: 10
           cardViewButton = E 'button', class: 'btn btn-primary',
-            E class: 'fa fa-bars', cursor: 'pointer'
+            text 'نمایش کارتی'
+            E class: 'fa fa-bars', cursor: 'pointer', marginRight: 10
       E 'h4', fontWeight: 'bold', 'لیست درخواست‌های دانشجویان'
       sendEmailButton = E class: 'btn btn-default', marginBottom: 35, 'ارسال ایمیل به تمام دانشجویان متقاضی دستیاری'
-      hide tableViewInstance = E tableView, {changeRequestForAssistant}
-      cardViewInstance = E cardView, {changeRequestForAssistant}
+      E 'span', null,
+        hide tableViewInstance = E tableView, {changeRequestForAssistant}
+        cardViewInstance = E cardView, {changeRequestForAssistant}
     ]
 
   onEvent cardViewButton, 'click', ->

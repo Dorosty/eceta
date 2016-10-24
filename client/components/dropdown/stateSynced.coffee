@@ -2,10 +2,10 @@ component = require '../../utils/component'
 dropdown = require '.'
 {extend} = require '../../utils'
 
-module.exports = component 'stateSyncedDropdown', ({dom, state, returnObject}, {getId, getTitle, stateName, selectedIdStateName, english}) ->
+module.exports = component 'stateSyncedDropdown', ({dom, state, returnObject}, {getId, getTitle, stateName, selectedIdStateName, english, sortCompare}) ->
   {E} = dom
 
-  d = E dropdown, {getId, getTitle, english}
+  d = E dropdown, {getId, getTitle, english, sortCompare}
 
   state[stateName].on (data) ->
     d.update data

@@ -1,6 +1,6 @@
 component = require '../../utils/component'
 stateSyncedDropdown = require '../../components/dropdown/stateSynced'
-{toEnglish} = require '../../utils'
+{toEnglish, compare} = require '../../utils'
 {generateId} = require '../../utils/dom'
 
 module.exports = component 'adminStaticDataView', ({dom, events, state, service, others}) ->
@@ -15,6 +15,7 @@ module.exports = component 'adminStaticDataView', ({dom, events, state, service,
   terms = E stateSyncedDropdown,
     stateName: 'terms'
     selectedIdStateName: 'currentTerm'
+    sortCompare: (a, b) -> compare b, a
   setStyle terms, {id}
 
   view = E null,

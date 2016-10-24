@@ -3,12 +3,12 @@ style = require './style'
 list = require './list'
 _functions = require './functions'
 _eventHandlers = require './eventHandlers'
-{extend, toPersian} = require '../../utils'
+{extend, toPersian, compare} = require '../../utils'
 
 module.exports = component 'dropdown', ({dom, events, returnObject}, args = {}) ->
   {E, setStyle} = dom
 
-  {getId = ((x) -> x), getTitle = ((x) -> x), english} = args
+  {getId = ((x) -> x), getTitle = ((x) -> x), sortCompare = compare, english} = args
 
   variables =
     english: english
@@ -37,7 +37,7 @@ module.exports = component 'dropdown', ({dom, events, returnObject}, args = {}) 
   components.dropdown = E style.dropdown,
     components.input = E 'input', style.input
     components.arrow = E 'i', style.arrow
-    components.itemsList = E list, getTitle
+    components.itemsList = E list, {getTitle, sortCompare}
 
   functions = _functions.create {variables, components, dom}
   extend functions, {getId, getTitle}

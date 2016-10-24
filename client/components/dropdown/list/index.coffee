@@ -1,8 +1,7 @@
 component = require '../../../utils/component'
 style = require './style'
-{compare} = require '../../../utils'
 
-module.exports = component 'dropdownList', ({dom, events, returnObject}, getTitle) ->
+module.exports = component 'dropdownList', ({dom, events, returnObject}, {getTitle, sortCompare}) ->
   {E, empty, append, setStyle} = dom
   {onMouseover} = events
 
@@ -20,7 +19,7 @@ module.exports = component 'dropdownList', ({dom, events, returnObject}, getTitl
       index = 0
       empty list
       entities = _entities.sort (a, b) ->
-        compare getTitle(a), getTitle(b)
+        sortCompare getTitle(a), getTitle(b)
       append list, items = entities.map (entity, i) ->
         item = E englishText: getTitle entity
         onMouseover item, ->

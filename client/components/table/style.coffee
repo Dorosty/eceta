@@ -23,7 +23,6 @@ exports.hiddenCover =
 exports.th =
   position: 'relative'
   minWidth: 100
-  cursor: 'pointer'
   paddingLeft: 15
 
 exports.headerWithSearchBox =

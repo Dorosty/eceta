@@ -74,7 +74,7 @@ module.exports = component 'studentView', ({dom, events, state, service, others}
             select: (offering) -> requestForAssistantPage.send offering
         }
 
-  loading ['terms', 'offerings', 'courses', 'professors', 'requestForAssistants'], yesData, noData
+  loading ['terms', 'currentTerm', 'offerings', 'courses', 'professors', 'requestForAssistants'], yesData, noData
 
   offerings = requestForAssistants = undefined
   update = ->

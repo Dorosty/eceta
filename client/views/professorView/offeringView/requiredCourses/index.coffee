@@ -31,7 +31,7 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
   addCourseDropdownId = generateId()
   setStyle addCourseDropdown.input, id: addCourseDropdownId
 
-  onEvent addCourseDropdown.input, ['input', 'pInput'], ->
+  onEvent addCourseDropdown.input, ['input', 'pInput'], setEnabled = ->
     modal.instance.setEnabled ~addCourseDropdown.value()
     
   offering = undefined
@@ -50,6 +50,7 @@ module.exports = component 'professorOfferingViewRequiredCourses', ({dom, events
         service.addRequiredCourse
           courseId: addCourseDropdown.value().id
           offeringId: offering.id
+    setEnabled()
 
   returnObject
     update: (_offering) ->

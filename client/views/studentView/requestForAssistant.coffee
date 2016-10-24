@@ -79,6 +79,8 @@ module.exports = component 'studentRequestForAssistant', ({dom, events, state, s
             isTrained: isTrained.checked()
             message: message.value()
 
+      setEnabled()
+
   returnObject
     send: display false
     edit: display true

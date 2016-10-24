@@ -3,7 +3,7 @@ style = require './style'
 _functions = require './functions'
 {extend} = require '../../utils'
 
-module.exports = component 'table', ({dom, events, returnObject}, {headers, entityId, isEqual, sort, properties = {}, handlers = {}}) ->
+module.exports = component 'table', ({dom, events, returnObject}, {headers, entityId, isEqual, sort, styleRow, properties = {}, handlers = {}}) ->
   {E, text, hide} = dom
   {onEvent} = events
 
@@ -24,7 +24,7 @@ module.exports = component 'table', ({dom, events, returnObject}, {headers, enti
   components = {}
 
   functions = _functions.create {headers, properties, handlers, variables, components, dom, events}
-  extend functions, {isEqual}
+  extend functions, {isEqual, styleRow}
 
   table = E position: 'relative',
     components.noData = E null, 'در حال بارگزاری...'
@@ -35,7 +35,7 @@ module.exports = component 'table', ({dom, events, returnObject}, {headers, enti
             if properties.multiSelect
               E 'th', width: 20
             headers.map (header) ->
-              th = E 'th', style.th,
+              th = E 'th', extend({cursor: if header.key or header.getValue then 'pointer' else 'default'}, style.th),
                 header.arrow = E style.arrow
                 if hasSearchBoxes
                   [

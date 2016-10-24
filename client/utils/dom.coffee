@@ -109,6 +109,7 @@ exports.instance = (thisComponent) ->
     l()
     component =
       fn:
+        isText: true
         name: "text[#{text}]"
         element: document.createTextNode text
         off: ->
@@ -125,7 +126,8 @@ exports.instance = (thisComponent) ->
     parent.fn.element.appendChild component.fn.element
     component.fn.domParent = parent
     parent.fn.childComponents ?= []
-    parent.fn.childComponents.push component
+    unless component.fn.isText
+      parent.fn.childComponents.push component
     l()
 
   exports.detatch = (component) ->
