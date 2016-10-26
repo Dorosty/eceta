@@ -19,6 +19,9 @@ module.exports = component 'chooseGolestanNumber', ({dom, events, service, retur
 
   returnObject
     display: (golestanNumbers) ->
+      if golestanNumbers.length is 1
+        service.casLogin golestanNumber: golestanNumbers[0]
+        return
       golestanNumber.update golestanNumbers
       modal.instance.display
         autoHide: true

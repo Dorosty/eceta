@@ -28,11 +28,8 @@ service.getPerson()
       service.cas ticket
       .then (golestanNumbers) ->
         if Array.isArray(golestanNumbers) and golestanNumbers.length
-          if golestanNumbers.length > 1
-            $ -> setTimeout -> setTimeout -> setTimeout -> setTimeout -> setTimeout ->
-              _chooseGolestanNumber.display golestanNumbers
-          else
-            service.casLogin golestanNumber: golestanNumbers[0]
+          $ -> setTimeout -> setTimeout -> setTimeout -> setTimeout -> setTimeout ->
+            _chooseGolestanNumber.display golestanNumbers
 
     if params.length > 1 and params[1].indexOf('email=') is 0
       params = params[1].split '&'
