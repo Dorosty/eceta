@@ -12,7 +12,7 @@ module.exports = component 'profesorView', ({dom, events, state, service, others
   service.getChores()
 
   view = E null,
-    noData = E null, 'در حال بارگزاری...'
+    noData = E null, 'در حال بارگذاری...'
     yesData = E position: 'relative',
       E class: 'col-md-3', marginTop: 40,
         E class: 'panel panel-default',

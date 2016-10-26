@@ -17,7 +17,7 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
   offDeleteClick = undefined
 
   view = E null,
-    noData = E null, 'در حال بارگزاری...'
+    noData = E null, 'در حال بارگذاری...'
     yesData = [
       E class: 'row', margin: '10px 0',
         extraButtonsBefore

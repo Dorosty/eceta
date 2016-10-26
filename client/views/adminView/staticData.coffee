@@ -19,7 +19,7 @@ module.exports = component 'adminStaticDataView', ({dom, events, state, service,
   setStyle terms, {id}
 
   view = E null,
-    noData = E null, 'در حال بارگزاری...'
+    noData = E null, 'در حال بارگذاری...'
     yesData = E class: 'form-horizontal', marginTop: 40,
       E class: 'form-group ',
         E 'label', for: id, class: 'control-label col-md-2', 'ترم جاری'

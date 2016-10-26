@@ -19,7 +19,7 @@ module.exports = component 'notTrainesdStudents', ({dom, events, state, service,
   setStyle golestanNumberInput, searchBoxStyle.textbox
 
   view = E null,
-    noData = E null, 'در حال بارگزاری...'
+    noData = E null, 'در حال بارگذاری...'
     yesData = [
       E class: 'row', margin: '10px 0',
         E 'a', class: 'btn btn-success', href: '/notTrainedStudents.xlsx', 'دریافت فایل اکسل'

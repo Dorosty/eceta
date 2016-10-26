@@ -27,7 +27,7 @@ module.exports = component 'table', ({dom, events, returnObject}, {headers, enti
   extend functions, {isEqual, styleRow}
 
   table = E position: 'relative',
-    components.noData = E null, 'در حال بارگزاری...'
+    components.noData = E null, 'در حال بارگذاری...'
     hide components.yesData = E null,
       E 'table', class: 'table table-bordered ' + (if properties.notStriped then '' else 'table-striped'),
         E 'thead', null,

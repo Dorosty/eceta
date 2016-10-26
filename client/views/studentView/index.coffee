@@ -30,7 +30,7 @@ module.exports = component 'studentView', ({dom, events, state, service, others}
   professorNameInput = E 'input', searchBoxStyle.textbox
 
   view = E 'span', null,
-    noData = E null, 'در حال بارگزاری...'
+    noData = E null, 'در حال بارگذاری...'
     yesData = E null,
       E marginTop: 30,
         yourRequests = E class: 'panel panel-success',
