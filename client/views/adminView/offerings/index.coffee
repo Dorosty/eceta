@@ -15,7 +15,7 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
   service.getOfferings()
   service.getCourses()
   service.getPersons()
-  service.getTerms()
+  # service.getTerms()
   service.getCurrentTerm()
   service.getRequestForAssistants()
 

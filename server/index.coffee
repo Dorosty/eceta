@@ -242,7 +242,7 @@ post 'ping', (sql, req) ->
       Qs['offerings'] = getProfessorOfferings sql, req
     if person.type is 'کارشناس آموزش' or person.type is 'دانشجو'
       Qs['currentTerm'] = getCurrentTerm sql, req
-      Qs['terms'] = getTerms sql, req
+      # Qs['terms'] = getTerms sql, req
       Qs['offerings'] = getOfferings sql, req
 
     all Object.keys(Qs).map (name) -> Qs[name]
@@ -414,12 +414,12 @@ post 'getCurrentTerm', (sql, req) ->
   getCurrentTerm sql, req
   .then (currentTerm) -> {currentTerm}
 
-getTerms = (sql, req) ->
-  sql.select 'terms', 'id'
-  .then (terms) -> terms.map ({id}) -> id
-post 'getTerms', (sql, req) ->
-  getTerms sql, req
-  .then (terms) -> {terms}
+# getTerms = (sql, req) ->
+#   sql.select 'terms', 'id'
+#   .then (terms) -> terms.map ({id}) -> id
+# post 'getTerms', (sql, req) ->
+#   getTerms sql, req
+#   .then (terms) -> {terms}
 
 getOfferings = (sql, req) ->
   sql.select 'offerings', ['id', 'capacity', 'isClosed', 'professorId', 'courseId', 'termId', 'deputyId']
@@ -828,26 +828,26 @@ post 'sendEmail', (sql, req) ->
   null
 
 get 'paymentStudents.xlsx', (sql, req) ->
-  sql.select ['persons', 'students', 'courses', 'persons', 'requestForAssistants', 'offerings', 'staticData'],
+  sql.select ['persons', 'students', 'courses', 'persons', 'requestForAssistants', 'offerings'],
     [['fullName', 'golestanNumber'], ['degree'], {courseName: 'name', courseNumber: 'number'},
-      {professorName: 'fullName', professorGolestanNumber: 'golestanNumber'}, ['isChiefTA']],
-    'x0.id = x4."studentId" AND x4."offeringId" = x5.id AND x4.status = 2 AND x5."termId" = x6.value AND x6.key = \'currentTerm\'
+      {professorName: 'fullName', professorGolestanNumber: 'golestanNumber'}, ['isChiefTA'], ['termId']],
+    'x0.id = x4."studentId" AND x4."offeringId" = x5.id AND x4.status = 2
     AND x0.id = x1.id AND x5."courseId" = x2.id AND x5."professorId" = x3.id'
   .then (data) ->
-    xlsx: [['نام کامل', 'شماره دانشجویی', 'نام درس', 'شماره درس', 'نام کامل استاد', 'شماره پرسنلی استاد', 'مقطع', 'دستیار اصلی است']].concat data.map (data) ->
+    xlsx: [['نام کامل دانشجو', 'شماره دانشجویی', 'نام درس', 'شماره درس', 'نام کامل استاد', 'شماره پرسنلی استاد', 'ترم', 'مقطع', 'دستیار اصلی است']].concat data.map (data) ->
       convert.numberDegreeToStringDegree data
-      {fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, degree, isChiefTA} = data
+      {fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, termId, degree, isChiefTA} = data
       if isChiefTA
         isChiefTA = 'بله'
       else
         isChiefTA = 'خیر'
-      [fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, degree, isChiefTA]
+      [fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, toPersian(termId), degree, isChiefTA]
 
 get 'notTrainedStudents.xlsx', (sql, req) ->
-  sql.select ['persons', 'students', 'requestForAssistants', 'offerings', 'staticData'], [['fullName', 'golestanNumber', 'email'], ['degree']],
-    'x0.id = x1.id AND x0.id = x2."studentId" AND x2."offeringId" = x3.id AND x2.status = 2 AND x2."isTrained" = 0 AND x3."termId" = x4.value AND x4.key = \'currentTerm\''
+  sql.select ['persons', 'students', 'offerings', 'requestForAssistants'], [['fullName', 'golestanNumber', 'email'], ['degree'], ['termId']],
+    'x0.id = x1.id AND x0.id = x3."studentId" AND x2.id = x3."offeringId" AND x3.status = 2 AND x3."isTrained" = 0'
   .then (data) ->
-    xlsx: [['نام کامل', 'شماره دانشجویی', 'ایمیل', 'مقطع']].concat data.map (data) ->
+    xlsx: [['نام کامل دانشجو', 'شماره دانشجویی', 'ترم', 'ایمیل', 'مقطع']].concat data.map (data) ->
       convert.numberDegreeToStringDegree data
-      {fullName, golestanNumber, email, degree} = data
-      [fullName, golestanNumber, email, degree]
+      {fullName, golestanNumber, termId, email, degree} = data
+      [fullName, golestanNumber, toPersian(termId), email, degree]

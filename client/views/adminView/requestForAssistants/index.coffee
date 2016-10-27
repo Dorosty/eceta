@@ -15,7 +15,7 @@ module.exports = component 'requestForAssistantsView', ({dom, events, state, ser
   service.getPersons()
   service.getCourses()
   service.getOfferings()
-  service.getTerms()
+  # service.getTerms()
   service.getCurrentTerm()
   service.getRequestForAssistants()
 

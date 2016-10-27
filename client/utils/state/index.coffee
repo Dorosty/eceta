@@ -192,3 +192,11 @@ exports.instance = (thisComponent) ->
 exports.persons.on {}, (persons) ->
   exports.professors.set persons.filter ({type}) -> type is 'استاد'
   exports.deputies.set persons.filter ({type}) -> type is 'نماینده استاد'
+
+exports.currentTerm.on {}, (currentTerm) ->
+  [year, part] = currentTerm.split '-'
+  terms = [].concat.apply [], [1390 .. year].map (year) ->
+    ["#{year}-1", "#{year}-2"]
+  if +part is 1
+    terms.splice terms.length - 1, 1
+  exports.terms.set terms

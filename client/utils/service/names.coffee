@@ -9,7 +9,7 @@ exports.posts = [
   'getProfessors'
   'getChores'
   'getCurrentTerm'
-  'getTerms'
+  # 'getTerms'
   'getOfferings'
   'getCourses'
   'getRequestForAssistants'

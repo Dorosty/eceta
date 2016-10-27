@@ -16043,3 +16043,2115 @@ Mon Oct 24 2016 13:13:12 GMT+0330 (Iran Standard Time)
 {"person":{"fullName":"ali","email":"a@a.a","golestanNumber":null,"type":"نماینده استاد","flattenedPermissions":[]},"courses":"[764 items]","chores":"[4 items]","offerings":"[2 items]"}
 
 
+Thu Oct 27 2016 08:40:22 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"loggedOut":true}
+
+
+Thu Oct 27 2016 08:40:22 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"loggedOut":true}
+
+
+Thu Oct 27 2016 08:40:26 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"loggedOut":true}
+
+
+Thu Oct 27 2016 08:40:33 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"loggedOut":true}
+
+
+Thu Oct 27 2016 08:40:38 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"loggedOut":true}
+
+
+Thu Oct 27 2016 08:40:41 GMT+0330 (Iran Standard Time)
+/loginEmailValid
+{}
+{"value":true,"loggedOut":true}
+
+
+Thu Oct 27 2016 08:40:42 GMT+0330 (Iran Standard Time)
+/login
+{"email":"ma.dorosty@gmail.com","password":"[[PASSWORD]]"}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:40:42 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:40:42 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:40:51 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:40:52 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:40:54 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:40:59 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:41:00 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:41:10 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:41:19 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:41:29 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:41:39 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:41:52 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:41:52 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:41:53 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:41:54 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:41:55 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:42:03 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:42:05 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:42:14 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:42:23 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:42:32 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:42:41 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:42:51 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:43:00 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:43:08 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:43:17 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:43:26 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:43:35 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:43:44 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:43:49 GMT+0330 (Iran Standard Time)
+/paymentStudents.xlsx
+{}
+{}
+
+
+Thu Oct 27 2016 08:43:54 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:44:03 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:44:12 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:44:21 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:44:30 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:44:39 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:44:47 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:44:56 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:45:05 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:45:14 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:45:22 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:45:31 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:45:40 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:45:49 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:45:57 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:46:06 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:46:06 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:46:07 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:46:11 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:46:12 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:46:21 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:46:30 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:46:34 GMT+0330 (Iran Standard Time)
+/notTrainedStudents.xlsx
+{}
+{}
+
+
+Thu Oct 27 2016 08:46:40 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:46:50 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:46:59 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:47:08 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:47:18 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:47:27 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:47:35 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:47:42 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:47:46 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:47:46 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:47:50 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:47:50 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:47:52 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:47:56 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:47:57 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:47:58 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:48:03 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:48:03 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:48:10 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:48:10 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:48:10 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:48:16 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:48:17 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:48:21 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:48:21 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:48:21 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:48:25 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:48:26 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:48:26 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:48:26 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:48:28 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:48:33 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:48:33 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:48:34 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:48:35 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:48:35 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:48:36 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:48:41 GMT+0330 (Iran Standard Time)
+/paymentStudents.xlsx
+{}
+{}
+
+
+Thu Oct 27 2016 08:48:46 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:48:55 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:07 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:49:07 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:49:07 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:49:08 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:08 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:13 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:49:17 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:49:19 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:24 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:49:24 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:49:24 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:49:28 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:29 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:49:34 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:49:34 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:38 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:49:38 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:49:38 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:49:42 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:49:47 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:47 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:47 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:49:47 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:49:53 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:49:54 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:49:54 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:49:54 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:50:03 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:50:03 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:50:03 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:50:04 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:50:06 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:50:12 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:50:12 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:50:12 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:50:12 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:50:12 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:50:13 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:50:13 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:50:14 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:50:14 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:50:14 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:50:22 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:50:25 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:50:29 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:50:29 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 08:50:34 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:50:35 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:50:39 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:50:40 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:50:49 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:50:58 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:51:06 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:51:15 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:51:24 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:51:33 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:51:42 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:51:51 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:51:59 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:52:09 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:52:17 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:52:27 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:52:35 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:52:44 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:52:53 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:53:02 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:53:11 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:53:20 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:53:25 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:53:30 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:53:31 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:53:35 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:53:39 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:53:44 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:53:53 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:54:02 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:54:10 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:54:19 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:54:28 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:54:37 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:54:46 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:54:55 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:55:03 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:55:12 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:55:16 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:55:21 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:55:21 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:55:25 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:55:25 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:55:29 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:55:29 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:55:29 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:55:35 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:55:35 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:55:36 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:55:43 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:55:43 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:55:45 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:55:45 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:55:45 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:55:54 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:56:01 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:56:05 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:56:05 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:56:06 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:56:10 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:56:12 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:56:13 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:56:16 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:56:17 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:56:27 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:56:36 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:56:40 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:56:45 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:56:45 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:56:45 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:56:50 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:56:51 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:56:56 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:56:57 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:57:01 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:57:06 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:57:06 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:57:11 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:57:11 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:57:11 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:57:15 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:57:16 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:57:20 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:57:21 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:57:30 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:57:39 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:57:46 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:57:51 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:57:51 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:57:51 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:57:55 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 08:57:59 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:57:59 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 08:58:03 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 08:58:04 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:04 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:06 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 08:58:09 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:12 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:58:12 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 08:58:13 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:13 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:22 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:32 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:41 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:50 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:58:59 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:59:08 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:59:17 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:59:26 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:59:35 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:59:44 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 08:59:53 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:00:02 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:00:11 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:00:20 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:00:29 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:00:37 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 09:00:41 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 09:00:41 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:00:45 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:00:45 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 09:00:46 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:00:47 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:00:47 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 09:00:51 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 09:00:52 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:01:01 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:01:10 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:01:20 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:01:29 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:01:38 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:01:47 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:01:56 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:02:04 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:02:13 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:02:23 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:02:32 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:02:42 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:02:51 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:02:56 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 09:03:00 GMT+0330 (Iran Standard Time)
+/getTerms
+{}
+{"terms":"[14 items]"}
+
+
+Thu Oct 27 2016 09:03:00 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:03:04 GMT+0330 (Iran Standard Time)
+/getCourses
+{}
+{"courses":"[764 items]"}
+
+
+Thu Oct 27 2016 09:03:04 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:03:05 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:03:06 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 09:03:11 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:03:11 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 09:03:12 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:03:21 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:03:32 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:03:41 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:03:50 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:03:59 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:04:08 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:04:17 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:04:25 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:04:34 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:04:44 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:04:53 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:05:02 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:05:12 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","terms":"[14 items]","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:05:20 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:05:29 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:05:38 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:05:44 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 09:05:48 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:05:52 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:05:53 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:05:54 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 09:05:59 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 09:05:59 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:06:00 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:06:09 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:06:18 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:06:27 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:06:36 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:06:44 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:06:53 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:07:02 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:07:11 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:07:19 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:07:28 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:07:37 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:07:46 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:07:54 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:08:03 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:08:12 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:08:21 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:08:30 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:08:38 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:08:47 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:08:56 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:09:05 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:09:09 GMT+0330 (Iran Standard Time)
+/getPerson
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]}}
+
+
+Thu Oct 27 2016 09:09:14 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:09:17 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:09:18 GMT+0330 (Iran Standard Time)
+/getOfferings
+{}
+{"offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:09:19 GMT+0330 (Iran Standard Time)
+/getRequestForAssistants
+{}
+{"requestForAssistants":"[742 items]"}
+
+
+Thu Oct 27 2016 09:09:25 GMT+0330 (Iran Standard Time)
+/getPersons
+{}
+{"persons":"[2262 items]"}
+
+
+Thu Oct 27 2016 09:09:26 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:09:26 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:09:35 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+
+Thu Oct 27 2016 09:09:35 GMT+0330 (Iran Standard Time)
+/getCurrentTerm
+{}
+{"currentTerm":"1395-1"}
+
+
+Thu Oct 27 2016 09:09:44 GMT+0330 (Iran Standard Time)
+/ping
+{}
+{"person":{"fullName":"علی درستی","email":"ma.dorosty@gmail.com","golestanNumber":null,"type":"کارشناس آموزش","flattenedPermissions":[1,2,3,4]},"courses":"[764 items]","permissions":"[4 items]","roles":"[4 items]","persons":"[2262 items]","requestForAssistants":"[742 items]","currentTerm":"1395-1","offerings":"[224 items]"}
+
+

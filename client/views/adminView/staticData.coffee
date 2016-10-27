@@ -8,7 +8,7 @@ module.exports = component 'adminStaticDataView', ({dom, events, state, service,
   {onEvent} = events
   {loading} = others
 
-  service.getTerms()
+  # service.getTerms()
   service.getCurrentTerm()
 
   id = generateId()

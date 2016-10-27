@@ -11,7 +11,7 @@ module.exports = component 'studentView', ({dom, events, state, service, others}
   {onEvent} = events
   {loading} = others
 
-  service.getTerms()
+  # service.getTerms()
   service.getOfferings()
   service.getCourses()
   service.getProfessors()
