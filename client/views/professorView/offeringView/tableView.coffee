@@ -52,6 +52,7 @@ module.exports = component 'professorOfferingsTableView', ({dom, events, state, 
           name: 'در کارگاه آموزش دستیاران آموزشی شرکت کرده است'
           key: 'isTrained'
           styleTd: (requestForAssistant, td, offs) ->
+            empty td
             setStyle td, textAlign: 'center', text: ''
             append td, checkbox = E 'input', type: 'checkbox', checked: requestForAssistant.isTrained
             offs.push onEvent checkbox, 'change', ->
@@ -97,6 +98,7 @@ module.exports = component 'professorOfferingsTableView', ({dom, events, state, 
             key: 'status'
             styleTd: (requestForAssistant, td, offs, row) ->
               changeStatus = td
+              empty changeStatus
               setStyle changeStatus, cursor: 'pointer', text: ''
               append changeStatus, E class: 'btn btn-default', cursor: 'pointer', 'تایید / رد'
               $(changeStatus.fn.element).popover 'destroy'

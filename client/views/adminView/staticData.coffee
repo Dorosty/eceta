@@ -1,39 +1,47 @@
 component = require '../../utils/component'
-stateSyncedDropdown = require '../../components/dropdown/stateSynced'
+modal = require '../../singletons/modal'
 {toEnglish, compare} = require '../../utils'
 {generateId} = require '../../utils/dom'
 
 module.exports = component 'adminStaticDataView', ({dom, events, state, service, others}) ->
-  {E, setStyle, enable, disable, loading} = dom
+  {E, setStyle, enable, disable} = dom
   {onEvent} = events
   {loading} = others
 
   # service.getTerms()
   service.getCurrentTerm()
 
-  id = generateId()
-  terms = E stateSyncedDropdown,
-    stateName: 'terms'
-    selectedIdStateName: 'currentTerm'
-    sortCompare: (a, b) -> compare b, a
-  setStyle terms, {id}
-
   view = E null,
     noData = E null, 'در حال بارگذاری...'
     yesData = E class: 'form-horizontal', marginTop: 40,
       E class: 'form-group ',
-        E 'label', for: id, class: 'control-label col-md-2', 'ترم جاری'
-        E class: 'col-md-4',
-          terms
-      submit = E class: 'btn btn-primary', 'ثبت تغییرات'
+        termLabel = E 'label', for: id, class: 'control-label'
+      submit = E class: 'btn btn-primary', 'رفتن به ترم بعد'
 
   onEvent submit, 'click', ->
-    disable submit
-    service.setStaticData [key: 'currentTerm', value: toEnglish terms.value()]
-    .fin ->
-      terms.undirty()
-      enable submit
+    state.currentTerm.on once: true, (currentTerm) ->
+      [year, part] = currentTerm.split '-'
+      switch part
+        when 1
+          part = 2
+        when 2
+          part = 1
+          year++
+      nextTerm = "#{year}-part"
+      modal.instance.display
+        enabled: true
+        autoHide: true
+        title: ''
+        submitType: 'danger'
+        submitText: 'رفتن به ترم بعد'
+        closeText: 'لغو'
+        contents: E null, "با کلیک روی دکمه تایید ترم جاری به #{nextTerm} تغییر خواهد یافت. این کار غیر قابل بازگشت است."
+        submit: ->
+          service.setStaticData [key: 'currentTerm', value: nextTerm]
 
-  loading ['terms', 'currentTerm'], yesData, noData
+  loading ['currentTerm'], yesData, noData
+
+  state.currentTerm.on (currentTerm) ->
+    setStyle termLabel, 'ترم جاری: ' + currentTerm
 
   view

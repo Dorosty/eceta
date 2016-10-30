@@ -136,7 +136,8 @@ exports.instance = (thisComponent) ->
     {element} = component.fn
     l = log.detatch thisComponent, component
     l()
-    element.parentNode.removeChild element
+    try
+      element.parentNode.removeChild element
     remove component.fn.domParent.fn.childComponents, component
     l()
 
