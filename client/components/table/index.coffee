@@ -45,7 +45,7 @@ module.exports = component 'table', ({dom, events, returnObject}, {headers, enti
                 else
                   text header.name
               if header.key or header.getValue
-                onEvent th, 'click', header.searchBox, ->
+                onEvent th, 'click', (header.searchBox or []), ->
                   functions.setSort header
               th
         components.body = E 'tbody', null

@@ -20,7 +20,7 @@ exports.instance = (thisComponent) ->
       when 4
         [component, event, ignores, callback] = args
         unless Array.isArray ignores
-          ignores = [ignores].filter (x) -> x
+          ignores = [ignores]
 
     if Array.isArray component
       unbinds = component.map (component) ->

@@ -1,6 +1,5 @@
 style = require './style'
-modal = require '../../singletons/modal'
-{extend, toPersian, collection, compare, remove} = require '../../utils'
+{collection, compare} = require '../../utils'
 
 exports.create = ({headers, properties, handlers, variables, components, dom, events}) ->
   {E, destroy, append, setStyle, show, hide, addClass, removeClass} = dom
