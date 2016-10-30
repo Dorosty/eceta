@@ -11,8 +11,13 @@ exports.do = ({components, variables, functions, dom, events}) ->
   onEvent input, 'focus', ->
     input.select()
 
+  onEvent input, 'focus', ->
+    variables.manuallySelected = true
+    itemsList.set variables.allItems
+    itemsList.show()
+
   prevInputValue = ''
-  onEvent input, ['input', 'focus'], ->
+  onEvent input, 'input' ->
     variables.manuallySelected = true
     unless variables.english
       setStyle input, value: input.value()
