@@ -14,20 +14,19 @@ module.exports = component 'adminStaticDataView', ({dom, events, state, service,
   view = E null,
     noData = E null, 'در حال بارگذاری...'
     yesData = E class: 'form-horizontal', marginTop: 40,
-      E class: 'form-group ',
-        termLabel = E 'label', for: id, class: 'control-label'
-      submit = E class: 'btn btn-primary', 'رفتن به ترم بعد'
+      termLabel = E 'label', class: 'control-label'
+      submit = E class: 'btn btn-primary', marginRight: 10, 'رفتن به ترم بعد'
 
   onEvent submit, 'click', ->
     state.currentTerm.on once: true, (currentTerm) ->
       [year, part] = currentTerm.split '-'
-      switch part
+      switch +part
         when 1
           part = 2
         when 2
           part = 1
           year++
-      nextTerm = "#{year}-part"
+      nextTerm = "#{year}-#{part}"
       modal.instance.display
         enabled: true
         autoHide: true
@@ -42,6 +41,6 @@ module.exports = component 'adminStaticDataView', ({dom, events, state, service,
   loading ['currentTerm'], yesData, noData
 
   state.currentTerm.on (currentTerm) ->
-    setStyle termLabel, 'ترم جاری: ' + currentTerm
+    setStyle termLabel, text: 'ترم جاری: ' + currentTerm
 
   view

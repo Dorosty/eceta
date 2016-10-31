@@ -1,6 +1,5 @@
 Q = require '../../q'
 state = require '../state'
-stateNames = require '../state/names'
 stateChangingServices = require './stateChangingServices'
 {gets, posts, cruds} = require './names'
 {get, post} = require './getPost'
@@ -26,8 +25,8 @@ exports.logout = (automatic) ->
       while document.body.children.length
         document.body.removeChild document.body.children[0]
       location.href = 'https://auth.ut.ac.ir:8443/cas/logout'
-    stateNames.forEach (stateName) ->
-      state[stateName].set null
+    ['offerings', 'requestForAssistants'].forEach (stateName) ->
+      state[stateName].set []
   Q()
       
 exports.casLogin = (x) ->
