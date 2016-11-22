@@ -44,7 +44,7 @@ module.exports = component 'offeringsView', ({dom, events, state, service}, {goT
     entityName: 'فراخوان'
     requiredStates: ['offerings', 'courses', 'professors', 'terms', 'currentTerm', 'requestForAssistants']
     extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
-    extraButtons: extrasInstance = E extras, goToRequestForAssistants
+    extraButtons: extrasInstance = E extras, {goToRequestForAssistants}
     headers: [
       {name: 'نام درس', key: 'courseName', searchBox: courseNameInput}
       {name: 'نام استاد', key: 'professorName', searchBox: professorNameInput}
