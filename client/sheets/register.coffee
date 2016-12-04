@@ -26,7 +26,7 @@ module.exports = component 'register', ({dom, events, service, returnObject}) ->
       submitting = false
 
       do setEnabled = ->
-        modal.setEnabled valid = not errors.password and not errors.confirmPassword and not submitting
+        modal.instance.setEnabled valid = not errors.password and not errors.confirmPassword and not submitting
 
       updates = []
       submit = ->
@@ -49,7 +49,7 @@ module.exports = component 'register', ({dom, events, service, returnObject}) ->
         {password, confirmPassword} = fields
         disable [password, confirmPassword]
         register {email, verificationCode, password: password.value}
-        .then modal.hide
+        .then modal.instance.hide
         .catch ->
           addClass alert, 'in'
         .fin ->
