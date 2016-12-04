@@ -48,7 +48,7 @@ module.exports = component 'register', ({dom, events, service, returnObject}) ->
         setEnabled()
         {password, confirmPassword} = fields
         disable [password, confirmPassword]
-        register {email, verificationCode, password: password.value}
+        register {email, verificationCode, password: password.value()}
         .then modal.instance.hide
         .catch ->
           addClass alert, 'in'
@@ -103,12 +103,12 @@ module.exports = component 'register', ({dom, events, service, returnObject}) ->
                       delete errors[fieldName]
                     else
                       errors[fieldName] = errorNames.password.short
-                    if fields.confirmPassword.value is value
+                    if fields.confirmPassword.value() is value
                       delete errors.confirmPassword
                     else
                       errors.confirmPassword = errorNames.confirmPassword.notEqual
                 when 'confirmPassword'
-                  if fields.password.value is value
+                  if fields.password.value() is value
                     delete errors[fieldName]
                   else
                     errors[fieldName] = errorNames.confirmPassword.notEqual
