@@ -71,7 +71,7 @@ module.exports = component 'register', ({dom, events, service, returnObject}) ->
             loading = false
 
             updates.push update = (force) ->
-              JQElem = $ field
+              JQElem = $ field.fn.element
               error = errors[fieldName]
               if error and (blurred or force) and not loading
                 prevTooltip = JQElem.data 'bs.tooltip'
