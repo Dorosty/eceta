@@ -830,18 +830,22 @@ post 'sendEmail', (sql, req) ->
 get 'paymentStudents.xlsx', (sql, req) ->
   sql.select ['persons', 'students', 'courses', 'persons', 'requestForAssistants', 'offerings'],
     [['fullName', 'golestanNumber'], ['degree'], {courseName: 'name', courseNumber: 'number'},
-      {professorName: 'fullName', professorGolestanNumber: 'golestanNumber'}, ['isChiefTA'], ['termId']],
+      {professorName: 'fullName', professorGolestanNumber: 'golestanNumber'}, ['isChiefTA', 'isTrained'], ['termId']],
     'x0.id = x4."studentId" AND x4."offeringId" = x5.id AND x4.status = 2
     AND x0.id = x1.id AND x5."courseId" = x2.id AND x5."professorId" = x3.id'
   .then (data) ->
-    xlsx: [['نام کامل دانشجو', 'شماره دانشجویی', 'نام درس', 'شماره درس', 'نام کامل استاد', 'شماره پرسنلی استاد', 'ترم', 'مقطع', 'دستیار اصلی است']].concat data.map (data) ->
+    xlsx: [['نام کامل دانشجو', 'شماره دانشجویی', 'نام درس', 'شماره درس', 'نام کامل استاد', 'شماره پرسنلی استاد', 'ترم', 'مقطع', 'دستیار اصلی است', 'در کارگاه آموزش دستیاران شدرکت کرده است']].concat data.map (data) ->
       convert.numberDegreeToStringDegree data
-      {fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, termId, degree, isChiefTA} = data
+      {fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, termId, degree, isChiefTA, isTrained} = data
       if isChiefTA
         isChiefTA = 'بله'
       else
         isChiefTA = 'خیر'
-      [fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, toPersian(termId), degree, isChiefTA]
+      if isTrained
+        isTrained = 'بله'
+      else
+        isTrained = 'خیر'
+      [fullName, golestanNumber, courseName, courseNumber, professorName, professorGolestanNumber, toPersian(termId), degree, isChiefTA, isTrained]
 
 get 'notTrainedStudents.xlsx', (sql, req) ->
   sql.select ['persons', 'students', 'offerings', 'requestForAssistants'], [['fullName', 'golestanNumber', 'email'], ['degree'], ['termId']],
