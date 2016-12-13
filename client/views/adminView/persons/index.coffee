@@ -54,14 +54,16 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.golestanNumber, golestanNumber
 
     empty pagination
-    append pagination, [1 .. filteredPersons.length / 50].map (pageNumber) ->
-      button = E class: "btn btn-#{if pageNumber is 1 then 'primary' else 'default'}", pageNumber
+    append pagination, paginationButtons = [1 .. filteredPersons.length / 50].map (pageNumber) ->
+      paginationButton = E class: 'btn btn-defualt', pageNumber
       gotoPage = ->
+        setStyle paginationButtons, class: 'btn btn-defualt'
+        setStyle paginationButton, class: 'btn btn-primary'
         view.setData filteredPersons.slice pageNumber - 1, Math.min filteredPersons.length -1, pageNumber - 1 + 50
-      onEvent button, 'click', gotoPage
+      onEvent paginationButton, 'click', gotoPage
       if pageNumber is 1
         gotoPage()
-      button
+      paginationButton
 
   state.persons.on (_persons) ->
     persons = _persons
