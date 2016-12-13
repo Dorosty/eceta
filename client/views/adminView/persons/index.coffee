@@ -8,7 +8,7 @@ numberInput = require '../../../components/restrictedInput/number'
 {textIsInSearch} = require '../../../utils'
 
 module.exports = component 'personsView', ({dom, events, state, service}) ->
-  {E, setStyle} = dom
+  {E, setStyle, append, empty} = dom
   {onEvent} = events
 
   service.getPersons()
@@ -24,19 +24,21 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
   golestanNumberInput = E numberInput, true
   setStyle golestanNumberInput, searchBoxStyle.textbox
 
-  view = E crudPage,
-    entityName: 'شخص'
-    requiredStates: ['persons']
-    extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
-    headers: [
-      {name: 'نوع', key: 'type', searchBox: typeDropdown}
-      {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
-      {name: 'شماره دانشجویی / پرسنلی', key: 'golestanNumber', searchBox: golestanNumberInput}
-    ]
-    onTableUpdate: (descriptors) ->
-      multiselectInstance.setChecked descriptors
-    credit: E(credit).credit
-    deleteItems: (persons) -> service.deletePersons persons.map ({id}) -> id
+  view = E null,
+    E crudPage,
+      entityName: 'شخص'
+      requiredStates: ['persons']
+      extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
+      headers: [
+        {name: 'نوع', key: 'type', searchBox: typeDropdown}
+        {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
+        {name: 'شماره دانشجویی / پرسنلی', key: 'golestanNumber', searchBox: golestanNumberInput}
+      ]
+      onTableUpdate: (descriptors) ->
+        multiselectInstance.setChecked descriptors
+      credit: E(credit).credit
+      deleteItems: (persons) -> service.deletePersons persons.map ({id}) -> id
+    pagination = E class: 'btn-group', marginTop: 100
 
   persons = []
   update = ->
@@ -50,7 +52,16 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.fullName, fullName
     if golestanNumber
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.golestanNumber, golestanNumber
-    view.setData filteredPersons
+
+    empty pagination
+    append pagination, [1 .. filteredPersons.length / 50].map (pageNumber) ->
+      button = E class: "btn btn-#{if pageNumber is 1 then 'primary' else 'default'}", pageNumber
+      gotoPage = ->
+        view.setData filteredPersons.slice pageNumber - 1, Math.min filteredPersons.length -1, pageNumber - 1 + 50
+      onEvent button, 'click', gotoPage
+      if pageNumber is 1
+        gotoPage()
+      button
 
   state.persons.on (_persons) ->
     persons = _persons
