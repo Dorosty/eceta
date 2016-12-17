@@ -62,7 +62,7 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
         view.setData filteredPersons.slice pageNumber - 1, Math.min filteredPersons.length -1, pageNumber - 1 + 50
       onEvent paginationButton, 'click', gotoPage
       if pageNumber is 1
-        gotoPage()
+        setTimeout gotoPage
       paginationButton
 
   state.persons.on (_persons) ->
