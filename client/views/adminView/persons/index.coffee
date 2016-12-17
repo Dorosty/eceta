@@ -25,10 +25,10 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
   setStyle golestanNumberInput, searchBoxStyle.textbox
 
   view = E null,
-    E crudPage,
+    crudPageInstance = E crudPage,
       entityName: 'شخص'
       requiredStates: ['persons']
-      extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
+      extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> crudPageInstance.setSelectedRows callback
       headers: [
         {name: 'نوع', key: 'type', searchBox: typeDropdown}
         {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
@@ -59,7 +59,7 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
       gotoPage = ->
         setStyle paginationButtons, class: 'btn btn-defualt'
         setStyle paginationButton, class: 'btn btn-primary'
-        view.setData filteredPersons.slice pageNumber - 1, Math.min (filteredPersons.length - 1), (pageNumber - 1 + 50)
+        crudPageInstance.setData filteredPersons.slice pageNumber - 1, Math.min (filteredPersons.length - 1), (pageNumber - 1 + 50)
       onEvent paginationButton, 'click', gotoPage
       if pageNumber is 1
         setTimeout gotoPage
