@@ -273,6 +273,10 @@ exports["do"] = function() {
     success: 'عملیات با موفقیت انجام شد.',
     failure: 'در انجام عملیات مشکلی پیش آمد.'
   });
+  addMessage('sendEmail', {
+    success: 'ایمیل با موفقیت ارسال شد.',
+    failure: 'در انجام عملیات مشکلی پیش آمد.'
+  });
   [
     {
       name: 'person',
@@ -293,7 +297,7 @@ exports["do"] = function() {
     addMessage("update" + (uppercaseFirst(name)), {
       success: "تغییرات " + persianName + " با موفقیت ذخیره شد."
     });
-    return addMessage("delete" + (uppercaseFirst(name)), {
+    return addMessage("delete" + (uppercaseFirst(name)) + "s", {
       success: persianName + " با موفقیت حذف شد."
     });
   });
@@ -370,8 +374,13 @@ exports["do"] = function(arg) {
   onEvent(input, 'focus', function() {
     return input.select();
   });
+  onEvent(input, 'focus', function() {
+    variables.manuallySelected = true;
+    itemsList.set(variables.allItems);
+    return itemsList.show();
+  });
   prevInputValue = '';
-  onEvent(input, ['input', 'focus'], function() {
+  onEvent(input, 'input', function() {
     variables.manuallySelected = true;
     if (!variables.english) {
       setStyle(input, {
@@ -498,7 +507,7 @@ exports.create = function(arg) {
 
 
 },{"../../utils":38}],6:[function(require,module,exports){
-var _eventHandlers, _functions, component, extend, list, ref, style, toPersian;
+var _eventHandlers, _functions, compare, component, extend, list, ref, style, toPersian;
 
 component = require('../../utils/component');
 
@@ -510,10 +519,10 @@ _functions = require('./functions');
 
 _eventHandlers = require('./eventHandlers');
 
-ref = require('../../utils'), extend = ref.extend, toPersian = ref.toPersian;
+ref = require('../../utils'), extend = ref.extend, toPersian = ref.toPersian, compare = ref.compare;
 
 module.exports = component('dropdown', function(arg, args) {
-  var E, components, dom, english, events, functions, getId, getTitle, ref1, ref2, reset, returnObject, setSelectedId, setStyle, setValue, showEmpty, undirty, update, value, variables;
+  var E, components, dom, english, events, functions, getId, getTitle, ref1, ref2, ref3, reset, returnObject, setSelectedId, setStyle, setValue, showEmpty, sortCompare, undirty, update, value, variables;
   dom = arg.dom, events = arg.events, returnObject = arg.returnObject;
   if (args == null) {
     args = {};
@@ -523,7 +532,7 @@ module.exports = component('dropdown', function(arg, args) {
     return x;
   }), getTitle = (ref2 = args.getTitle) != null ? ref2 : (function(x) {
     return x;
-  }), english = args.english;
+  }), sortCompare = (ref3 = args.sortCompare) != null ? ref3 : compare, english = args.english;
   variables = {
     english: english,
     items: [],
@@ -553,7 +562,10 @@ module.exports = component('dropdown', function(arg, args) {
     };
   })(getTitle);
   components = {};
-  components.dropdown = E(style.dropdown, components.input = E('input', style.input), components.arrow = E('i', style.arrow), components.itemsList = E(list, getTitle));
+  components.dropdown = E(style.dropdown, components.input = E('input', style.input), components.arrow = E('i', style.arrow), components.itemsList = E(list, {
+    getTitle: getTitle,
+    sortCompare: sortCompare
+  }));
   functions = _functions.create({
     variables: variables,
     components: components,
@@ -586,17 +598,16 @@ module.exports = component('dropdown', function(arg, args) {
 
 
 },{"../../utils":38,"../../utils/component":34,"./eventHandlers":4,"./functions":5,"./list":7,"./style":10}],7:[function(require,module,exports){
-var compare, component, style;
+var component, style;
 
 component = require('../../../utils/component');
 
 style = require('./style');
 
-compare = require('../../../utils').compare;
-
-module.exports = component('dropdownList', function(arg, getTitle) {
-  var E, append, dom, empty, entities, events, highlightCurrentItem, index, items, list, onMouseover, returnObject, setStyle, visible;
+module.exports = component('dropdownList', function(arg, arg1) {
+  var E, append, dom, empty, entities, events, getTitle, highlightCurrentItem, index, items, list, onMouseover, returnObject, setStyle, sortCompare, visible;
   dom = arg.dom, events = arg.events, returnObject = arg.returnObject;
+  getTitle = arg1.getTitle, sortCompare = arg1.sortCompare;
   E = dom.E, empty = dom.empty, append = dom.append, setStyle = dom.setStyle;
   onMouseover = events.onMouseover;
   list = E(style.list);
@@ -613,7 +624,7 @@ module.exports = component('dropdownList', function(arg, getTitle) {
       index = 0;
       empty(list);
       entities = _entities.sort(function(a, b) {
-        return compare(getTitle(a), getTitle(b));
+        return sortCompare(getTitle(a), getTitle(b));
       });
       append(list, items = entities.map(function(entity, i) {
         var item;
@@ -663,7 +674,7 @@ module.exports = component('dropdownList', function(arg, getTitle) {
 });
 
 
-},{"../../../utils":38,"../../../utils/component":34,"./style":8}],8:[function(require,module,exports){
+},{"../../../utils/component":34,"./style":8}],8:[function(require,module,exports){
 exports.list = {
   position: 'absolute',
   backgroundColor: 'white',
@@ -705,14 +716,15 @@ dropdown = require('.');
 extend = require('../../utils').extend;
 
 module.exports = component('stateSyncedDropdown', function(arg, arg1) {
-  var E, d, dom, english, getId, getTitle, reset, ret, returnObject, selectedIdStateName, showEmpty, state, stateName, undirty, value;
+  var E, d, dom, english, getId, getTitle, reset, ret, returnObject, selectedIdStateName, showEmpty, sortCompare, state, stateName, undirty, value;
   dom = arg.dom, state = arg.state, returnObject = arg.returnObject;
-  getId = arg1.getId, getTitle = arg1.getTitle, stateName = arg1.stateName, selectedIdStateName = arg1.selectedIdStateName, english = arg1.english;
+  getId = arg1.getId, getTitle = arg1.getTitle, stateName = arg1.stateName, selectedIdStateName = arg1.selectedIdStateName, english = arg1.english, sortCompare = arg1.sortCompare;
   E = dom.E;
   d = E(dropdown, {
     getId: getId,
     getTitle: getTitle,
-    english: english
+    english: english,
+    sortCompare: sortCompare
   });
   state[stateName].on(function(data) {
     return d.update(data);
@@ -941,7 +953,7 @@ module.exports = component('restrictedInput', function(arg, regex) {
   onEvent = events.onEvent;
   input = E('input');
   prevValue = '';
-  onEvent(input, 'input', function() {
+  onEvent(input, ['input', 'pInput'], function() {
     var value;
     value = toEnglish(input.value());
     if (regex.test(value)) {
@@ -984,13 +996,11 @@ module.exports = component('numberInput', function(arg, isInteger) {
 
 
 },{".":14,"../../utils/component":34}],16:[function(require,module,exports){
-var collection, compare, extend, modal, ref, remove, style, toPersian;
+var collection, compare, ref, style;
 
 style = require('./style');
 
-modal = require('../../singletons/modal');
-
-ref = require('../../utils'), extend = ref.extend, toPersian = ref.toPersian, collection = ref.collection, compare = ref.compare, remove = ref.remove;
+ref = require('../../utils'), collection = ref.collection, compare = ref.compare;
 
 exports.create = function(arg) {
   var E, addClass, append, components, destroy, dom, events, functions, handlers, headers, hide, onEvent, properties, removeClass, setStyle, show, variables;
@@ -1063,6 +1073,7 @@ exports.create = function(arg) {
             }
           });
           if (shouldReturn) {
+            returnValue.entity = entity;
             return returnValue;
           } else {
             return {
@@ -1107,7 +1118,7 @@ exports.create = function(arg) {
       }
       return functions.update();
     },
-    styleTd: function(header, arg1, td, offs) {
+    styleTd: function(header, arg1, td, row) {
       var entity;
       entity = arg1.entity;
       if (header.key) {
@@ -1124,7 +1135,7 @@ exports.create = function(arg) {
         });
       }
       if (header.styleTd) {
-        header.styleTd(entity, td, offs);
+        header.styleTd(entity, td, row.offs, row);
       }
       return td;
     },
@@ -1136,9 +1147,13 @@ exports.create = function(arg) {
         });
         return row.offs = [];
       };
-      setStyle(row.tr, {
-        "class": descriptor.selected ? 'info' : ''
-      });
+      if (!functions.styleRow) {
+        setStyle(row.tr, {
+          "class": descriptor.selected ? 'info' : ''
+        });
+      } else {
+        functions.styleRow(descriptor.entity, row.tr);
+      }
       if (handlers.select && !descriptor.unselectable) {
         row.offs.push(onEvent(row.tr, 'mousemove', function() {
           if (!variables.selectionMode || descriptor.selected) {
@@ -1173,7 +1188,10 @@ exports.create = function(arg) {
         notClickableTds = row.tds.filter(function(_, i) {
           return headers[i].notClickable;
         });
-        row.offs.push(onEvent(row.tr, 'click', notClickableTds.concat(row.checkboxTd), function() {
+        if (properties.multiSelect) {
+          notClickableTds.push(row.checkboxTd);
+        }
+        row.offs.push(onEvent(row.tr, 'click', notClickableTds, function() {
           return handlers.select(descriptor.entity);
         }));
       }
@@ -1187,14 +1205,14 @@ exports.create = function(arg) {
       append(components.body, row.tr = E('tr', null, properties.multiSelect ? row.checkboxTd = E('td', null, row.checkbox = E('input', {
         type: 'checkbox'
       })) : void 0, row.tds = headers.map(function(header) {
-        return functions.styleTd(header, descriptor, E('td'), row.offs);
+        return functions.styleTd(header, descriptor, E('td'), row);
       })));
       return functions.setupRow(row, descriptor);
     },
     changeRow: function(descriptor, row) {
       row.off();
       row.tds.forEach(function(td, index) {
-        return functions.styleTd(headers[index], descriptor, td, row.offs);
+        return functions.styleTd(headers[index], descriptor, td, row);
       });
       return functions.setupRow(row, descriptor);
     },
@@ -1208,7 +1226,7 @@ exports.create = function(arg) {
 };
 
 
-},{"../../singletons/modal":33,"../../utils":38,"./style":19}],17:[function(require,module,exports){
+},{"../../utils":38,"./style":19}],17:[function(require,module,exports){
 var _functions, component, extend, style;
 
 component = require('../../utils/component');
@@ -1220,9 +1238,9 @@ _functions = require('./functions');
 extend = require('../../utils').extend;
 
 module.exports = component('table', function(arg, arg1) {
-  var E, components, dom, entityId, events, functions, handlers, hasSearchBoxes, headers, hide, isEqual, onEvent, properties, ref, ref1, returnObject, sort, table, text, variables;
+  var E, components, dom, entityId, events, functions, handlers, hasSearchBoxes, headers, hide, isEqual, onEvent, properties, ref, ref1, returnObject, sort, styleRow, table, text, variables;
   dom = arg.dom, events = arg.events, returnObject = arg.returnObject;
-  headers = arg1.headers, entityId = arg1.entityId, isEqual = arg1.isEqual, sort = arg1.sort, properties = (ref = arg1.properties) != null ? ref : {}, handlers = (ref1 = arg1.handlers) != null ? ref1 : {};
+  headers = arg1.headers, entityId = arg1.entityId, isEqual = arg1.isEqual, sort = arg1.sort, styleRow = arg1.styleRow, properties = (ref = arg1.properties) != null ? ref : {}, handlers = (ref1 = arg1.handlers) != null ? ref1 : {};
   E = dom.E, text = dom.text, hide = dom.hide;
   onEvent = events.onEvent;
   hasSearchBoxes = headers.some(function(header) {
@@ -1256,19 +1274,22 @@ module.exports = component('table', function(arg, arg1) {
     events: events
   });
   extend(functions, {
-    isEqual: isEqual
+    isEqual: isEqual,
+    styleRow: styleRow
   });
   table = E({
     position: 'relative'
-  }, components.noData = E(null, 'در حال بارگزاری...'), hide(components.yesData = E(null, E('table', {
+  }, components.noData = E(null, 'در حال بارگذاری...'), hide(components.yesData = E(null, E('table', {
     "class": 'table table-bordered ' + (properties.notStriped ? '' : 'table-striped')
   }, E('thead', null, E('tr', null, properties.multiSelect ? E('th', {
     width: 20
   }) : void 0, headers.map(function(header) {
     var th;
-    th = E('th', style.th, header.arrow = E(style.arrow), hasSearchBoxes ? [E(style.headerWithSearchBox, header.name), header.searchBox] : text(header.name));
+    th = E('th', extend({
+      cursor: header.key || header.getValue ? 'pointer' : 'default'
+    }, style.th), header.arrow = E(style.arrow), hasSearchBoxes ? [E(style.headerWithSearchBox, header.name), header.searchBox] : text(header.name));
     if (header.key || header.getValue) {
-      onEvent(th, 'click', header.searchBox, function() {
+      onEvent(th, 'click', header.searchBox || [], function() {
         return functions.setSort(header);
       });
     }
@@ -1332,7 +1353,6 @@ exports.hiddenCover = {
 exports.th = {
   position: 'relative',
   minWidth: 100,
-  cursor: 'pointer',
   paddingLeft: 15
 };
 
@@ -3751,6 +3771,7 @@ module.exports = component('chooseGolestanNumber', function(arg) {
   setStyle(golestanNumber.input, {
     id: id
   });
+  golestanNumber.showEmpty(true);
   contents = E({
     "class": 'form-group'
   }, E('label', {
@@ -3758,11 +3779,18 @@ module.exports = component('chooseGolestanNumber', function(arg) {
   }, 'شماره دانشجویی / پرسنلی'), golestanNumber);
   return returnObject({
     display: function(golestanNumbers) {
+      if (golestanNumbers.length === 1) {
+        service.casLogin({
+          golestanNumber: golestanNumbers[0]
+        });
+        return;
+      }
       golestanNumber.update(golestanNumbers);
       return modal.instance.display({
         autoHide: true,
         Title: 'شماره دانشجویی / پرسنلی مورد نظر را انتخاب کنید',
-        SubmitText: 'ورود',
+        submitText: 'ورود',
+        contents: contents,
         submit: function() {
           return service.casLogin({
             golestanNumber: toEnglish(golestanNumber.value())
@@ -4018,7 +4046,7 @@ module.exports = component('register', function(arg) {
       valid = false;
       submitting = false;
       (setEnabled = function() {
-        return modal.setEnabled(valid = !errors.password && !errors.confirmPassword && !submitting);
+        return modal.instance.setEnabled(valid = !errors.password && !errors.confirmPassword && !submitting);
       })();
       updates = [];
       submit = function() {
@@ -4048,8 +4076,8 @@ module.exports = component('register', function(arg) {
         return register({
           email: email,
           verificationCode: verificationCode,
-          password: password.value
-        }).then(modal.hide)["catch"](function() {
+          password: password.value()
+        }).then(modal.instance.hide)["catch"](function() {
           return addClass(alert, 'in');
         }).fin(function() {
           enable([password, confirmPassword]);
@@ -4072,7 +4100,7 @@ module.exports = component('register', function(arg) {
             loading = false;
             updates.push(update = function(force) {
               var JQElem, error, prevTooltip;
-              JQElem = $(field);
+              JQElem = $(field.fn.element);
               error = errors[fieldName];
               if (error && (blurred || force) && !loading) {
                 prevTooltip = JQElem.data('bs.tooltip');
@@ -4110,7 +4138,7 @@ module.exports = component('register', function(arg) {
                       } else {
                         errors[fieldName] = errorNames.password.short;
                       }
-                      if (fields.confirmPassword.value === value) {
+                      if (fields.confirmPassword.value() === value) {
                         delete errors.confirmPassword;
                       } else {
                         errors.confirmPassword = errorNames.confirmPassword.notEqual;
@@ -4118,7 +4146,7 @@ module.exports = component('register', function(arg) {
                     }
                     break;
                   case 'confirmPassword':
-                    if (fields.password.value === value) {
+                    if (fields.password.value() === value) {
                       delete errors[fieldName];
                     } else {
                       errors[fieldName] = errorNames.confirmPassword.notEqual;
@@ -4455,6 +4483,7 @@ exports.instance = function(thisComponent) {
     l();
     component = {
       fn: {
+        isText: true,
         name: "text[" + text + "]",
         element: document.createTextNode(text),
         off: function() {}
@@ -4480,7 +4509,9 @@ exports.instance = function(thisComponent) {
     if ((base = parent.fn).childComponents == null) {
       base.childComponents = [];
     }
-    parent.fn.childComponents.push(component);
+    if (!component.fn.isText) {
+      parent.fn.childComponents.push(component);
+    }
     return l();
   };
   exports.detatch = function(component) {
@@ -4493,7 +4524,9 @@ exports.instance = function(thisComponent) {
     element = component.fn.element;
     l = log.detatch(thisComponent, component);
     l();
-    element.parentNode.removeChild(element);
+    try {
+      element.parentNode.removeChild(element);
+    } catch (undefined) {}
     remove(component.fn.domParent.fn.childComponents, component);
     return l();
   };
@@ -4543,6 +4576,10 @@ exports.instance = function(thisComponent) {
       var value;
       value = style[key];
       switch (key) {
+        case 'html':
+          return element.innerHTML = toPersian(value);
+        case 'englishHtml':
+          return element.innerHTML = value != null ? value : '';
         case 'text':
           return element.textContent = element.innerText = toPersian(value);
         case 'englishText':
@@ -4719,9 +4756,7 @@ exports.instance = function(thisComponent) {
       case 4:
         component = args[0], event = args[1], ignores = args[2], callback = args[3];
         if (!Array.isArray(ignores)) {
-          ignores = [ignores].filter(function(x) {
-            return x;
-          });
+          ignores = [ignores];
         }
     }
     if (Array.isArray(component)) {
@@ -5470,7 +5505,7 @@ module.exports = function(isGet, serviceName, params) {
 
 
 },{"../../q":28,"./mock":45}],42:[function(require,module,exports){
-var Q, cruds, eraseCookie, get, gets, post, posts, ref, ref1, state, stateChangingServices, uppercaseFirst,
+var Q, cruds, eraseCookie, extend, get, gets, post, posts, ref, ref1, ref2, remove, state, stateChangingServices, uppercaseFirst,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 Q = require('../../q');
@@ -5485,12 +5520,9 @@ ref1 = require('./getPost'), get = ref1.get, post = ref1.post;
 
 eraseCookie = require('../cookies').eraseCookie;
 
-uppercaseFirst = require('..').uppercaseFirst;
+ref2 = require('..'), extend = ref2.extend, uppercaseFirst = ref2.uppercaseFirst, remove = ref2.remove;
 
 exports.logout = function(automatic) {
-  if (automatic !== true) {
-    stateChangingServices.logout.running = true;
-  }
   ['person', 'gpa', 'grades', 'isTrained'].forEach(function(x) {
     return state[x].set(null);
   });
@@ -5503,15 +5535,17 @@ exports.logout = function(automatic) {
     allowNull: true
   }, function(cas) {
     if (automatic !== true) {
-      stateChangingServices.logout.running = false;
       stateChangingServices.logout.endedAt = +new Date();
     }
     if (cas) {
       while (document.body.children.length) {
         document.body.removeChild(document.body.children[0]);
       }
-      return location.href = 'https://auth.ut.ac.ir:8443/cas/logout';
+      location.href = 'https://auth.ut.ac.ir:8443/cas/logout';
     }
+    return ['offerings', 'requestForAssistants'].forEach(function(stateName) {
+      return state[stateName].set([]);
+    });
   });
   return Q();
 };
@@ -5532,6 +5566,112 @@ exports.setStaticData = function(x) {
   });
 };
 
+exports.sendRequestForAssistant = function(requestForAssistant) {
+  return post('sendRequestForAssistant', requestForAssistant).then(function(id) {
+    return state.all(['requestForAssistants', 'offerings', 'currentTerm'], {
+      once: true
+    }, function(arg) {
+      var currentTerm, offering, offerings, requestForAssistants;
+      requestForAssistants = arg[0], offerings = arg[1], currentTerm = arg[2];
+      offering = offerings.filter(function(arg1) {
+        var id;
+        id = arg1.id;
+        return String(id) === String(requestForAssistant.offeringId);
+      })[0];
+      if (offering.termId === currentTerm) {
+        extend(requestForAssistant, {
+          id: id
+        });
+        requestForAssistants = requestForAssistants.filter(function(arg1) {
+          var offeringId;
+          offeringId = arg1.offeringId;
+          return String(offeringId) !== String(requestForAssistant.offeringId);
+        });
+        requestForAssistants.push(requestForAssistant);
+        return state.requestForAssistants.set(requestForAssistants);
+      }
+    });
+  });
+};
+
+exports.addRequiredCourse = function(arg) {
+  var courseId, offeringId;
+  offeringId = arg.offeringId, courseId = arg.courseId;
+  return post('addRequiredCourse', {
+    offeringId: offeringId,
+    courseId: courseId
+  }).then(function() {
+    return state.offerings.on({
+      once: true
+    }, function(offerings) {
+      var offering, previousOffering;
+      offerings = offerings.slice();
+      previousOffering = offerings.filter(function(arg1) {
+        var id;
+        id = arg1.id;
+        return String(id) === String(offeringId);
+      })[0];
+      offering = extend({}, previousOffering);
+      if (offering.requiredCourses == null) {
+        offering.requiredCourses = [];
+      }
+      offering.requiredCourses = offering.requiredCourses.slice();
+      offering.requiredCourses.push(courseId);
+      offerings[offerings.indexOf(previousOffering)] = offering;
+      return state.offerings.set(offerings);
+    });
+  });
+};
+
+exports.removeRequiredCourse = function(arg) {
+  var courseId, offeringId;
+  offeringId = arg.offeringId, courseId = arg.courseId;
+  return post('removeRequiredCourse', {
+    offeringId: offeringId,
+    courseId: courseId
+  }).then(function() {
+    return state.offerings.on({
+      once: true
+    }, function(offerings) {
+      var offering, previousOffering;
+      offerings = offerings.slice();
+      previousOffering = offerings.filter(function(arg1) {
+        var id;
+        id = arg1.id;
+        return String(id) === String(offeringId);
+      })[0];
+      offering = extend({}, previousOffering);
+      if (offering.requiredCourses == null) {
+        offering.requiredCourses = [];
+      }
+      offering.requiredCourses = offering.requiredCourses.slice();
+      remove(offering.requiredCourses, courseId);
+      offerings[offerings.indexOf(previousOffering)] = offering;
+      return state.offerings.set(offerings);
+    });
+  });
+};
+
+exports.closeOffering = function(id) {
+  return post('closeOffering', {
+    id: id
+  }).then(function() {
+    return state.offerings.on({
+      once: true
+    }, function(offerings) {
+      var offering;
+      offerings = offerings.slice();
+      offering = offerings.filter(function(offering) {
+        return String(offering.id) === String(id);
+      })[0];
+      offerings[offerings.indexOf(offering)] = extend({}, offering, {
+        isClosed: true
+      });
+      return state.offerings.set(offerings);
+    });
+  });
+};
+
 gets.forEach(function(x) {
   return exports[x] = function(params) {
     return get(x, params);
@@ -5547,16 +5687,15 @@ posts.forEach(function(x) {
 cruds.forEach(function(arg) {
   var name, persianName, serviceName;
   name = arg.name, persianName = arg.persianName;
-  posts.push(serviceName = "update" + (uppercaseFirst(name)));
+  posts.push(serviceName = "create" + (uppercaseFirst(name)));
   return exports[serviceName] = function(entity) {
-    return post(serviceName, entity).then(function() {
+    return post(serviceName, entity).then(function(id) {
       return state[name + "s"].on({
         once: true
       }, function(entities) {
-        entities = entities.filter(function(arg1) {
-          var id;
-          id = arg1.id;
-          return id !== entity.id;
+        entities = entities.slice();
+        entity = extend({}, entity, {
+          id: id
         });
         entities.push(entity);
         return state[name + "s"].set(entities);
@@ -5568,16 +5707,20 @@ cruds.forEach(function(arg) {
 cruds.forEach(function(arg) {
   var name, persianName, serviceName;
   name = arg.name, persianName = arg.persianName;
-  posts.push(serviceName = "create" + (uppercaseFirst(name)));
+  posts.push(serviceName = "update" + (uppercaseFirst(name)));
   return exports[serviceName] = function(entity) {
-    return post(serviceName, entity).then(function(id) {
+    return post(serviceName, entity).then(function() {
       return state[name + "s"].on({
         once: true
       }, function(entities) {
-        extend(entity, {
-          id: id
-        });
-        entities.push(entity);
+        var previousEntitiy;
+        entities = entities.slice();
+        previousEntitiy = entities.filter(function(arg1) {
+          var id;
+          id = arg1.id;
+          return id === entity.id;
+        })[0];
+        entities[entities.indexOf(previousEntitiy)] = extend({}, previousEntitiy, entity);
         return state[name + "s"].set(entities);
       });
     });
@@ -5608,7 +5751,7 @@ cruds.forEach(function(arg) {
 
 
 },{"..":38,"../../q":28,"../cookies":35,"../state":48,"./getPost":43,"./names":46,"./stateChangingServices":47}],43:[function(require,module,exports){
-var ajax, ex, handle, state, stateChangingServices, states;
+var ajax, eraseCookie, ex, handle, state, stateChangingServices, states;
 
 ajax = require('./ajax');
 
@@ -5617,6 +5760,8 @@ stateChangingServices = require('./stateChangingServices');
 ex = require('./ex');
 
 states = require('./names').states;
+
+eraseCookie = require('../cookies').eraseCookie;
 
 state = require('../state');
 
@@ -5627,19 +5772,29 @@ handle = function(isGet) {
       ref.running = true;
     }
     startedAt = +new Date();
-    return ajax(isGet, serviceName, params).then(function(response) {
+    return ajax(isGet, serviceName, params)["catch"](function(ex) {
+      var ref1, ref2;
+      if ((ref1 = stateChangingServices[serviceName]) != null) {
+        ref1.running = false;
+      }
+      if ((ref2 = stateChangingServices[serviceName]) != null) {
+        ref2.endedAt = +new Date();
+      }
+      throw ex;
+    }).then(function(response) {
+      var ref1, ref2;
+      if ((ref1 = stateChangingServices[serviceName]) != null) {
+        ref1.running = false;
+      }
+      if ((ref2 = stateChangingServices[serviceName]) != null) {
+        ref2.endedAt = +new Date();
+      }
       states.forEach(function(name) {
-        var dontSetState, ref1, ref2, responseValue;
-        if ((ref1 = stateChangingServices[serviceName]) != null) {
-          ref1.running = false;
-        }
-        if ((ref2 = stateChangingServices[serviceName]) != null) {
-          ref2.endedAt = +new Date();
-        }
+        var dontSetState, responseValue;
         dontSetState = Object.keys(stateChangingServices).some(function(_serviceName) {
           var service;
           service = stateChangingServices[_serviceName];
-          if (service.stateName === name) {
+          if (service.stateName === name || _serviceName === 'logout') {
             if (_serviceName === serviceName) {
               return false;
             } else if (service.running) {
@@ -5653,7 +5808,16 @@ handle = function(isGet) {
             return false;
           }
         });
-        if (!dontSetState) {
+        if (dontSetState) {
+          return state.person.on({
+            once: true,
+            allowNull: true
+          }, function(person) {
+            if (!person) {
+              return eraseCookie('id');
+            }
+          });
+        } else {
           if (response[name]) {
             responseValue = response[name];
             setTimeout(function() {
@@ -5682,8 +5846,10 @@ exports.get = handle(true);
 exports.post = handle(false);
 
 
-},{"../state":48,"./ajax":41,"./ex":42,"./names":46,"./stateChangingServices":47}],44:[function(require,module,exports){
-var ex, gets, log, others, post, posts, ref;
+},{"../cookies":35,"../state":48,"./ajax":41,"./ex":42,"./names":46,"./stateChangingServices":47}],44:[function(require,module,exports){
+var Q, ex, gets, log, others, post, posts, ref;
+
+Q = require('q');
 
 ex = require('./ex');
 
@@ -5718,24 +5884,30 @@ exports.getPerson = function() {
   return post('getPerson');
 };
 
+exports.cas = function(ticket) {
+  return post('cas', {
+    ticket: ticket
+  });
+};
+
 exports.autoPing = function() {
   var fn;
   return (fn = function() {
-    return post('ping').fin(function() {
+    return Q.all([post('ping'), Q.delay(5000)]).fin(function() {
       return setTimeout(fn);
     });
   })();
 };
 
 
-},{"../log":39,"./ex":42,"./getPost":43,"./names":46}],45:[function(require,module,exports){
-return;
+},{"../log":39,"./ex":42,"./getPost":43,"./names":46,"q":82}],45:[function(require,module,exports){
+
 
 
 },{}],46:[function(require,module,exports){
 exports.gets = ['loginEmailValid'];
 
-exports.posts = ['getPermissions', 'getRoles', 'getPersons', 'getProfessors', 'getChores', 'getCurrentTerm', 'getTerms', 'getOfferings', 'getCourses', 'getRequestForAssistants', 'getStudentRequestForAssistants', 'getProfessorOfferings', 'reportBug', 'cas', 'login', 'register', 'changeEmail', 'addRequiredCourse', 'removeRequiredCourse', 'sendRequestForAssistant', 'changeRequestForAssistant', 'deleteRequestForAssistant', 'closeOffering', 'batchAddOfferings', 'sendEmail', 'resetPassword'];
+exports.posts = ['getPermissions', 'getRoles', 'getPersons', 'getProfessors', 'getChores', 'getCurrentTerm', 'getOfferings', 'getCourses', 'getRequestForAssistants', 'getStudentRequestForAssistants', 'getProfessorOfferings', 'reportBug', 'login', 'register', 'changeEmail', 'sendEmail', 'resetPassword', 'casLogin', 'changeRequestForAssistant'];
 
 exports.cruds = [
   {
@@ -5753,7 +5925,7 @@ exports.cruds = [
   }
 ];
 
-exports.others = ['logout', 'casLogin', 'setStaticData'];
+exports.others = ['logout', 'setStaticData', 'sendRequestForAssistant', 'addRequiredCourse', 'removeRequiredCourse', 'closeOffering', 'batchAddOfferings'];
 
 exports.states = ['person', 'roles', 'permissions', 'terms', 'currentTerm', 'offerings', 'courses', 'persons', 'chores', 'professors', 'deputies', 'requestForAssistants', 'studentDegree', 'studentRequestForAssistants', 'professorOfferings'];
 
@@ -5781,23 +5953,23 @@ module.exports = {
   verify: {
     stateName: 'person'
   },
-  addRequiredCourse: {
-    stateName: 'proferrorOfferings'
-  },
-  removeRequiredCourse: {
-    stateName: 'proferrorOfferings'
-  },
   sendRequestForAssistant: {
-    stateName: 'studentRequestForAssistants'
+    stateName: 'requestForAssistants'
   },
   deleteRequestForAssistant: {
-    stateName: 'studentRequestForAssistants'
+    stateName: 'requestForAssistants'
   },
-  changeRequestForAssistantState: {
-    stateName: 'professorOfferings'
+  addRequiredCourse: {
+    stateName: 'offerings'
+  },
+  removeRequiredCourse: {
+    stateName: 'offerings'
+  },
+  changeRequestForAssistant: {
+    stateName: 'offerings'
   },
   closeOffering: {
-    stateName: 'professorOfferings'
+    stateName: 'offerings'
   },
   batchAddOfferings: {
     stateName: 'offerings'
@@ -5885,6 +6057,37 @@ pubSubs = names.map(function(name) {
     pubSub: exports[name] = createPubSub(name)
   };
 });
+
+exports.all = function() {
+  var callback, keys, options, resolved, unsubscribe, unsubscribes, values;
+  if (arguments.length === 2) {
+    keys = arguments[0], callback = arguments[1];
+    options = {};
+  } else {
+    keys = arguments[0], options = arguments[1], callback = arguments[2];
+  }
+  resolved = {};
+  values = {};
+  unsubscribes = keys.map(function(key) {
+    return exports[key].on(options, function(value) {
+      resolved[key] = true;
+      values[key] = value;
+      if (keys.every(function(keys) {
+        return resolved[keys];
+      })) {
+        return callback(keys.map(function(key) {
+          return values[key];
+        }));
+      }
+    });
+  });
+  unsubscribe = function() {
+    return unsubscribes.forEach(function(unsubscribe) {
+      return unsubscribe();
+    });
+  };
+  return unsubscribe;
+};
 
 exports.instance = function(thisComponent) {
   var exports;
@@ -6033,6 +6236,22 @@ exports.persons.on({}, function(persons) {
     type = arg.type;
     return type === 'نماینده استاد';
   }));
+});
+
+exports.currentTerm.on({}, function(currentTerm) {
+  var i, part, ref, results, terms, year;
+  ref = currentTerm.split('-'), year = ref[0], part = ref[1];
+  terms = [].concat.apply([], (function() {
+    results = [];
+    for (var i = 1390; 1390 <= year ? i <= year : i >= year; 1390 <= year ? i++ : i--){ results.push(i); }
+    return results;
+  }).apply(this).map(function(year) {
+    return [year + "-1", year + "-2"];
+  }));
+  if (+part === 1) {
+    terms.splice(terms.length - 1, 1);
+  }
+  return exports.terms.set(terms);
 });
 
 
@@ -6354,7 +6573,7 @@ module.exports = component('crudPage', function(arg, arg1) {
   });
   deleteButtonVisible = false;
   offDeleteClick = void 0;
-  view = E(null, noData = E(null, 'در حال بارگزاری...'), yesData = [
+  view = E(null, noData = E(null, 'در حال بارگذاری...'), yesData = [
     E({
       "class": 'row',
       margin: '10px 0'
@@ -6525,7 +6744,7 @@ module.exports = component('adminView', function(arg) {
 
 
 },{"../../utils/component":34,"./courses":51,"./notTrainedStudents":55,"./offerings":58,"./paymentStudents":60,"./persons":62,"./requestForAssistants":66,"./staticData":69}],55:[function(require,module,exports){
-var component, numberInput, searchBoxStyle, table, textIsInSearch;
+var component, numberInput, searchBoxStyle, stateSyncedDropdown, table, textIsInSearch;
 
 component = require('../../utils/component');
 
@@ -6533,12 +6752,14 @@ table = require('../../components/table');
 
 searchBoxStyle = require('../../components/table/searchBoxStyle');
 
+stateSyncedDropdown = require('../../components/dropdown/stateSynced');
+
 numberInput = require('../../components/restrictedInput/number');
 
 textIsInSearch = require('../../utils').textIsInSearch;
 
 module.exports = component('notTrainesdStudents', function(arg) {
-  var E, dom, events, fullNameInput, golestanNumberInput, loading, noData, onEvent, others, service, setStyle, state, students, tableInstance, update, view, yesData;
+  var E, dom, events, fullNameInput, golestanNumberInput, loading, noData, onEvent, others, service, setStyle, state, students, tableInstance, termDropdown, update, view, yesData;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, others = arg.others;
   E = dom.E, setStyle = dom.setStyle;
   onEvent = events.onEvent;
@@ -6550,41 +6771,51 @@ module.exports = component('notTrainesdStudents', function(arg) {
   fullNameInput = E('input', searchBoxStyle.textbox);
   golestanNumberInput = E(numberInput, true);
   setStyle(golestanNumberInput, searchBoxStyle.textbox);
-  view = E(null, noData = E(null, 'در حال بارگزاری...'), yesData = [
-    E({
-      "class": 'row',
-      margin: '10px 0'
-    }, E('a', {
-      "class": 'btn btn-success',
-      href: '/notTrainedStudents.xlsx'
-    }, 'دریافت فایل اکسل'), E({
-      marginTop: 30
-    }, tableInstance = E(table, {
-      headers: [
-        {
-          name: 'نام کامل',
-          key: 'fullName',
-          searchBox: fullNameInput
-        }, {
-          name: 'شماره دانشجویی',
-          key: 'golestanNumber',
-          searchBox: golestanNumberInput
-        }, {
-          name: 'ایمیل',
-          englishKey: 'email'
-        }, {
-          name: 'مقطع',
-          key: 'degree'
-        }
-      ]
-    })))
-  ]);
+  termDropdown = E(stateSyncedDropdown, {
+    stateName: 'terms',
+    selectedIdStateName: 'currentTerm'
+  });
+  setStyle(termDropdown, searchBoxStyle.font);
+  setStyle(termDropdown.input, searchBoxStyle.input);
+  termDropdown.showEmpty(true);
+  view = E(null, noData = E(null, 'در حال بارگذاری...'), yesData = E({
+    "class": 'row',
+    margin: '10px 0'
+  }, E('a', {
+    "class": 'btn btn-success',
+    href: '/notTrainedStudents.xlsx'
+  }, 'دریافت فایل اکسل'), E({
+    marginTop: 30
+  }, tableInstance = E(table, {
+    headers: [
+      {
+        name: 'نام کامل دانشجو',
+        key: 'fullName',
+        searchBox: fullNameInput
+      }, {
+        name: 'شماره دانشجویی',
+        key: 'golestanNumber',
+        searchBox: golestanNumberInput
+      }, {
+        name: 'ترم',
+        key: 'termId',
+        searchBox: termDropdown
+      }, {
+        name: 'ایمیل',
+        englishKey: 'email'
+      }, {
+        name: 'مقطع',
+        key: 'degree'
+      }
+    ]
+  }))));
   loading(['persons', 'offerings', 'currentTerm', 'requestForAssistants'], yesData, noData);
   students = [];
   update = function() {
-    var filteredStudents, fullName, golestanNumber;
+    var filteredStudents, fullName, golestanNumber, term;
     fullName = fullNameInput.value();
     golestanNumber = golestanNumberInput.value();
+    term = termDropdown.value();
     filteredStudents = students;
     if (fullName) {
       filteredStudents = filteredStudents.filter(function(person) {
@@ -6596,30 +6827,38 @@ module.exports = component('notTrainesdStudents', function(arg) {
         return textIsInSearch(person.golestanNumber, golestanNumber);
       });
     }
+    if (~term) {
+      filteredStudents = filteredStudents.filter(function(person) {
+        return textIsInSearch(person.termId, term);
+      });
+    }
     return tableInstance.setData(filteredStudents);
   };
-  state.all(['persons', 'offerings', 'currentTerm', 'requestForAssistants'], function(arg1) {
-    var currentTerm, offerings, persons, requestForAssistants;
-    persons = arg1[0], offerings = arg1[1], currentTerm = arg1[2], requestForAssistants = arg1[3];
+  state.all(['persons', 'offerings', 'requestForAssistants'], function(arg1) {
+    var offerings, persons, requestForAssistants;
+    persons = arg1[0], offerings = arg1[1], requestForAssistants = arg1[2];
     students = persons.filter(function(student) {
       return requestForAssistants.some(function(requestForAssistant) {
         if (String(requestForAssistant.studentId) === String(student.id) && requestForAssistant.status === 'تایید شده' && requestForAssistant.isTrained === false) {
           return offerings.some(function(arg2) {
             var id, termId;
             id = arg2.id, termId = arg2.termId;
-            return String(id) === String(requestForAssistant.offeringId) && termId === currentTerm;
+            if (String(id) === String(requestForAssistant.offeringId)) {
+              student.termId = termId;
+              return true;
+            }
           });
         }
       });
     });
     return update();
   });
-  onEvent([fullNameInput, golestanNumberInput], ['input', 'pInput'], update);
+  onEvent([fullNameInput, golestanNumberInput, termDropdown.input], ['input', 'pInput'], update);
   return view;
 });
 
 
-},{"../../components/restrictedInput/number":15,"../../components/table":17,"../../components/table/searchBoxStyle":18,"../../utils":38,"../../utils/component":34}],56:[function(require,module,exports){
+},{"../../components/dropdown/stateSynced":9,"../../components/restrictedInput/number":15,"../../components/table":17,"../../components/table/searchBoxStyle":18,"../../utils":38,"../../utils/component":34}],56:[function(require,module,exports){
 var component, extend, generateId, modal, numberInput, ref, stateSyncedDropdown, toEnglish;
 
 component = require('../../../utils/component');
@@ -6824,12 +7063,12 @@ component = require('../../../utils/component');
 sendEmail = require('../sendEmail');
 
 module.exports = component('offeringsExtras', function(arg, arg1) {
-  var E, _sendEmail, dom, events, goToRequestForAssistants, hide, offViewRequestForAssistantsClick, onEvent, professors, returnObject, sendEmailToProfessors, setStyle, show, viewRequestForAssistants;
+  var E, _sendEmail, dom, events, goToRequestForAssistants, hide, offViewRequestForAssistantsClick, onEvent, professorIds, returnObject, sendEmailToProfessors, setStyle, show, view, viewRequestForAssistants;
   dom = arg.dom, events = arg.events, returnObject = arg.returnObject;
   goToRequestForAssistants = arg1.goToRequestForAssistants;
   E = dom.E, setStyle = dom.setStyle, show = dom.show, hide = dom.hide;
   onEvent = events.onEvent;
-  E('span', null, hide(sendEmailToProfessors = E({
+  view = E('span', null, hide(sendEmailToProfessors = E({
     "class": 'btn btn-default',
     marginRight: 10
   })), hide(viewRequestForAssistants = E({
@@ -6837,13 +7076,9 @@ module.exports = component('offeringsExtras', function(arg, arg1) {
     marginRight: 10
   })));
   _sendEmail = E(sendEmail);
-  professors = void 0;
+  professorIds = void 0;
   onEvent(sendEmailToProfessors, 'click', function() {
-    return _sendEmail.show(professors.map(function(arg2) {
-      var id;
-      id = arg2.id;
-      return id;
-    }));
+    return _sendEmail.show(professorIds);
   });
   offViewRequestForAssistantsClick = void 0;
   returnObject({
@@ -6859,14 +7094,14 @@ module.exports = component('offeringsExtras', function(arg, arg1) {
       }
       if (selectedDescriptors.length) {
         show([sendEmailToProfessors, viewRequestForAssistants]);
-        professors = Object.keys(selectedDescriptors.reduce((function(acc, arg2) {
+        professorIds = Object.keys(selectedDescriptors.reduce((function(acc, arg2) {
           var entity;
           entity = arg2.entity;
           acc[entity.professorId] = true;
           return acc;
         }), {}));
         setStyle(sendEmailToProfessors, {
-          text: "ارسال ایمیل به " + professors.length + " استاد انتخاب شده"
+          text: "ارسال ایمیل به " + professorIds.length + " استاد انتخاب شده"
         });
         setStyle(viewRequestForAssistants, {
           text: "مشاهده درخواست‌های " + selectedDescriptors.length + " فراخوان انتخاب شده"
@@ -6879,7 +7114,7 @@ module.exports = component('offeringsExtras', function(arg, arg1) {
           }));
         });
       } else {
-        return hide([sendEmailToStudents, viewRequestForAssistants]);
+        return hide([sendEmailToProfessors, viewRequestForAssistants]);
       }
     }
   });
@@ -6917,7 +7152,6 @@ module.exports = component('offeringsView', function(arg, arg1) {
   service.getOfferings();
   service.getCourses();
   service.getPersons();
-  service.getTerms();
   service.getCurrentTerm();
   service.getRequestForAssistants();
   termDropdown = E(stateSyncedDropdown, {
@@ -6949,7 +7183,9 @@ module.exports = component('offeringsView', function(arg, arg1) {
     extraButtonsBefore: multiselectInstance = E(multiselect, function(callback) {
       return view.setSelectedRows(callback);
     }),
-    extraButtons: extrasInstance = E(extras, goToRequestForAssistants),
+    extraButtons: extrasInstance = E(extras, {
+      goToRequestForAssistants: goToRequestForAssistants
+    }),
     headers: [
       {
         name: 'نام درس',
@@ -7182,7 +7418,7 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
 
 
 },{"../../../utils/component":34,"../../../utils/dom":36}],60:[function(require,module,exports){
-var component, extend, numberInput, ref, searchBoxStyle, table, textIsInSearch;
+var component, extend, numberInput, ref, searchBoxStyle, stateSyncedDropdown, table, textIsInSearch;
 
 component = require('../../utils/component');
 
@@ -7190,12 +7426,14 @@ table = require('../../components/table');
 
 searchBoxStyle = require('../../components/table/searchBoxStyle');
 
+stateSyncedDropdown = require('../../components/dropdown/stateSynced');
+
 numberInput = require('../../components/restrictedInput/number');
 
 ref = require('../../utils'), extend = ref.extend, textIsInSearch = ref.textIsInSearch;
 
 module.exports = component('notTrainesdStudents', function(arg) {
-  var E, courseNameInput, courseNumberInput, dom, events, fullNameInput, golestanNumberInput, headers, loading, noData, onEvent, others, professorFullNameInput, professorGolestanNumberInput, requests, service, setStyle, state, tableInstance, update, view, yesData;
+  var E, courseNameInput, courseNumberInput, dom, events, fullNameInput, golestanNumberInput, headers, loading, noData, onEvent, others, professorFullNameInput, professorGolestanNumberInput, requests, service, setStyle, state, tableInstance, termDropdown, update, view, yesData;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, others = arg.others;
   E = dom.E, setStyle = dom.setStyle;
   onEvent = events.onEvent;
@@ -7214,65 +7452,75 @@ module.exports = component('notTrainesdStudents', function(arg) {
   professorFullNameInput = E('input', searchBoxStyle.textbox);
   professorGolestanNumberInput = E(numberInput, true);
   setStyle(professorGolestanNumberInput, searchBoxStyle.textbox);
-  view = E(null, noData = E(null, 'در حال بارگزاری...'), yesData = [
-    E({
-      "class": 'row',
-      margin: '10px 0'
-    }, E('a', {
-      "class": 'btn btn-success',
-      href: '/paymentStudents.xlsx'
-    }, 'دریافت فایل اکسل'), E({
-      marginTop: 30
-    }, tableInstance = E(table, {
-      headers: headers = [
-        {
-          name: 'نام کامل',
-          key: 'fullName',
-          searchBox: fullNameInput
-        }, {
-          name: 'شماره دانشجویی',
-          key: 'golestanNumber',
-          searchBox: golestanNumberInput
-        }, {
-          name: 'نام درس',
-          key: 'courseName',
-          searchBox: courseNameInput
-        }, {
-          name: 'شماره درس',
-          key: 'courseNumber',
-          searchBox: courseNumberInput
-        }, {
-          name: 'نام کامل استاد',
-          key: 'professorFullName',
-          searchBox: professorFullNameInput
-        }, {
-          name: 'شماره پرسنلی استاد',
-          key: 'professorGolestanNumber',
-          searchBox: professorGolestanNumberInput
-        }, {
-          name: 'مقطع',
-          key: 'degree'
-        }, {
-          name: 'دستیار اصلی است',
-          key: 'isChiefTA'
-        }
-      ],
-      sort: {
-        header: headers[2],
-        direction: 'up'
+  termDropdown = E(stateSyncedDropdown, {
+    stateName: 'terms',
+    selectedIdStateName: 'currentTerm'
+  });
+  setStyle(termDropdown, searchBoxStyle.font);
+  setStyle(termDropdown.input, searchBoxStyle.input);
+  termDropdown.showEmpty(true);
+  view = E(null, noData = E(null, 'در حال بارگذاری...'), yesData = E({
+    "class": 'row',
+    margin: '10px 0'
+  }, E('a', {
+    "class": 'btn btn-success',
+    href: '/paymentStudents.xlsx'
+  }, 'دریافت فایل اکسل'), E({
+    marginTop: 30
+  }, tableInstance = E(table, {
+    headers: headers = [
+      {
+        name: 'نام کامل دانشجو',
+        key: 'fullName',
+        searchBox: fullNameInput
+      }, {
+        name: 'شماره دانشجویی',
+        key: 'golestanNumber',
+        searchBox: golestanNumberInput
+      }, {
+        name: 'نام درس',
+        key: 'courseName',
+        searchBox: courseNameInput
+      }, {
+        name: 'شماره درس',
+        key: 'courseNumber',
+        searchBox: courseNumberInput
+      }, {
+        name: 'نام کامل استاد',
+        key: 'professorFullName',
+        searchBox: professorFullNameInput
+      }, {
+        name: 'شماره پرسنلی استاد',
+        key: 'professorGolestanNumber',
+        searchBox: professorGolestanNumberInput
+      }, {
+        name: 'ترم',
+        key: 'termId',
+        searchBox: termDropdown
+      }, {
+        name: 'مقطع',
+        key: 'degree'
+      }, {
+        name: 'دستیار اصلی است',
+        key: 'isChiefTA'
       }
-    })))
-  ]);
+    ],
+    sort: {
+      header: headers[2],
+      direction: 'up'
+    }
+  }))));
   loading(['persons', 'professors', 'offerings', 'currentTerm', 'courses', 'requestForAssistants'], yesData, noData);
   requests = [];
   update = function() {
-    var courseName, courseNumber, filteredRequests, fullName, golestanNumber, professorFullName, professorGolestanNumber;
+    var courseName, courseNumber, filteredRequests, fullName, golestanNumber, professorFullName, professorGolestanNumber, term;
     fullName = fullNameInput.value();
     golestanNumber = golestanNumberInput.value();
     courseName = courseNameInput.value();
     courseNumber = courseNumberInput.value();
     professorFullName = professorFullNameInput.value();
     professorGolestanNumber = professorGolestanNumberInput.value();
+    term = termDropdown.value();
     filteredRequests = requests;
     if (fullName) {
       filteredRequests = filteredRequests.filter(function(request) {
@@ -7304,11 +7552,16 @@ module.exports = component('notTrainesdStudents', function(arg) {
         return textIsInSearch(request.professorGolestanNumber, professorGolestanNumber);
       });
     }
+    if (~term) {
+      filteredRequests = filteredRequests.filter(function(request) {
+        return textIsInSearch(request.termId, term);
+      });
+    }
     return tableInstance.setData(filteredRequests);
   };
-  state.all(['persons', 'professors', 'offerings', 'currentTerm', 'courses', 'requestForAssistants'], function(arg1) {
-    var courses, currentTerm, offerings, persons, professors, requestForAssistants;
-    persons = arg1[0], professors = arg1[1], offerings = arg1[2], currentTerm = arg1[3], courses = arg1[4], requestForAssistants = arg1[5];
+  state.all(['persons', 'professors', 'offerings', 'courses', 'requestForAssistants'], function(arg1) {
+    var courses, offerings, persons, professors, requestForAssistants;
+    persons = arg1[0], professors = arg1[1], offerings = arg1[2], courses = arg1[3], requestForAssistants = arg1[4];
     requests = requestForAssistants.filter(function(request) {
       if (request.status !== 'تایید شده') {
         return false;
@@ -7317,7 +7570,7 @@ module.exports = component('notTrainesdStudents', function(arg) {
         if (String(request.studentId) === String(student.id)) {
           return offerings.some(function(offering) {
             var course, professor;
-            if (String(offering.id) === String(request.offeringId) && offering.termId === currentTerm) {
+            if (String(offering.id) === String(request.offeringId)) {
               course = courses.filter(function(arg2) {
                 var id;
                 id = arg2.id;
@@ -7336,7 +7589,8 @@ module.exports = component('notTrainesdStudents', function(arg) {
                 courseNumber: course.number,
                 professorFullName: professor.fullName,
                 professorGolestanNumber: professor.golestanNumber,
-                isChiefTA: request.isChiefTA ? 'بله' : 'خیر'
+                isChiefTA: request.isChiefTA ? 'بله' : 'خیر',
+                termId: offering.termId
               });
               return true;
             }
@@ -7346,12 +7600,12 @@ module.exports = component('notTrainesdStudents', function(arg) {
     });
     return update();
   });
-  onEvent([fullNameInput, golestanNumberInput, courseNameInput, courseNumberInput, professorFullNameInput, professorGolestanNumberInput], ['input', 'pInput'], update);
+  onEvent([fullNameInput, golestanNumberInput, courseNameInput, courseNumberInput, professorFullNameInput, professorGolestanNumberInput, termDropdown.input], ['input', 'pInput'], update);
   return view;
 });
 
 
-},{"../../components/restrictedInput/number":15,"../../components/table":17,"../../components/table/searchBoxStyle":18,"../../utils":38,"../../utils/component":34}],61:[function(require,module,exports){
+},{"../../components/dropdown/stateSynced":9,"../../components/restrictedInput/number":15,"../../components/table":17,"../../components/table/searchBoxStyle":18,"../../utils":38,"../../utils/component":34}],61:[function(require,module,exports){
 var component, dropdown, extend, generateId, modal, numberInput, ref, toEnglish;
 
 component = require('../../../utils/component');
@@ -7432,7 +7686,7 @@ module.exports = component('personsCredit', function(arg) {
     }, 'مقطع'), degree)
   ];
   allInputs = [type.input, fullName, email, canLoginWithEmail, degree.input];
-  onEvent(allInputs, ['input, pInput', 'change'], function() {
+  onEvent(allInputs, ['input', 'pInput', 'change'], function() {
     return modal.instance.setEnabled(~type.value() && fullName.value() && (type.value() !== 'دانشجو' || ~degree.value()));
   });
   onEnter(allInputs, function() {
@@ -7453,8 +7707,9 @@ module.exports = component('personsCredit', function(arg) {
   getServiceData = function() {
     var person;
     person = {
+      type: type.value(),
       fullName: fullName.value(),
-      email: email.value(),
+      email: email.value() || null,
       canLoginWithEmail: canLoginWithEmail.checked(),
       golestanNumber: golestanNumber.value() ? toEnglish(golestanNumber.value()) : null
     };
@@ -7549,6 +7804,9 @@ module.exports = component('personsCredit', function(arg) {
           setStyle(canLoginWithEmail, {
             value: ''
           });
+          setStyle(canLoginWithEmail, {
+            checked: false
+          });
         }
         return modal.instance.display({
           enabled: isEdit,
@@ -7608,9 +7866,9 @@ numberInput = require('../../../components/restrictedInput/number');
 textIsInSearch = require('../../../utils').textIsInSearch;
 
 module.exports = component('personsView', function(arg) {
-  var E, dom, events, fullNameInput, golestanNumberInput, multiselectInstance, onEvent, persons, service, setStyle, state, typeDropdown, update, view;
+  var E, append, dom, empty, events, fullNameInput, golestanNumberInput, multiselectInstance, onEvent, pagination, persons, service, setStyle, state, typeDropdown, update, view;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service;
-  E = dom.E, setStyle = dom.setStyle;
+  E = dom.E, setStyle = dom.setStyle, append = dom.append, empty = dom.empty;
   onEvent = events.onEvent;
   service.getPersons();
   fullNameInput = E('input', searchBoxStyle.textbox);
@@ -7621,7 +7879,7 @@ module.exports = component('personsView', function(arg) {
   typeDropdown.update(['کارشناس آموزش', 'استاد', 'دانشجو', 'نماینده استاد']);
   golestanNumberInput = E(numberInput, true);
   setStyle(golestanNumberInput, searchBoxStyle.textbox);
-  view = E(crudPage, {
+  view = E(null, E(crudPage, {
     entityName: 'شخص',
     requiredStates: ['persons'],
     extraButtonsBefore: multiselectInstance = E(multiselect, function(callback) {
@@ -7653,10 +7911,13 @@ module.exports = component('personsView', function(arg) {
         return id;
       }));
     }
-  });
+  }), pagination = E({
+    "class": 'btn-group',
+    marginTop: 100
+  }));
   persons = [];
   update = function() {
-    var filteredPersons, fullName, golestanNumber, type;
+    var filteredPersons, fullName, golestanNumber, i, paginationButtons, ref, results, type;
     type = typeDropdown.value();
     fullName = fullNameInput.value();
     golestanNumber = golestanNumberInput.value();
@@ -7676,7 +7937,31 @@ module.exports = component('personsView', function(arg) {
         return textIsInSearch(person.golestanNumber, golestanNumber);
       });
     }
-    return view.setData(filteredPersons);
+    empty(pagination);
+    return append(pagination, paginationButtons = (function() {
+      results = [];
+      for (var i = 1, ref = filteredPersons.length / 50; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--){ results.push(i); }
+      return results;
+    }).apply(this).map(function(pageNumber) {
+      var gotoPage, paginationButton;
+      paginationButton = E({
+        "class": 'btn btn-defualt'
+      }, pageNumber);
+      gotoPage = function() {
+        setStyle(paginationButtons, {
+          "class": 'btn btn-defualt'
+        });
+        setStyle(paginationButton, {
+          "class": 'btn btn-primary'
+        });
+        return view.setData(filteredPersons.slice(pageNumber - 1, Math.min(filteredPersons.length(-1, pageNumber - 1 + 50))));
+      };
+      onEvent(paginationButton, 'click', gotoPage);
+      if (pageNumber === 1) {
+        gotoPage();
+      }
+      return paginationButton;
+    }));
   };
   state.persons.on(function(_persons) {
     persons = _persons;
@@ -7722,13 +8007,13 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
     "class": 'divider'
   }), l2 = E('li', null, E('a', {
     cursor: 'pointer'
-  }, 'انتخاب کارشناسان آموزش')), l3 = E('li', null, E('a', {
+  }, 'انتخاب اساتید')), l3 = E('li', null, E('a', {
     cursor: 'pointer'
-  }, 'انتخاب اساتید')), l4 = E('li', null, E('a', {
+  }, 'انتخاب دانشجویان')), l4 = E('li', null, E('a', {
     cursor: 'pointer'
-  }, 'انتخاب دانشجویان')), l5 = E('li', null, E('a', {
+  }, 'انتخاب نمایندگان استاد')), l5 = E('li', null, E('a', {
     cursor: 'pointer'
-  }, 'انتخاب نمایندگان استاد'))));
+  }, 'انتخاب کارشناسان آموزش'))));
   onEvent(button, 'click', checkbox, function() {
     return addClass(group, 'open');
   });
@@ -7762,7 +8047,7 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
       return rows.filter(function(arg1) {
         var entity;
         entity = arg1.entity;
-        return entity.type === 'کارشناس آموزش';
+        return entity.type === 'استاد';
       });
     });
   });
@@ -7771,7 +8056,7 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
       return rows.filter(function(arg1) {
         var entity;
         entity = arg1.entity;
-        return entity.type === 'استاد';
+        return entity.type === 'دانشجو';
       });
     });
   });
@@ -7780,7 +8065,7 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
       return rows.filter(function(arg1) {
         var entity;
         entity = arg1.entity;
-        return entity.type === 'دانشجو';
+        return entity.type === 'نماینده استاد';
       });
     });
   });
@@ -7789,7 +8074,7 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
       return rows.filter(function(arg1) {
         var entity;
         entity = arg1.entity;
-        return entity.type === 'نماینده استاد';
+        return entity.type === 'کارشناس آموزش';
       });
     });
   });
@@ -7904,7 +8189,7 @@ module.exports = component('requestForAssistantsCredit', function(arg) {
               "class": 'form-group'
             }, E('label', {
               "for": id = generateId()
-            }, "نمره درس " + course.name), input = E('input', {
+            }, "نمره درس " + course.name), input = E(gradeInput), setStyle(input, {
               id: id,
               "class": 'form-control',
               value: grade
@@ -7959,7 +8244,7 @@ module.exports = component('requestForAssistantsCredit', function(arg) {
           submit: function() {
             return service.updateRequestForAssistant({
               id: requestForAssistant.id,
-              gpa: gpa.value(),
+              gpa: toEnglish(gpa.value()),
               message: message.value(),
               isTrained: isTrained.checked(),
               grades: grades.map(function(arg1) {
@@ -7967,7 +8252,7 @@ module.exports = component('requestForAssistantsCredit', function(arg) {
                 course = arg1.course, input = arg1.input;
                 return {
                   courseId: course.id,
-                  grade: input.value()
+                  grade: toEnglish(input.value())
                 };
               })
             });
@@ -7987,7 +8272,7 @@ component = require('../../../utils/component');
 sendEmail = require('../sendEmail');
 
 module.exports = component('requestForAssistantsExtras', function(arg, arg1) {
-  var E, _sendEmail, dom, events, goToRequestForAssistants, hide, offeringIds, onEvent, professors, returnObject, sendEmailToProfessors, sendEmailToStudents, setStyle, show, students, view;
+  var E, _sendEmail, dom, events, goToRequestForAssistants, hide, offeringIds, onEvent, professorIds, returnObject, sendEmailToProfessors, sendEmailToStudents, setStyle, show, studentIds, view;
   dom = arg.dom, events = arg.events, returnObject = arg.returnObject;
   offeringIds = arg1.offeringIds, goToRequestForAssistants = arg1.goToRequestForAssistants;
   E = dom.E, setStyle = dom.setStyle, show = dom.show, hide = dom.hide;
@@ -8015,20 +8300,12 @@ module.exports = component('requestForAssistantsExtras', function(arg, arg1) {
     "class": 'btn btn-default'
   }))));
   _sendEmail = E(sendEmail);
-  students = professors = void 0;
+  studentIds = professorIds = void 0;
   onEvent(sendEmailToProfessors, 'click', function() {
-    return _sendEmail.show(professors.map(function(arg2) {
-      var id;
-      id = arg2.id;
-      return id;
-    }));
+    return _sendEmail.show(professorIds);
   });
   onEvent(sendEmailToStudents, 'click', function() {
-    return _sendEmail.show(students.map(function(arg2) {
-      var id;
-      id = arg2.id;
-      return id;
-    }));
+    return _sendEmail.show(studentIds);
   });
   returnObject({
     update: function(descriptors) {
@@ -8041,23 +8318,23 @@ module.exports = component('requestForAssistantsExtras', function(arg, arg1) {
       if (selectedDescriptors.length) {
         show(sendEmailToStudents);
         show(sendEmailToProfessors);
-        students = Object.keys(selectedDescriptors.reduce((function(acc, arg2) {
+        studentIds = Object.keys(selectedDescriptors.reduce((function(acc, arg2) {
           var entity;
           entity = arg2.entity;
           acc[entity.studentId] = true;
           return acc;
         }), {}));
         setStyle(sendEmailToStudents, {
-          text: "ارسال ایمیل به " + students.length + " دانشجو انتخاب شده"
+          text: "ارسال ایمیل به " + studentIds.length + " دانشجو انتخاب شده"
         });
-        professors = Object.keys(selectedDescriptors.reduce((function(acc, arg2) {
+        professorIds = Object.keys(selectedDescriptors.reduce((function(acc, arg2) {
           var entity;
           entity = arg2.entity;
           acc[entity.professorId] = true;
           return acc;
         }), {}));
         return setStyle(sendEmailToProfessors, {
-          text: "ارسال ایمیل به " + professors.length + " استاد انتخاب شده"
+          text: "ارسال ایمیل به " + professorIds.length + " استاد انتخاب شده"
         });
       } else {
         hide(sendEmailToStudents);
@@ -8100,7 +8377,6 @@ module.exports = component('requestForAssistantsView', function(arg, arg1) {
   service.getPersons();
   service.getCourses();
   service.getOfferings();
-  service.getTerms();
   service.getCurrentTerm();
   service.getRequestForAssistants();
   termDropdown = E(stateSyncedDropdown, {
@@ -8208,8 +8484,8 @@ module.exports = component('requestForAssistantsView', function(arg, arg1) {
       return extrasInstance.update(descriptors);
     },
     credit: E(credit).credit,
-    deleteItem: function(requestForAssistants) {
-      return service.deleteRequestForAssistants(requestForAssistant.map(function(arg2) {
+    deleteItems: function(requestForAssistants) {
+      return service.deleteRequestForAssistants(requestForAssistants.map(function(arg2) {
         var id;
         id = arg2.id;
         return id;
@@ -8508,63 +8784,77 @@ module.exports = component('requestForAssistantsExtras', function(arg) {
 
 
 },{"../../singletons/modal":33,"../../utils/component":34,"../../utils/dom":36}],69:[function(require,module,exports){
-var component, generateId, stateSyncedDropdown, toEnglish;
+var compare, component, generateId, modal, ref, toEnglish;
 
 component = require('../../utils/component');
 
-stateSyncedDropdown = require('../../components/dropdown/stateSynced');
+modal = require('../../singletons/modal');
 
-toEnglish = require('../../utils').toEnglish;
+ref = require('../../utils'), toEnglish = ref.toEnglish, compare = ref.compare;
 
 generateId = require('../../utils/dom').generateId;
 
 module.exports = component('adminStaticDataView', function(arg) {
-  var E, disable, dom, enable, events, id, loading, noData, onEvent, others, service, setStyle, state, submit, terms, view, yesData;
+  var E, disable, dom, enable, events, loading, noData, onEvent, others, service, setStyle, state, submit, termLabel, view, yesData;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, others = arg.others;
-  E = dom.E, setStyle = dom.setStyle, enable = dom.enable, disable = dom.disable, loading = dom.loading;
+  E = dom.E, setStyle = dom.setStyle, enable = dom.enable, disable = dom.disable;
   onEvent = events.onEvent;
   loading = others.loading;
-  service.getTerms();
   service.getCurrentTerm();
-  id = generateId();
-  terms = E(stateSyncedDropdown, {
-    stateName: 'terms',
-    selectedIdStateName: 'currentTerm'
-  });
-  setStyle(terms, {
-    id: id
-  });
-  view = E(null, noData = E(null, 'در حال بارگزاری...'), yesData = E({
+  view = E(null, noData = E(null, 'در حال بارگذاری...'), yesData = E({
     "class": 'form-horizontal',
     marginTop: 40
-  }, E({
-    "class": 'form-group '
-  }, E('label', {
-    "for": id,
-    "class": 'control-label col-md-2'
-  }, 'ترم جاری'), E({
-    "class": 'col-md-4'
-  }, terms)), submit = E({
-    "class": 'btn btn-primary'
-  }, 'ثبت تغییرات')));
+  }, termLabel = E('label', {
+    "class": 'control-label'
+  }), submit = E({
+    "class": 'btn btn-primary',
+    marginRight: 10
+  }, 'رفتن به ترم بعد')));
   onEvent(submit, 'click', function() {
-    disable(submit);
-    return service.setStaticData([
-      {
-        key: 'currentTerm',
-        value: toEnglish(terms.value())
+    return state.currentTerm.on({
+      once: true
+    }, function(currentTerm) {
+      var nextTerm, part, ref1, year;
+      ref1 = currentTerm.split('-'), year = ref1[0], part = ref1[1];
+      switch (+part) {
+        case 1:
+          part = 2;
+          break;
+        case 2:
+          part = 1;
+          year++;
       }
-    ]).fin(function() {
-      terms.undirty();
-      return enable(submit);
+      nextTerm = year + "-" + part;
+      return modal.instance.display({
+        enabled: true,
+        autoHide: true,
+        title: '',
+        submitType: 'danger',
+        submitText: 'رفتن به ترم بعد',
+        closeText: 'لغو',
+        contents: E(null, "با کلیک روی دکمه تایید ترم جاری به " + nextTerm + " تغییر خواهد یافت. این کار غیر قابل بازگشت است."),
+        submit: function() {
+          return service.setStaticData([
+            {
+              key: 'currentTerm',
+              value: nextTerm
+            }
+          ]);
+        }
+      });
     });
   });
-  loading(['terms', 'currentTerm'], yesData, noData);
+  loading(['currentTerm'], yesData, noData);
+  state.currentTerm.on(function(currentTerm) {
+    return setStyle(termLabel, {
+      text: 'ترم جاری: ' + currentTerm
+    });
+  });
   return view;
 });
 
 
-},{"../../components/dropdown/stateSynced":9,"../../utils":38,"../../utils/component":34,"../../utils/dom":36}],70:[function(require,module,exports){
+},{"../../singletons/modal":33,"../../utils":38,"../../utils/component":34,"../../utils/dom":36}],70:[function(require,module,exports){
 var _login, component;
 
 component = require('../utils/component');
@@ -8669,14 +8959,15 @@ offeringView = require('./offeringView');
 extend = require('../../utils').extend;
 
 module.exports = component('profesorView', function(arg) {
-  var E, addClass, append, dom, empty, events, handleOfferings, handleSelectedOffering, hide, loading, noData, offState, offeringViewInstance, offerings, offeringsList, onEvent, removeClass, selectedOfferingId, service, show, state, view, yesData;
-  dom = arg.dom, events = arg.events, state = arg.state, service = arg.service;
-  E = dom.E, append = dom.append, empty = dom.empty, addClass = dom.addClass, removeClass = dom.removeClass, hide = dom.hide, show = dom.show, loading = dom.loading;
+  var E, addClass, append, dom, empty, events, handleOfferings, handleSelectedOffering, hide, loading, noData, offeringViewInstance, offerings, offeringsList, onEvent, others, removeClass, selectedOfferingId, service, show, state, view, yesData;
+  dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, others = arg.others;
+  E = dom.E, append = dom.append, empty = dom.empty, addClass = dom.addClass, removeClass = dom.removeClass, hide = dom.hide, show = dom.show;
   onEvent = events.onEvent;
+  loading = others.loading;
   service.getProfessorOfferings();
   service.getCourses();
   service.getChores();
-  view = E(null, noData = E(null, 'در حال بارگزاری...'), yesData = E({
+  view = E(null, noData = E(null, 'در حال بارگذاری...'), yesData = E({
     position: 'relative'
   }, E({
     "class": 'col-md-3',
@@ -8696,18 +8987,19 @@ module.exports = component('profesorView', function(arg) {
     if (selectedOfferingId == null) {
       return;
     }
-    show(offeringView);
+    show(offeringViewInstance);
     return offeringViewInstance.update(offerings.filter(function(arg1) {
       var id;
       id = arg1.id;
-      return String(id) === String(selectedOfferingId)[0];
-    }));
+      return String(id) === String(selectedOfferingId);
+    })[0]);
   };
   handleOfferings = function() {
     empty(offeringsList);
     append(offeringsList, offerings.map(function(arg1) {
-      var count, courseName, element, id, isClosed, requestForAssistants;
+      var count, courseName, element, id, isClosed, requestForAssistants, x;
       id = arg1.id, courseName = arg1.courseName, requestForAssistants = arg1.requestForAssistants, isClosed = arg1.isClosed;
+      x = offerings;
       count = requestForAssistants.length;
       element = E('li', {
         cursor: 'pointer',
@@ -8734,7 +9026,7 @@ module.exports = component('profesorView', function(arg) {
     return handleSelectedOffering();
   };
   loading(['offerings', 'courses', 'chores'], yesData, noData);
-  offState = state.all(['offerings', 'courses'], function(arg1) {
+  state.all(['offerings', 'courses'], function(arg1) {
     var _offerings, courses;
     _offerings = arg1[0], courses = arg1[1];
     offerings = _offerings.map(function(offering) {
@@ -8755,11 +9047,11 @@ module.exports = component('profesorView', function(arg) {
 
 
 },{"../../utils":38,"../../utils/component":34,"./offeringView":74}],73:[function(require,module,exports){
-var component, extend, ref, remove;
+var compare, component, extend, ref, remove;
 
 component = require('../../../utils/component');
 
-ref = require('../../../utils'), extend = ref.extend, remove = ref.remove;
+ref = require('../../../utils'), extend = ref.extend, remove = ref.remove, compare = ref.compare;
 
 module.exports = component('professorOfferingsCardView', function(arg, arg1) {
   var E, append, changeRequestForAssistant, chores, courses, dom, empty, events, offering, onEvent, returnObject, setStyle, state, text, update, view;
@@ -8772,15 +9064,20 @@ module.exports = component('professorOfferingsCardView', function(arg, arg1) {
   view = E();
   update = function() {
     empty(view);
-    return append(view, offering.requestForAssistants.map(function(requestForAssistant) {
+    if (!offering) {
+      return;
+    }
+    return append(view, offering.requestForAssistants.sort(function(a, b) {
+      return compare(a.id, b.id);
+    }).map(function(requestForAssistant) {
       var body;
       return E({
         "class": "panel panel-" + (requestForAssistant.status === 'تایید شده' ? 'success' : requestForAssistant.status === 'رد شده' ? 'danger' : 'info')
       }, E({
         "class": 'panel-heading'
-      }, E({
+      }, !offering.isClosed ? E({
         float: 'left'
-      }, !requestForAssistant.isClosed ? (E({
+      }, E({
         "class": 'btn-group btn-group-xs'
       }, [
         {
@@ -8810,13 +9107,13 @@ module.exports = component('professorOfferingsCardView', function(arg, arg1) {
           return changeRequestForAssistant(requestForAssistant);
         });
         return button;
-      })), E({
+      }))) : void 0, !offering.isClosed ? E({
         float: 'left',
         marginLeft: 10
-      }, 'تغییر وضعیت درخواست:')) : void 0), E('h3', {
+      }, 'تغییر وضعیت درخواست:') : void 0, E('h3', {
         "class": 'panel-title',
         fontWeight: 'bold'
-      }, text(fullName + " ("), E('a', {
+      }, text(requestForAssistant.fullName + " ("), E('a', {
         cursor: 'pointer',
         fontWeight: 'lighter',
         fontSize: 13,
@@ -8844,25 +9141,27 @@ module.exports = component('professorOfferingsCardView', function(arg, arg1) {
       }, "معدل کل: " + requestForAssistant.gpa)), E('li', null, "مقطع: " + requestForAssistant.degree), E('li', null, text('در کارگاه آموزش دستیاران آموزشی شرکت '), E('span', {
         fontWeight: 'bold',
         color: (requestForAssistant.isTrained ? 'green' : 'red')
-      }, requestForAssistant.isTrained ? 'کرده است.' : 'نکرده است.')))), requestForAssistant.message ? (function() {
+      }, requestForAssistant.isTrained ? 'کرده است.' : 'نکرده است.')))), (function() {
         var border;
         border = E({
           "class": 'col-md-4',
           borderLeft: '1px dashed #AAA',
           borderRight: '1px dashed #AAA'
-        }, [
+        }, requestForAssistant.message ? [
           E({
             fontWeight: 'bold',
             marginBottom: 10
-          }, 'پیام دانشجو: '), E('span', null, requestForAssistant.replace('\n', '<br />'))
-        ]);
+          }, 'پیام دانشجو: '), E('span', {
+            englishHtml: requestForAssistant.message.replace('\n', '<br />')
+          })
+        ] : void 0);
         setTimeout(function() {
           return setStyle(border, {
-            height: body.offsetHeight - 30
+            height: body.fn.element.offsetHeight - 30
           });
         });
         return border;
-      })() : void 0, E({
+      })(), E({
         "class": 'col-md-3'
       }, requestForAssistant.status === 'تایید شده' ? [
         E({
@@ -8875,12 +9174,12 @@ module.exports = component('professorOfferingsCardView', function(arg, arg1) {
             checked: requestForAssistant.isChiefTA
           });
           onEvent(checkbox, 'change', function() {
-            if (requestForAssistant.isClosed) {
+            if (offering.isClosed) {
               return setStyle(checkbox, {
-                checked: !checkbox.checked
+                checked: !checkbox.checked()
               });
             }
-            requestForAssistant.isChiefTA = checkbox.checked;
+            requestForAssistant.isChiefTA = checkbox.checked();
             return changeRequestForAssistant(requestForAssistant);
           });
           return checkbox;
@@ -8903,13 +9202,13 @@ module.exports = component('professorOfferingsCardView', function(arg, arg1) {
               })
             });
             onEvent(checkbox, 'change', function() {
-              if (requestForAssistant.isClosed) {
+              if (offering.isClosed) {
                 return setStyle(checkbox, {
-                  checked: !checkbox.checked
+                  checked: !checkbox.checked()
                 });
               }
               remove(requestForAssistant.chores, id);
-              if (checkbox.checked) {
+              if (checkbox.checked()) {
                 requestForAssistant.chores.push(id);
               }
               return changeRequestForAssistant(requestForAssistant);
@@ -8938,13 +9237,11 @@ module.exports = component('professorOfferingsCardView', function(arg, arg1) {
 
 
 },{"../../../utils":38,"../../../utils/component":34}],74:[function(require,module,exports){
-var Q, cardView, component, requiredCourses, sendEmail, tableView;
+var Q, cardView, component, modal, requiredCourses, sendEmail, tableView;
 
 component = require('../../../utils/component');
 
 sendEmail = require('./sendEmail');
-
-Q = require('../../../q');
 
 requiredCourses = require('./requiredCourses');
 
@@ -8952,11 +9249,38 @@ cardView = require('./cardView');
 
 tableView = require('./tableView');
 
+modal = require('../../../singletons/modal');
+
+Q = require('../../../q');
+
 module.exports = component('professorOfferingView', function(arg) {
-  var E, addClass, cardViewButton, cardViewInstance, changeRequestForAssistant, closeOffering, dom, events, hide, isEditing, lastRequest, noRequestForAssistants, offering, onEvent, removeClass, requiredCoursesInstance, returnObject, sendEmailButton, service, setStyle, show, state, tableViewButton, tableViewInstance, title, view, yesRequestForAssistants;
+  var E, _sendEmail, addClass, cardViewButton, cardViewInstance, changeRequestForAssistant, closeOffering, dom, events, hide, isEditing, lastRequest, noRequestForAssistants, offering, onEvent, removeClass, requiredCoursesInstance, returnObject, sendEmailButton, service, setStyle, show, state, tableViewButton, tableViewInstance, text, title, update, view, yesRequestForAssistants;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, returnObject = arg.returnObject;
-  E = dom.E, setStyle = dom.setStyle, show = dom.show, hide = dom.hide, addClass = dom.addClass, removeClass = dom.removeClass;
+  E = dom.E, text = dom.text, setStyle = dom.setStyle, show = dom.show, hide = dom.hide, addClass = dom.addClass, removeClass = dom.removeClass;
   onEvent = events.onEvent;
+  _sendEmail = E(sendEmail);
+  offering = void 0;
+  update = function(_offering) {
+    offering = _offering;
+    setStyle(title, {
+      text: "درس " + offering.courseName
+    });
+    requiredCoursesInstance.update(offering);
+    tableViewInstance.update(offering);
+    cardViewInstance.update(offering);
+    if (offering.isClosed) {
+      hide(closeOffering);
+    } else {
+      show(closeOffering);
+    }
+    if (offering.requestForAssistants.length) {
+      hide(noRequestForAssistants);
+      return show(yesRequestForAssistants);
+    } else {
+      show(noRequestForAssistants);
+      return hide(yesRequestForAssistants);
+    }
+  };
   isEditing = false;
   lastRequest = Q();
   changeRequestForAssistant = function(requestForAssistant) {
@@ -8970,7 +9294,8 @@ module.exports = component('professorOfferingView', function(arg) {
         status: requestForAssistant.status
       });
     }).fin(function() {
-      return isEditing = false;
+      isEditing = false;
+      return update(offering);
     });
   };
   view = E({
@@ -8987,46 +9312,47 @@ module.exports = component('professorOfferingView', function(arg) {
   }, 'نهایی کردن انتخاب دستیاران...')), requiredCoursesInstance = E(requiredCourses), noRequestForAssistants = E(null, 'هنوز دانشجویی درخواست دستیاری در این درس نکرده است.'), yesRequestForAssistants = [
     E({
       float: 'left'
-    }, sendEmailButton = E({
-      "class": 'btn btn-default'
-    }, 'ارسال ایمیل به تمام دانشجویان متقاضی دستیاری'), E({
+    }, E({
       "class": 'btn-group'
     }, tableViewButton = E('button', {
       "class": 'btn btn-default'
-    }, E({
+    }, text('نمایش جدولی'), E({
       "class": 'fa fa-table',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      marginRight: 10
     })), cardViewButton = E('button', {
       "class": 'btn btn-primary'
-    }, E({
+    }, text('نمایش کارتی'), E({
       "class": 'fa fa-bars',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      marginRight: 10
     })))), E('h4', {
-      fontWeight: 'bold',
+      fontWeight: 'bold'
+    }, 'لیست درخواست‌های دانشجویان'), sendEmailButton = E({
+      "class": 'btn btn-default',
       marginBottom: 35
-    }, 'لیست درخواست‌های دانشجویان'), hide(tableViewInstance = requestsList, E(tableView, {
+    }, 'ارسال ایمیل به تمام دانشجویان متقاضی دستیاری'), E('span', null, hide(tableViewInstance = E(tableView, {
       changeRequestForAssistant: changeRequestForAssistant
-    })), cardViewInstance = requestsList, E(cardView, {
+    })), cardViewInstance = E(cardView, {
       changeRequestForAssistant: changeRequestForAssistant
-    })
+    }))
   ]);
   onEvent(cardViewButton, 'click', function() {
-    removeClass(cardViewButton('btn-default'));
-    removeClass(tableViewButton('btn-primary'));
+    removeClass(cardViewButton, 'btn-default');
+    removeClass(tableViewButton, 'btn-primary');
     addClass(cardViewButton, 'btn-primary');
     addClass(tableViewButton, 'btn-default');
     hide(tableViewInstance);
     return show(cardViewInstance);
   });
   onEvent(tableViewButton, 'click', function() {
-    removeClass(cardViewButton('btn-primary'));
-    removeClass(tableViewButton('btn-default'));
+    removeClass(cardViewButton, 'btn-primary');
+    removeClass(tableViewButton, 'btn-default');
     addClass(cardViewButton, 'btn-default');
     addClass(tableViewButton, 'btn-primary');
     show(tableViewInstance);
     return hide(cardViewInstance);
   });
-  offering = void 0;
   onEvent(sendEmailButton, 'click', function() {
     return _sendEmail.show(offering.requestForAssistants.map(function(arg1) {
       var studentId;
@@ -9051,9 +9377,10 @@ module.exports = component('professorOfferingView', function(arg) {
       return fullName;
     });
     return modal.instance.display({
-      contents: hasPending ? E('h2', {
+      contents: hasPending ? E('h4', {
+        fontWeight: 'bold',
         color: 'red'
-      }, 'شما هنوز درخواست در حال بررسی دارید. لطفا ابتدا آنها را تایی یا رد کدید.') : [
+      }, 'شما هنوز درخواست در حال بررسی دارید. لطفا ابتدا آنها را تایید یا رد کنید.') : [
         E('h2', {
           color: 'red',
           marginBottom: 30
@@ -9076,72 +9403,55 @@ module.exports = component('professorOfferingView', function(arg) {
       closeText: hasPending ? 'بستن' : 'انصراف',
       submitType: 'danger',
       submit: function() {
-        return service.closeOffering({
-          id: offering.id
-        });
+        return service.closeOffering(offering.id);
       }
     });
   });
-  return returnObject({
+  returnObject({
     isEditing: function() {
       return isEditing;
     },
-    update: function(_offering) {
-      offering = _offering;
-      setStyle(title, {
-        text: "درس " + offering.courseName
-      });
-      requiredCoursesInstance.update(offering);
-      tableViewInstance.update(offering);
-      cardViewInstance.update(offering);
-      if (offering.isClosed) {
-        hide(closeOffering);
-      } else {
-        show(closeOffering);
-      }
-      if (offering.requestForAssistants.length) {
-        hide(noRequestForAssistants);
-        return show(yesRequestForAssistants);
-      } else {
-        show(noRequestForAssistants);
-        return hide(yesRequestForAssistants);
-      }
-    }
+    update: update
   });
+  return view;
 });
 
 
-},{"../../../q":28,"../../../utils/component":34,"./cardView":73,"./requiredCourses":75,"./sendEmail":77,"./tableView":78}],75:[function(require,module,exports){
-var component, style;
+},{"../../../q":28,"../../../singletons/modal":33,"../../../utils/component":34,"./cardView":73,"./requiredCourses":75,"./sendEmail":77,"./tableView":78}],75:[function(require,module,exports){
+var component, generateId, modal, stateSyncedDropdown, style;
 
 component = require('../../../../utils/component');
 
 style = require('./style');
 
+modal = require('../../../../singletons/modal');
+
+stateSyncedDropdown = require('../../../../components/dropdown/stateSynced');
+
+generateId = require('../../../../utils/dom').generateId;
+
 module.exports = component('professorOfferingViewRequiredCourses', function(arg) {
-  var E, addCourse, addCourseDropdown, addCourseDropdownId, append, cover, doCover, doUncover, dom, empty, events, hide, offering, onEvent, requiredCoursesList, returnObject, service, setStyle, show, view;
-  dom = arg.dom, events = arg.events, service = arg.service, returnObject = arg.returnObject;
+  var E, addCourse, addCourseDropdown, addCourseDropdownId, append, cover, doCover, doUncover, dom, empty, events, hide, offering, onEvent, requiredCoursesList, returnObject, service, setEnabled, setStyle, show, state, view;
+  dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, returnObject = arg.returnObject;
   E = dom.E, setStyle = dom.setStyle, empty = dom.empty, append = dom.append, show = dom.show, hide = dom.hide;
   onEvent = events.onEvent;
-  view = [
-    E('h4', {
-      fontWeight: 'bold',
-      display: 'inline-block'
-    }, 'لیست دروس مرتبط'), E('span', null, ' (درس‌هایی که دانشجو موظف است نمره خود را در آنها اعلام کند)'), E({
-      margin: '10px 0 60px',
-      position: 'relative'
-    }, requiredCoursesList = E(), addCourse = E(style.addCourse), E('span', style.courseAdorner, '+ '), E('span', {
-      cursor: 'pointer'
-    }, 'افزودن درس'), cover = E({
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'white',
-      transition: '0.5s'
-    }))
-  ];
+  view = E('span', null, E('h4', {
+    fontWeight: 'bold',
+    display: 'inline-block'
+  }, 'لیست دروس مرتبط'), E('span', null, ' (درس‌هایی که دانشجو موظف است نمره خود را در آنها اعلام کند)'), E({
+    margin: '10px 0 60px',
+    position: 'relative'
+  }, requiredCoursesList = E('span'), addCourse = E(style.addCourse, E('span', style.courseAdorner, '+ '), E('span', {
+    cursor: 'pointer'
+  }, 'افزودن درس')), cover = E({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'white',
+    transition: '0.5s'
+  })));
   doCover = function() {
     return setStyle(cover, {
       opacity: 0.5,
@@ -9154,7 +9464,8 @@ module.exports = component('professorOfferingViewRequiredCourses', function(arg)
       visibility: 'hidden'
     });
   })();
-  addCourseDropdown = dropdown({
+  addCourseDropdown = stateSyncedDropdown({
+    stateName: 'courses',
     getId: function(course) {
       return String(course.id);
     },
@@ -9167,63 +9478,78 @@ module.exports = component('professorOfferingViewRequiredCourses', function(arg)
   setStyle(addCourseDropdown.input, {
     id: addCourseDropdownId
   });
-  onEvent(addCourseDropdown.input, ['input', 'pInput'], function() {
+  onEvent(addCourseDropdown.input, ['input', 'pInput'], setEnabled = function() {
     return modal.instance.setEnabled(~addCourseDropdown.value());
   });
   offering = void 0;
   onEvent(addCourse, 'click', function() {
     var id;
-    return modal.instance.display({
+    addCourseDropdown.reset();
+    modal.instance.display({
       autoHide: true,
       title: 'افزودن درس',
       submitText: 'افزودن',
+      closeText: 'لغو',
       contents: E({
         "class": 'form-group'
       }, E('label', {
         "for": id = addCourseDropdownId
-      }, 'شماره دانشجویی / پرسنلی'), addCourseDropdown),
+      }, 'نام درس'), addCourseDropdown),
       submit: function() {
         return service.addRequiredCourse({
-          courseId: addCourseDropdown.element.value,
+          courseId: addCourseDropdown.value().id,
           offeringId: offering.id
         });
       }
     });
+    return setEnabled();
   });
   returnObject({
     update: function(_offering) {
       offering = _offering;
-      empty(requiredCoursesList);
-      append(requiredCoursesList, offering.requiredCourses.map(function(courseId) {
-        var course, name, x;
-        name = getCourse(courseId).name;
-        course = E(style.course, !offerin.isClosed ? x = E('span', style.courseX, '× ') : void 0, E('span', null, name));
-        onEvent(x, 'click', function() {
-          doCover();
-          return service.removeRequiredCourse({
-            courseId: courseId,
-            offeringId: offering.id
-          }).fin(doUncover);
-        });
-        return course;
-      }));
-      if (offering.isClosed) {
-        return hide(addCourse);
-      } else {
-        return show(addCourse);
-      }
+      return state.courses.on({
+        once: true
+      }, function(courses) {
+        empty(requiredCoursesList);
+        append(requiredCoursesList, offering.requiredCourses.map(function(courseId) {
+          var course, name;
+          name = courses.filter(function(arg1) {
+            var id;
+            id = arg1.id;
+            return String(id) === String(courseId);
+          })[0].name;
+          course = E(style.course, !offering.isClosed ? (function() {
+            var x;
+            x = E('span', style.courseX, '× ');
+            onEvent(x, 'click', function() {
+              doCover();
+              return service.removeRequiredCourse({
+                courseId: courseId,
+                offeringId: offering.id
+              }).fin(doUncover);
+            });
+            return x;
+          })() : void 0, E('span', null, name));
+          return course;
+        }));
+        if (offering.isClosed) {
+          return hide(addCourse);
+        } else {
+          return show(addCourse);
+        }
+      });
     }
   });
   return view;
 });
 
 
-},{"../../../../utils/component":34,"./style":76}],76:[function(require,module,exports){
-var addCourse, course, courseAdorner, courseX, extend;
+},{"../../../../components/dropdown/stateSynced":9,"../../../../singletons/modal":33,"../../../../utils/component":34,"../../../../utils/dom":36,"./style":76}],76:[function(require,module,exports){
+var extend;
 
 extend = require('../../../../utils').extend;
 
-course = {
+exports.course = {
   borderRadius: 3,
   display: 'inline-block',
   fontWeight: 'bold',
@@ -9236,20 +9562,20 @@ course = {
   border: '1px solid #bce8f1'
 };
 
-addCourse = extend({}, course, {
+exports.addCourse = extend({}, exports.course, {
   color: '#3c763d',
   backgroundColor: '#dff0d8',
   borderColor: '#d6e9c6',
   cursor: 'pointer'
 });
 
-courseAdorner = {
+exports.courseAdorner = {
   fontWeight: 'bold',
   cursor: 'pointer',
   cursor: 'pointer'
 };
 
-courseX = extend({}, courseAdorner, {
+exports.courseX = extend({}, exports.courseAdorner, {
   color: '#d43f3a'
 });
 
@@ -9325,32 +9651,45 @@ module.exports = component('requestForAssistantsExtras', function(arg) {
 
 
 },{"../../../singletons/modal":33,"../../../utils/component":34,"../../../utils/dom":36}],78:[function(require,module,exports){
-var body, component, document, ref, table;
+var body, component, document, extend, ref, ref1, remove, table;
 
 component = require('../../../utils/component');
 
 table = require('../../../components/table');
 
-ref = require('../../../utils/dom'), document = ref.document, body = ref.body;
+ref = require('../../../utils'), extend = ref.extend, remove = ref.remove;
+
+ref1 = require('../../../utils/dom'), document = ref1.document, body = ref1.body;
 
 module.exports = component('professorOfferingsTableView', function(arg, arg1) {
-  var E, append, changeRequestForAssistant, chores, courses, dom, empty, events, hidePopovers, offering, onEvent, popoverOpen, returnObject, setStyle, state, tableInstance, text, update, view;
+  var E, append, changeRequestForAssistant, chores, courses, dom, empty, events, hide, hidePopovers, offering, onEvent, onMouseout, popoverOpens, returnObject, setStyle, show, somethingIsOpen, state, tableInstance, text, tooltipOpens, update, view;
   dom = arg.dom, events = arg.events, state = arg.state, returnObject = arg.returnObject;
   changeRequestForAssistant = arg1.changeRequestForAssistant;
-  E = dom.E, text = dom.text, setStyle = dom.setStyle, append = dom.append, empty = dom.empty;
-  onEvent = events.onEvent;
+  E = dom.E, text = dom.text, setStyle = dom.setStyle, append = dom.append, empty = dom.empty, show = dom.show, hide = dom.hide;
+  onEvent = events.onEvent, onMouseout = events.onMouseout;
   offering = tableInstance = void 0;
   courses = chores = hidePopovers = [];
-  popoverOpen = false;
+  tooltipOpens = {};
+  popoverOpens = {};
   view = E('span');
   update = function() {
+    if (!offering) {
+      return;
+    }
     hidePopovers.forEach(function(x) {
       return x();
     });
+    tooltipOpens = {};
+    popoverOpens = {};
     empty(view);
     append(view, tableInstance = table({
       properties: {
         notStriped: true
+      },
+      styleRow: function(requestForAssistant, tr) {
+        return setStyle(tr, {
+          backgroundColor: (requestForAssistant.status === 'تایید شده' ? '#E5FFE5' : requestForAssistant.status === 'رد شده' ? '#E5E5E5' : 'white')
+        });
       },
       headers: [
         {
@@ -9358,15 +9697,16 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
           key: 'fullName'
         }
       ].concat(offering.requiredCourses.map(function(courseId) {
+        var course;
+        course = courses.filter(function(arg2) {
+          var id;
+          id = arg2.id;
+          return String(id) === String(courseId);
+        })[0];
         return {
-          name: "نمره درس " + (getCourse(courseId).name),
+          name: "نمره درس " + course.name,
           getValue: function(requestForAssistant) {
-            var course, grade;
-            course = courses.filter(function(arg2) {
-              var id;
-              id = arg2.id;
-              return String(id) === String(courseId);
-            })[0];
+            var grade;
             grade = requestForAssistant.grades.filter(function(arg2) {
               var courseId;
               courseId = arg2.courseId;
@@ -9376,6 +9716,23 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
               return grade.grade;
             } else {
               return -1;
+            }
+          },
+          styleTd: function(requestForAssistant, td) {
+            var grade;
+            grade = requestForAssistant.grades.filter(function(arg2) {
+              var courseId;
+              courseId = arg2.courseId;
+              return String(courseId) === String(course.id);
+            })[0];
+            if (grade != null) {
+              return setStyle(td, {
+                text: grade.grade
+              });
+            } else {
+              return setStyle(td, {
+                text: '(وارد نشده)'
+              });
             }
           }
         };
@@ -9391,6 +9748,7 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
           key: 'isTrained',
           styleTd: function(requestForAssistant, td, offs) {
             var checkbox;
+            empty(td);
             setStyle(td, {
               textAlign: 'center',
               text: ''
@@ -9401,7 +9759,7 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
             }));
             return offs.push(onEvent(checkbox, 'change', function() {
               return setStyle(checkbox, {
-                checked: !checkbox.checked
+                checked: !checkbox.checked()
               });
             }));
           }
@@ -9412,11 +9770,12 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
             setStyle(td, {
               textAlign: 'center'
             });
-            if (message) {
+            empty(td);
+            if (requestForAssistant.message) {
               append(td, messageIcon = E({
                 "class": 'fa fa-envelope'
               }));
-              $(messageIcon).tooltip({
+              $(messageIcon.fn.element).tooltip({
                 html: true,
                 placement: 'right',
                 trigger: 'manual',
@@ -9431,17 +9790,20 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
                   element = element.parentNode;
                 }
                 if (element === td.fn.element && !visible) {
-                  $(messageIcon).tooltip('show');
+                  $(messageIcon.fn.element).tooltip('show');
+                  tooltipOpens[requestForAssistant.id] = true;
                   visible = true;
                 }
-                if (element(isbt(td.fn.element && visible))) {
-                  $(messageIcon).tooltip('hide');
+                if (element !== td.fn.element && visible) {
+                  $(messageIcon.fn.element).tooltip('hide');
+                  tooltipOpens[requestForAssistant.id] = false;
                   return visible = false;
                 }
               }));
-              return offs.push(onMouseOut(null, function() {
+              return offs.push(onMouseout(null, function() {
                 if (visible) {
-                  $(messageIcon).tooltip('hide');
+                  $(messageIcon.fn.element).tooltip('hide');
+                  tooltipOpens[requestForAssistant.id] = false;
                 }
                 return visible = false;
               }));
@@ -9452,136 +9814,151 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
         {
           name: 'تایید / رد',
           key: 'status',
-          styleTd: function(requestForAssistant, td, offs) {
+          styleTd: function(requestForAssistant, td, offs, row) {
             var changeStatus;
             changeStatus = td;
+            empty(changeStatus);
             setStyle(changeStatus, {
-              cursor: 'pointer'
-            }, append(changeStatus, E({
+              cursor: 'pointer',
+              text: ''
+            });
+            append(changeStatus, E({
               "class": 'btn btn-default',
               cursor: 'pointer'
-            }, 'تایید / رد')));
-            $(changeStatus).popover({
-              title: 'تایید / رد',
-              trigger: 'manual',
-              html: true,
-              container: 'body',
-              content: (function() {
-                var extras, showHideExtras;
-                showHideExtras = function() {
-                  if (requestForAssistant.status === 'تایید شده') {
-                    return show(extras);
-                  } else {
-                    return hide(extras);
-                  }
-                };
-                E({
-                  "class": 'btn-group btn-group-xs'
-                }, [
-                  {
-                    status: 'تایید شده',
-                    klass: 'success'
-                  }, {
-                    status: 'رد شده',
-                    klass: 'danger'
-                  }, {
-                    status: 'در حال بررسی',
-                    klass: 'info'
-                  }
-                ].map(function(arg2) {
-                  var button, klass, status;
-                  status = arg2.status, klass = arg2.klass;
-                  button = E('button', {
-                    "class": 'btn btn-' + (status === requestForAssistant.status ? klass : 'default')
-                  }, status);
-                  onEvent(button, 'click', function(e) {
-                    if (status !== 'تایید شده') {
-                      requestForAssistant.chores = [];
-                      requestForAssistant.isChiefTA = false;
+            }, 'تایید / رد'));
+            $(changeStatus.fn.element).popover('destroy');
+            setTimeout(function() {
+              return $(changeStatus.fn.element).popover({
+                title: 'تایید / رد',
+                trigger: 'manual',
+                html: true,
+                container: 'body',
+                content: (function() {
+                  var buttons, content, extras, showHideExtras;
+                  content = E('span', null, E({
+                    "class": 'btn-group btn-group-xs'
+                  }, buttons = [
+                    {
+                      status: 'تایید شده',
+                      klass: 'success'
+                    }, {
+                      status: 'رد شده',
+                      klass: 'danger'
+                    }, {
+                      status: 'در حال بررسی',
+                      klass: 'info'
                     }
-                    extend(requestForAssistant, {
-                      status: status
-                    });
-                    changeRequestForAssistant(requestForAssistant);
-                    setStyle(td, {
-                      text: status
-                    });
-                    return showHideExtras();
-                  });
-                  return button;
-                }));
-                return extras = [
-                  E({
-                    "class": 'checkbox'
-                  }, E('label', null, (function() {
-                    var checkbox;
-                    checkbox = E('input', {
-                      type: 'checkbox',
-                      cursor: 'pointer',
-                      checked: requestForAssistant.isChiefTA
-                    });
-                    onEvent(checkbox, 'change', function() {
-                      if (requestForAssistant.isClosed) {
-                        return setStyle(checkbox, {
-                          checked: !checkbox.checked
-                        });
+                  ].map(function(arg2) {
+                    var button, klass, status;
+                    status = arg2.status, klass = arg2.klass;
+                    button = E('button', {
+                      "class": 'btn btn-' + (status === requestForAssistant.status ? klass : 'default')
+                    }, status);
+                    onEvent(button, 'click', function(e) {
+                      if (status !== 'تایید شده') {
+                        requestForAssistant.chores = [];
+                        requestForAssistant.isChiefTA = false;
                       }
-                      requestForAssistant.isChiefTA = checkbox.checked;
-                      return changeRequestForAssistant(requestForAssistant);
+                      extend(requestForAssistant, {
+                        status: status
+                      });
+                      changeRequestForAssistant(requestForAssistant);
+                      setStyle(buttons, {
+                        "class": 'btn btn-default'
+                      });
+                      setStyle(button, {
+                        "class": 'btn btn-' + (status === requestForAssistant.status ? klass : 'default')
+                      });
+                      setStyle(row.tr, {
+                        backgroundColor: (status === 'تایید شده' ? '#E5FFE5' : status === 'رد شده' ? '#E5E5E5' : 'white')
+                      });
+                      showHideExtras();
+                      return $(changeStatus.fn.element).popover('show');
                     });
-                    return checkbox;
-                  })(), text('دستیار اصلی است.'))), E('span', {
-                    fontWeight: 'bold'
-                  }, 'وظایف:'), E({
-                    "class": 'well well-sm'
-                  }, chores.map(function(arg2) {
-                    var id, persianName;
-                    id = arg2.id, persianName = arg2.persianName;
-                    return E({
+                    return button;
+                  })), extras = [
+                    E({
                       "class": 'checkbox'
                     }, E('label', null, (function() {
                       var checkbox;
                       checkbox = E('input', {
                         type: 'checkbox',
                         cursor: 'pointer',
-                        checked: requestForAssistant.chores.some(function(choreId) {
-                          return String(choreId) === String(id);
-                        })
+                        checked: requestForAssistant.isChiefTA
                       });
                       onEvent(checkbox, 'change', function() {
-                        if (requestForAssistant.isClosed) {
+                        if (offering.isClosed) {
                           return setStyle(checkbox, {
-                            checked: !checkbox.checked
+                            checked: !checkbox.checked()
                           });
                         }
-                        remove(requestForAssistant.chores, id);
-                        if (checkbox.checked) {
-                          requestForAssistant.chores.push(id);
-                        }
+                        requestForAssistant.isChiefTA = checkbox.checked();
                         return changeRequestForAssistant(requestForAssistant);
                       });
                       return checkbox;
-                    })(), text(persianName)));
-                  }))
-                ];
-              })()
+                    })(), text('دستیار اصلی است.'))), E('span', {
+                      fontWeight: 'bold'
+                    }, 'وظایف:'), E({
+                      "class": 'well well-sm'
+                    }, chores.map(function(arg2) {
+                      var id, persianName;
+                      id = arg2.id, persianName = arg2.persianName;
+                      return E({
+                        "class": 'checkbox'
+                      }, E('label', null, (function() {
+                        var checkbox;
+                        checkbox = E('input', {
+                          type: 'checkbox',
+                          cursor: 'pointer',
+                          checked: requestForAssistant.chores.some(function(choreId) {
+                            return String(choreId) === String(id);
+                          })
+                        });
+                        onEvent(checkbox, 'change', function() {
+                          if (offering.isClosed) {
+                            return setStyle(checkbox, {
+                              checked: !checkbox.checked()
+                            });
+                          }
+                          remove(requestForAssistant.chores, id);
+                          if (checkbox.checked()) {
+                            requestForAssistant.chores.push(id);
+                          }
+                          return changeRequestForAssistant(requestForAssistant);
+                        });
+                        return checkbox;
+                      })(), text(persianName)));
+                    }))
+                  ]);
+                  (showHideExtras = function() {
+                    if (requestForAssistant.status === 'تایید شده') {
+                      return show(extras);
+                    } else {
+                      return hide(extras);
+                    }
+                  })();
+                  return content.fn.element;
+                })()
+              });
             });
             hidePopovers.push(function() {
-              return $(changeStatus).popover('hide');
+              return $(changeStatus.fn.element).popover('hide');
             });
             offs.push(onEvent(changeStatus, 'click', function() {
-              return $(changeStatus).popover('show');
+              $(changeStatus.fn.element).popover('show');
+              return popoverOpens[requestForAssistant.id] = true;
             }));
             return offs.push(onEvent(E(document), 'click', function(e) {
               var element;
               element = e.target;
               while (element !== null && element !== document.body) {
-                if (element === changeStatus || ~((typeof element.getAttribute === "function" ? element.getAttribute('class') : void 0) || '').indexOf('popover')) {
+                if (element === changeStatus.fn.element || ~((typeof element.getAttribute === "function" ? element.getAttribute('class') : void 0) || '').indexOf('popover')) {
                   return;
                 }
                 element = element.parentNode;
               }
-              return $(changeStatus).popover('hide');
+              $(changeStatus.fn.element).popover('hide');
+              return popoverOpens[requestForAssistant.id] = false;
             }));
           }
         }
@@ -9589,22 +9966,44 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
     }));
     return tableInstance.setData(offering.requestForAssistants);
   };
+  somethingIsOpen = function() {
+    var isOpen;
+    isOpen = false;
+    Object.keys(tooltipOpens).forEach(function(key) {
+      if (tooltipOpens[key]) {
+        return isOpen = true;
+      }
+    });
+    Object.keys(popoverOpens).forEach(function(key) {
+      if (popoverOpens[key]) {
+        return isOpen = true;
+      }
+    });
+    return isOpen;
+  };
   state.all(['courses', 'chores'], function(arg2) {
     var _chores, _courses;
     _courses = arg2[0], _chores = arg2[1];
     courses = _courses;
     chores = _chores;
-    return update();
+    if (!somethingIsOpen()) {
+      return update();
+    }
   });
   returnObject({
     update: function(_offering) {
-      if (_offering.id === offering.id && JSON.stringify(_offering.requiredCourses) === JSON.stringify(offering.requiredCourses) && _offering.isClosed === offering.isClosed) {
-        if (!popoverOpen) {
+      var prevOffering;
+      prevOffering = offering;
+      offering = _offering;
+      if (somethingIsOpen()) {
+        return;
+      }
+      if (prevOffering && offering.id === prevOffering.id && JSON.stringify(offering.requiredCourses) === JSON.stringify(prevOffering.requiredCourses) && offering.isClosed === prevOffering.isClosed) {
+        if (tableInstance != null) {
           tableInstance.setData(offering.requestForAssistants);
         }
         return;
       }
-      offering = _offering;
       return update();
     }
   });
@@ -9612,7 +10011,7 @@ module.exports = component('professorOfferingsTableView', function(arg, arg1) {
 });
 
 
-},{"../../../components/table":17,"../../../utils/component":34,"../../../utils/dom":36}],79:[function(require,module,exports){
+},{"../../../components/table":17,"../../../utils":38,"../../../utils/component":34,"../../../utils/dom":36}],79:[function(require,module,exports){
 var compare, component, extend, modal, ref, requestForAssistant, searchBoxStyle, stateSyncedDropdown, table, textIsInSearch;
 
 component = require('../../utils/component');
@@ -9630,12 +10029,11 @@ searchBoxStyle = require('../../components/table/searchBoxStyle');
 ref = require('../../utils'), extend = ref.extend, textIsInSearch = ref.textIsInSearch, compare = ref.compare;
 
 module.exports = component('studentView', function(arg) {
-  var E, courseNameInput, dom, events, hide, loading, noData, offeringsTable, onEvent, others, requestForAssistantPage, service, setStyle, setntTable, show, state, termDropdown, view, yesData, yourRequests;
+  var E, courseNameInput, dom, events, hide, loading, noData, offerings, offeringsTable, onEvent, others, professorNameInput, requestForAssistantPage, requestForAssistants, sentTable, service, setStyle, show, state, termDropdown, update, view, yesData, yourRequests;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, others = arg.others;
   E = dom.E, setStyle = dom.setStyle, show = dom.show, hide = dom.hide;
   onEvent = events.onEvent;
   loading = others.loading;
-  service.getTerms();
   service.getOfferings();
   service.getCourses();
   service.getProfessors();
@@ -9649,89 +10047,128 @@ module.exports = component('studentView', function(arg) {
   setStyle(termDropdown, searchBoxStyle.font);
   setStyle(termDropdown.input, searchBoxStyle.input);
   courseNameInput = E('input', searchBoxStyle.textbox);
-  courseNameInput = E('input', searchBoxStyle.textbox);
-  view = [
-    noData = E(null, 'در حال بارگزاری...'), yesData = E(null, E({
-      marginTop: 30
-    }, yourRequests = E({
-      "class": 'panel panel-success'
-    }, E({
-      "class": 'panel-heading'
-    }, E('h3', {
-      "class": 'panel-title'
-    }, 'درخواست‌های ارسال شده توسط شما در این ترم')), setntTable = table({
-      headers: [
-        {
-          name: 'نام درس',
-          key: 'courseName'
-        }, {
-          name: 'نام استاد',
-          key: 'professorName'
-        }
-      ],
-      hanlders: {
-        select: function(offering) {
-          return requestForAssistantPage.edit(offering);
-        }
-      }
-    }))), E({
-      "class": 'panel panel-info'
-    }, E({
-      "class": 'panel-heading'
-    }, E('h3', {
-      "class": 'panel-title'
-    }, 'لیست فراخوان‌ها')), offeringsTable = table({
-      headers: [
-        {
-          name: 'نام درس',
-          key: 'courseName',
-          searchBox: courseNameInput
-        }, {
-          name: 'نام استاد',
-          key: 'professorName',
-          searchBox: professorNameInput
-        }, {
-          name: 'ترم',
-          key: 'termId',
-          searchBox: searchBox,
-          termDropdown: termDropdown
-        }, {
-          name: 'حذف',
-          styleTd: function(offering, td, offs) {
-            setStyle(td, {
-              color: 'red',
-              width: 100
+  professorNameInput = E('input', searchBoxStyle.textbox);
+  view = E('span', null, noData = E(null, 'در حال بارگذاری...'), yesData = E(null, E({
+    marginTop: 30
+  }, yourRequests = E({
+    "class": 'panel panel-success'
+  }, E({
+    "class": 'panel-heading'
+  }, E('h3', {
+    "class": 'panel-title'
+  }, 'درخواست‌های ارسال شده توسط شما در ترم جاری')), sentTable = table({
+    headers: [
+      {
+        name: 'نام درس',
+        key: 'courseName'
+      }, {
+        name: 'نام استاد',
+        key: 'professorName'
+      }, {
+        name: '',
+        notClickable: true,
+        styleTd: function(offering, td, offs) {
+          setStyle(td, {
+            text: 'حذف',
+            color: 'red',
+            cursor: 'pointer',
+            width: 100
+          });
+          return offs.push(onEvent(td, 'click', function() {
+            return modal.instance.display({
+              contents: E('p', null, "آیا از حذف این درخواست اطمینان دارید؟"),
+              submitText: 'حذف',
+              submitType: 'danger',
+              closeText: 'انصراف',
+              submit: function() {
+                sentTable.cover();
+                service.deleteRequestForAssistants([offering.requestForAssistant.id]).fin(function() {
+                  return sentTable.uncover();
+                });
+                return modal.instance.hide();
+              }
             });
-            return offs.push(onEvent(td, 'click', function() {
-              return modal.instance.display({
-                contents: E('p', null, " آیا از حذف این " + selectedEntities.length + " درخواست اطمینان دارید؟"),
-                submitText: 'حذف',
-                submitType: 'danger',
-                closeText: 'انصراف',
-                submit: function() {
-                  tableInstance.cover();
-                  service.deleteRequestForAssistants([offering.id]).fin(function() {
-                    return tableInstance.uncover();
-                  });
-                  return modal.instance.hide();
-                }
-              });
-            }));
-          }
-        }
-      ],
-      hanlders: {
-        select: function(offering) {
-          return requestForAssistantPage.send(offering);
+          }));
         }
       }
-    })))
-  ];
-  loading(['terms', 'offerings', 'courses', 'professors', 'requestForAssistants'], yesData, noData);
+    ],
+    handlers: {
+      select: function(offering) {
+        return requestForAssistantPage.edit(offering);
+      }
+    }
+  }))), E({
+    "class": 'panel panel-info'
+  }, E({
+    "class": 'panel-heading'
+  }, E('h3', {
+    "class": 'panel-title'
+  }, 'لیست فراخوان‌ها')), offeringsTable = table({
+    headers: [
+      {
+        name: 'نام درس',
+        key: 'courseName',
+        searchBox: courseNameInput
+      }, {
+        name: 'نام استاد',
+        key: 'professorName',
+        searchBox: professorNameInput
+      }, {
+        name: 'ترم',
+        key: 'termId',
+        searchBox: termDropdown
+      }
+    ],
+    handlers: {
+      select: function(offering) {
+        return requestForAssistantPage.send(offering);
+      }
+    }
+  }))));
+  loading(['terms', 'currentTerm', 'offerings', 'courses', 'professors', 'requestForAssistants'], yesData, noData);
+  offerings = requestForAssistants = void 0;
+  update = function() {
+    var courseName, filteredOfferings, professorName, sent, term;
+    courseName = courseNameInput.value();
+    professorName = professorNameInput.value();
+    term = termDropdown.value();
+    filteredOfferings = offerings.filter(function(arg1) {
+      var isClosed, requestForAssistant;
+      isClosed = arg1.isClosed, requestForAssistant = arg1.requestForAssistant;
+      return !isClosed && !requestForAssistant;
+    });
+    if (courseName) {
+      filteredOfferings = filteredOfferings.filter(function(offering) {
+        return textIsInSearch(offering.courseName, courseName);
+      });
+    }
+    if (professorName) {
+      filteredOfferings = filteredOfferings.filter(function(offering) {
+        return textIsInSearch(offering.professorName, professorName);
+      });
+    }
+    if (~term) {
+      filteredOfferings = filteredOfferings.filter(function(offering) {
+        return textIsInSearch(offering.termId, term);
+      });
+    }
+    offeringsTable.setData(filteredOfferings);
+    sentTable.setData(sent = offerings.filter(function(arg1) {
+      var requestForAssistant;
+      requestForAssistant = arg1.requestForAssistant;
+      return requestForAssistant;
+    }));
+    if (sent.length) {
+      return show(yourRequests);
+    } else {
+      return hide(yourRequests);
+    }
+  };
   state.all(['offerings', 'courses', 'professors', 'requestForAssistants'], function(arg1) {
-    var courseName, courses, filteredOfferings, offerings, professorName, professors, requestForAssistants, sent, term;
-    offerings = arg1[0], courses = arg1[1], professors = arg1[2], requestForAssistants = arg1[3];
-    offerings = offerings.map(function(offering) {
+    var _offerings, _requestForAssistants, courses, professors;
+    _offerings = arg1[0], courses = arg1[1], professors = arg1[2], _requestForAssistants = arg1[3];
+    requestForAssistants = _requestForAssistants;
+    offerings = _offerings.map(function(offering) {
       var ref1, ref2, ref3, ref4;
       return extend({}, offering, {
         courseName: (ref1 = (ref2 = (courses.filter(function(arg2) {
@@ -9762,41 +10199,9 @@ module.exports = component('studentView', function(arg) {
         })
       });
     });
-    courseName = courseNameInput.value();
-    professorName = professorNameInput.value();
-    term = termDropdown.value();
-    filteredOfferings = offerings.filter(function(arg2) {
-      var isClosed, requestForAssistant;
-      isClosed = arg2.isClosed, requestForAssistant = arg2.requestForAssistant;
-      return !isClosed && !requestForAssistant;
-    });
-    if (courseName) {
-      filteredOfferings = filteredOfferings.filter(function(offering) {
-        return textIsInSearch(offering.courseName, courseName);
-      });
-    }
-    if (professorName) {
-      filteredOfferings = filteredOfferings.filter(function(offering) {
-        return textIsInSearch(offering.professorName, professorName);
-      });
-    }
-    if (~term) {
-      filteredOfferings = filteredOfferings.filter(function(offering) {
-        return textIsInSearch(offering.termId, term);
-      });
-    }
-    offeringsTable.setData(filteredOfferings);
-    setntTable.setData(sent = offerings.filter(function(arg2) {
-      var requestForAssistant;
-      requestForAssistant = arg2.requestForAssistant;
-      return requestForAssistant;
-    }));
-    if (sent.length) {
-      return show(yourRequests);
-    } else {
-      return hide(yourRequests);
-    }
+    return update();
   });
+  onEvent([termDropdown.input, professorNameInput, courseNameInput], ['input', 'pInput'], update);
   return view;
 });
 
@@ -9815,9 +10220,10 @@ generateId = require('../../utils/dom').generateId;
 toEnglish = require('../../utils').toEnglish;
 
 module.exports = component('studentRequestForAssistant', function(arg) {
-  var E, contents, display, dom, empty, gpa, gradeInputsPlaceholder, grades, ids, isTrained, message, ref, returnObject, service, setEnabled, setStyle, state, text;
-  dom = arg.dom, state = arg.state, service = arg.service, returnObject = arg.returnObject;
-  ref = require(dom), E = ref.E, text = ref.text, setStyle = ref.setStyle, empty = ref.empty;
+  var E, append, contents, display, dom, empty, events, gpa, gradeInputsPlaceholder, grades, ids, isTrained, message, onEnter, onEvent, returnObject, service, setEnabled, setStyle, state, text;
+  dom = arg.dom, events = arg.events, state = arg.state, service = arg.service, returnObject = arg.returnObject;
+  E = dom.E, text = dom.text, append = dom.append, empty = dom.empty, setStyle = dom.setStyle, empty = dom.empty;
+  onEvent = events.onEvent, onEnter = events.onEnter;
   ids = [0, 1, 2].map(function() {
     return generateId();
   });
@@ -9861,70 +10267,73 @@ module.exports = component('studentRequestForAssistant', function(arg) {
   });
   display = function(isEdit) {
     return function(offering) {
-      return state.all({
+      empty(gradeInputsPlaceholder);
+      return state.all(['grades', 'gpa', 'isTrained'], {
         allowNull: true,
         once: true
-      }, ['grades', 'gpa', 'isTrained'], function(arg1) {
-        var gpaValue, gradeValues, isTrainedValue, ref1, ref2, ref3, ref4;
-        gradeValues = (ref1 = arg1[0]) != null ? ref1 : {}, gpaValue = arg1[1], isTrainedValue = arg1[2];
+      }, function(arg1) {
+        var gpaValue, gradeValues, isTrainedValue, ref, ref1, ref2, ref3;
+        gradeValues = (ref = arg1[0]) != null ? ref : {}, gpaValue = arg1[1], isTrainedValue = arg1[2];
         grades = offering.requiredCourses.map(function(arg2) {
-          var id, input, name;
+          var id, input, inputId, name;
           id = arg2.id, name = arg2.name;
           input = E(gradeInput);
-          id = generateId();
+          inputId = generateId();
           setStyle(input, {
             "class": 'form-control',
-            value: offering.requestForAssistant ? (offering.requestForAssistant.grades.filter(function(arg3) {
+            value: offering.requestForAssistant ? offering.requestForAssistant.grades.filter(function(arg3) {
               var courseId;
               courseId = arg3.courseId;
               return String(courseId) === String(id);
-            }))[0].grade : gradeValues[id]
+            })[0].grade : gradeValues[id]
           });
           onEvent(input, ['input', 'pInput'], setEnabled);
           append(gradeInputsPlaceholder, E({
             "class": 'form-group'
           }, E('label', {
-            "for": id
+            "for": inputId
           }, "نمره درس " + name), input));
           return input;
         });
         setStyle(gpa, {
-          value: ((ref2 = offering.requestForAssistant) != null ? ref2.gpa : void 0) || gpaValue
+          value: ((ref1 = offering.requestForAssistant) != null ? ref1.gpa : void 0) || gpaValue
         });
         setStyle(message, {
-          value: (ref3 = offering.requestForAssistant) != null ? ref3.message : void 0
+          value: (ref2 = offering.requestForAssistant) != null ? ref2.message : void 0
         });
         setStyle(isTrained, {
-          checked: ((ref4 = offering.requestForAssistant) != null ? ref4.isTrained : void 0) || isTrainedValue
+          checked: ((ref3 = offering.requestForAssistant) != null ? ref3.isTrained : void 0) || isTrainedValue
         });
-        return modal.instance.display({
+        modal.instance.display({
           autoHide: true,
           title: "ثبت درخواست دستیاری برای درس " + offering.courseName,
           submitText: isEdit ? 'ویرایش درخواست' : 'ثبت',
+          closeText: 'بستن',
           contents: contents,
           submit: function() {
             offering.requiredCourses.forEach(function(arg2, i) {
               var id;
               id = arg2.id;
-              return gradeValues[id] = grades[i].value;
+              return gradeValues[id] = grades[i].value();
             });
             state.grades.set(gradeValues);
-            state.gpa.set(gpa.value);
-            state.isTrained.set(isTrained.checked);
+            state.gpa.set(gpa.value());
+            state.isTrained.set(isTrained.checked());
             return service.sendRequestForAssistant({
               offeringId: offering.id,
-              gpa: +toEnglish(gpa.value),
+              gpa: +toEnglish(gpa.value()),
               grades: grades.map(function(grade, i) {
                 return {
-                  grade: +toEnglish(grade.value),
+                  grade: +toEnglish(grade.value()),
                   courseId: +offering.requiredCourses[i].id
                 };
               }),
-              isTrained: isTrained.checked,
-              message: message.value
+              isTrained: isTrained.checked(),
+              message: message.value()
             });
           }
         });
+        return setEnabled();
       });
     };
   };
@@ -9936,7 +10345,7 @@ module.exports = component('studentRequestForAssistant', function(arg) {
 
 
 },{"../../components/restrictedInput/grade":13,"../../singletons/modal":33,"../../utils":38,"../../utils/component":34,"../../utils/dom":36}],81:[function(require,module,exports){
-var Q, alertMessages, autoLoginQ, chooseGolestanNumber, includes, page, params, register, service, startQ, ticket;
+var Q, _chooseGolestanNumber, _register, alertMessages, chooseGolestanNumber, includes, page, params, register, service;
 
 Q = require('./q');
 
@@ -9962,58 +10371,2108 @@ includes["do"]();
 
 alertMessages["do"]();
 
-autoLoginQ = params.length > 1 && params[1].indexOf('ticket=') === 0 ? (ticket = params[1].substr('ticket='.length), service.cas({
-  ticket: ticket
-}).then(function(golestanNumbers) {
-  if (Array.isArray(golestanNumbers) && golestanNumbers.length) {
-    if (golestanNumbers.length > 1) {
-      return $(function() {
-        return setTimeout(function() {
-          return setTimeout(function() {
-            return setTimeout(function() {
-              return setTimeout(function() {
-                return setTimeout(function() {
-                  return chooseGolestanNumber.display(golestanNumbers);
-                });
-              });
-            });
-          });
-        });
-      });
-    } else {
-      return service.casLogin({
-        golestanNumber: golestanNumbers[0]
-      });
-    }
-  }
-})) : void 0;
+_register = register();
 
-startQ = autoLoginQ ? autoLoginQ["catch"]((function() {})) : void 0;
+_chooseGolestanNumber = chooseGolestanNumber();
 
-Q(startQ).then(function() {
-  service.autoPing();
-  return service.getPerson();
-}).then(function() {
+service.autoPing();
+
+service.getPerson().then(function() {
+  var ticket;
   page();
-  if (params.length > 1 && params[1].indexOf('email=') === 0) {
-    params = params[1].split('&');
-    if (params.length > 1 && (params[0].indexOf('email=') === 0) && (params[1].indexOf('verificationCode=') === 0)) {
-      return $(function() {
-        return setTimeout(function() {
+  if (params.length > 1) {
+    if (params[1].indexOf('ticket=') === 0) {
+      ticket = params[1].substr('ticket='.length);
+      service.cas(ticket).then(function(golestanNumbers) {
+        if (Array.isArray(golestanNumbers) && golestanNumbers.length) {
+          return $(function() {
+            return setTimeout(function() {
+              return setTimeout(function() {
+                return setTimeout(function() {
+                  return setTimeout(function() {
+                    return setTimeout(function() {
+                      return _chooseGolestanNumber.display(golestanNumbers);
+                    });
+                  });
+                });
+              });
+            });
+          });
+        }
+      });
+    }
+    if (params.length > 1 && params[1].indexOf('email=') === 0) {
+      params = params[1].split('&');
+      if (params.length > 1 && (params[0].indexOf('email=') === 0) && (params[1].indexOf('verificationCode=') === 0)) {
+        return $(function() {
           return setTimeout(function() {
             return setTimeout(function() {
               return setTimeout(function() {
                 return setTimeout(function() {
-                  return register.display();
+                  return setTimeout(function() {
+                    return _register.display();
+                  });
                 });
               });
             });
           });
         });
-      });
+      }
     }
   }
-}).done();
+});
 
 
-},{"./alertMessages":2,"./includes":20,"./page":27,"./q":28,"./sheets/chooseGolestanNumber":29,"./sheets/register":31,"./utils/service":44}]},{},[81]);
+},{"./alertMessages":2,"./includes":20,"./page":27,"./q":28,"./sheets/chooseGolestanNumber":29,"./sheets/register":31,"./utils/service":44}],82:[function(require,module,exports){
+(function (process){
+// vim:ts=4:sts=4:sw=4:
+/*!
+ *
+ * Copyright 2009-2012 Kris Kowal under the terms of the MIT
+ * license found at http://github.com/kriskowal/q/raw/master/LICENSE
+ *
+ * With parts by Tyler Close
+ * Copyright 2007-2009 Tyler Close under the terms of the MIT X license found
+ * at http://www.opensource.org/licenses/mit-license.html
+ * Forked at ref_send.js version: 2009-05-11
+ *
+ * With parts by Mark Miller
+ * Copyright (C) 2011 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+(function (definition) {
+    "use strict";
+
+    // This file will function properly as a <script> tag, or a module
+    // using CommonJS and NodeJS or RequireJS module formats.  In
+    // Common/Node/RequireJS, the module exports the Q API and when
+    // executed as a simple <script>, it creates a Q global instead.
+
+    // Montage Require
+    if (typeof bootstrap === "function") {
+        bootstrap("promise", definition);
+
+    // CommonJS
+    } else if (typeof exports === "object" && typeof module === "object") {
+        module.exports = definition();
+
+    // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+        define(definition);
+
+    // SES (Secure EcmaScript)
+    } else if (typeof ses !== "undefined") {
+        if (!ses.ok()) {
+            return;
+        } else {
+            ses.makeQ = definition;
+        }
+
+    // <script>
+    } else if (typeof window !== "undefined" || typeof self !== "undefined") {
+        // Prefer window over self for add-on scripts. Use self for
+        // non-windowed contexts.
+        var global = typeof window !== "undefined" ? window : self;
+
+        // Get the `window` object, save the previous Q global
+        // and initialize Q as a global.
+        var previousQ = global.Q;
+        global.Q = definition();
+
+        // Add a noConflict function so Q can be removed from the
+        // global namespace.
+        global.Q.noConflict = function () {
+            global.Q = previousQ;
+            return this;
+        };
+
+    } else {
+        throw new Error("This environment was not anticipated by Q. Please file a bug.");
+    }
+
+})(function () {
+"use strict";
+
+var hasStacks = false;
+try {
+    throw new Error();
+} catch (e) {
+    hasStacks = !!e.stack;
+}
+
+// All code after this point will be filtered from stack traces reported
+// by Q.
+var qStartingLine = captureLine();
+var qFileName;
+
+// shims
+
+// used for fallback in "allResolved"
+var noop = function () {};
+
+// Use the fastest possible means to execute a task in a future turn
+// of the event loop.
+var nextTick =(function () {
+    // linked list of tasks (single, with head node)
+    var head = {task: void 0, next: null};
+    var tail = head;
+    var flushing = false;
+    var requestTick = void 0;
+    var isNodeJS = false;
+    // queue for late tasks, used by unhandled rejection tracking
+    var laterQueue = [];
+
+    function flush() {
+        /* jshint loopfunc: true */
+        var task, domain;
+
+        while (head.next) {
+            head = head.next;
+            task = head.task;
+            head.task = void 0;
+            domain = head.domain;
+
+            if (domain) {
+                head.domain = void 0;
+                domain.enter();
+            }
+            runSingle(task, domain);
+
+        }
+        while (laterQueue.length) {
+            task = laterQueue.pop();
+            runSingle(task);
+        }
+        flushing = false;
+    }
+    // runs a single function in the async queue
+    function runSingle(task, domain) {
+        try {
+            task();
+
+        } catch (e) {
+            if (isNodeJS) {
+                // In node, uncaught exceptions are considered fatal errors.
+                // Re-throw them synchronously to interrupt flushing!
+
+                // Ensure continuation if the uncaught exception is suppressed
+                // listening "uncaughtException" events (as domains does).
+                // Continue in next event to avoid tick recursion.
+                if (domain) {
+                    domain.exit();
+                }
+                setTimeout(flush, 0);
+                if (domain) {
+                    domain.enter();
+                }
+
+                throw e;
+
+            } else {
+                // In browsers, uncaught exceptions are not fatal.
+                // Re-throw them asynchronously to avoid slow-downs.
+                setTimeout(function () {
+                    throw e;
+                }, 0);
+            }
+        }
+
+        if (domain) {
+            domain.exit();
+        }
+    }
+
+    nextTick = function (task) {
+        tail = tail.next = {
+            task: task,
+            domain: isNodeJS && process.domain,
+            next: null
+        };
+
+        if (!flushing) {
+            flushing = true;
+            requestTick();
+        }
+    };
+
+    if (typeof process === "object" &&
+        process.toString() === "[object process]" && process.nextTick) {
+        // Ensure Q is in a real Node environment, with a `process.nextTick`.
+        // To see through fake Node environments:
+        // * Mocha test runner - exposes a `process` global without a `nextTick`
+        // * Browserify - exposes a `process.nexTick` function that uses
+        //   `setTimeout`. In this case `setImmediate` is preferred because
+        //    it is faster. Browserify's `process.toString()` yields
+        //   "[object Object]", while in a real Node environment
+        //   `process.nextTick()` yields "[object process]".
+        isNodeJS = true;
+
+        requestTick = function () {
+            process.nextTick(flush);
+        };
+
+    } else if (typeof setImmediate === "function") {
+        // In IE10, Node.js 0.9+, or https://github.com/NobleJS/setImmediate
+        if (typeof window !== "undefined") {
+            requestTick = setImmediate.bind(window, flush);
+        } else {
+            requestTick = function () {
+                setImmediate(flush);
+            };
+        }
+
+    } else if (typeof MessageChannel !== "undefined") {
+        // modern browsers
+        // http://www.nonblocking.io/2011/06/windownexttick.html
+        var channel = new MessageChannel();
+        // At least Safari Version 6.0.5 (8536.30.1) intermittently cannot create
+        // working message ports the first time a page loads.
+        channel.port1.onmessage = function () {
+            requestTick = requestPortTick;
+            channel.port1.onmessage = flush;
+            flush();
+        };
+        var requestPortTick = function () {
+            // Opera requires us to provide a message payload, regardless of
+            // whether we use it.
+            channel.port2.postMessage(0);
+        };
+        requestTick = function () {
+            setTimeout(flush, 0);
+            requestPortTick();
+        };
+
+    } else {
+        // old browsers
+        requestTick = function () {
+            setTimeout(flush, 0);
+        };
+    }
+    // runs a task after all other tasks have been run
+    // this is useful for unhandled rejection tracking that needs to happen
+    // after all `then`d tasks have been run.
+    nextTick.runAfter = function (task) {
+        laterQueue.push(task);
+        if (!flushing) {
+            flushing = true;
+            requestTick();
+        }
+    };
+    return nextTick;
+})();
+
+// Attempt to make generics safe in the face of downstream
+// modifications.
+// There is no situation where this is necessary.
+// If you need a security guarantee, these primordials need to be
+// deeply frozen anyway, and if you don’t need a security guarantee,
+// this is just plain paranoid.
+// However, this **might** have the nice side-effect of reducing the size of
+// the minified code by reducing x.call() to merely x()
+// See Mark Miller’s explanation of what this does.
+// http://wiki.ecmascript.org/doku.php?id=conventions:safe_meta_programming
+var call = Function.call;
+function uncurryThis(f) {
+    return function () {
+        return call.apply(f, arguments);
+    };
+}
+// This is equivalent, but slower:
+// uncurryThis = Function_bind.bind(Function_bind.call);
+// http://jsperf.com/uncurrythis
+
+var array_slice = uncurryThis(Array.prototype.slice);
+
+var array_reduce = uncurryThis(
+    Array.prototype.reduce || function (callback, basis) {
+        var index = 0,
+            length = this.length;
+        // concerning the initial value, if one is not provided
+        if (arguments.length === 1) {
+            // seek to the first value in the array, accounting
+            // for the possibility that is is a sparse array
+            do {
+                if (index in this) {
+                    basis = this[index++];
+                    break;
+                }
+                if (++index >= length) {
+                    throw new TypeError();
+                }
+            } while (1);
+        }
+        // reduce
+        for (; index < length; index++) {
+            // account for the possibility that the array is sparse
+            if (index in this) {
+                basis = callback(basis, this[index], index);
+            }
+        }
+        return basis;
+    }
+);
+
+var array_indexOf = uncurryThis(
+    Array.prototype.indexOf || function (value) {
+        // not a very good shim, but good enough for our one use of it
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+);
+
+var array_map = uncurryThis(
+    Array.prototype.map || function (callback, thisp) {
+        var self = this;
+        var collect = [];
+        array_reduce(self, function (undefined, value, index) {
+            collect.push(callback.call(thisp, value, index, self));
+        }, void 0);
+        return collect;
+    }
+);
+
+var object_create = Object.create || function (prototype) {
+    function Type() { }
+    Type.prototype = prototype;
+    return new Type();
+};
+
+var object_hasOwnProperty = uncurryThis(Object.prototype.hasOwnProperty);
+
+var object_keys = Object.keys || function (object) {
+    var keys = [];
+    for (var key in object) {
+        if (object_hasOwnProperty(object, key)) {
+            keys.push(key);
+        }
+    }
+    return keys;
+};
+
+var object_toString = uncurryThis(Object.prototype.toString);
+
+function isObject(value) {
+    return value === Object(value);
+}
+
+// generator related shims
+
+// FIXME: Remove this function once ES6 generators are in SpiderMonkey.
+function isStopIteration(exception) {
+    return (
+        object_toString(exception) === "[object StopIteration]" ||
+        exception instanceof QReturnValue
+    );
+}
+
+// FIXME: Remove this helper and Q.return once ES6 generators are in
+// SpiderMonkey.
+var QReturnValue;
+if (typeof ReturnValue !== "undefined") {
+    QReturnValue = ReturnValue;
+} else {
+    QReturnValue = function (value) {
+        this.value = value;
+    };
+}
+
+// long stack traces
+
+var STACK_JUMP_SEPARATOR = "From previous event:";
+
+function makeStackTraceLong(error, promise) {
+    // If possible, transform the error stack trace by removing Node and Q
+    // cruft, then concatenating with the stack trace of `promise`. See #57.
+    if (hasStacks &&
+        promise.stack &&
+        typeof error === "object" &&
+        error !== null &&
+        error.stack &&
+        error.stack.indexOf(STACK_JUMP_SEPARATOR) === -1
+    ) {
+        var stacks = [];
+        for (var p = promise; !!p; p = p.source) {
+            if (p.stack) {
+                stacks.unshift(p.stack);
+            }
+        }
+        stacks.unshift(error.stack);
+
+        var concatedStacks = stacks.join("\n" + STACK_JUMP_SEPARATOR + "\n");
+        error.stack = filterStackString(concatedStacks);
+    }
+}
+
+function filterStackString(stackString) {
+    var lines = stackString.split("\n");
+    var desiredLines = [];
+    for (var i = 0; i < lines.length; ++i) {
+        var line = lines[i];
+
+        if (!isInternalFrame(line) && !isNodeFrame(line) && line) {
+            desiredLines.push(line);
+        }
+    }
+    return desiredLines.join("\n");
+}
+
+function isNodeFrame(stackLine) {
+    return stackLine.indexOf("(module.js:") !== -1 ||
+           stackLine.indexOf("(node.js:") !== -1;
+}
+
+function getFileNameAndLineNumber(stackLine) {
+    // Named functions: "at functionName (filename:lineNumber:columnNumber)"
+    // In IE10 function name can have spaces ("Anonymous function") O_o
+    var attempt1 = /at .+ \((.+):(\d+):(?:\d+)\)$/.exec(stackLine);
+    if (attempt1) {
+        return [attempt1[1], Number(attempt1[2])];
+    }
+
+    // Anonymous functions: "at filename:lineNumber:columnNumber"
+    var attempt2 = /at ([^ ]+):(\d+):(?:\d+)$/.exec(stackLine);
+    if (attempt2) {
+        return [attempt2[1], Number(attempt2[2])];
+    }
+
+    // Firefox style: "function@filename:lineNumber or @filename:lineNumber"
+    var attempt3 = /.*@(.+):(\d+)$/.exec(stackLine);
+    if (attempt3) {
+        return [attempt3[1], Number(attempt3[2])];
+    }
+}
+
+function isInternalFrame(stackLine) {
+    var fileNameAndLineNumber = getFileNameAndLineNumber(stackLine);
+
+    if (!fileNameAndLineNumber) {
+        return false;
+    }
+
+    var fileName = fileNameAndLineNumber[0];
+    var lineNumber = fileNameAndLineNumber[1];
+
+    return fileName === qFileName &&
+        lineNumber >= qStartingLine &&
+        lineNumber <= qEndingLine;
+}
+
+// discover own file name and line number range for filtering stack
+// traces
+function captureLine() {
+    if (!hasStacks) {
+        return;
+    }
+
+    try {
+        throw new Error();
+    } catch (e) {
+        var lines = e.stack.split("\n");
+        var firstLine = lines[0].indexOf("@") > 0 ? lines[1] : lines[2];
+        var fileNameAndLineNumber = getFileNameAndLineNumber(firstLine);
+        if (!fileNameAndLineNumber) {
+            return;
+        }
+
+        qFileName = fileNameAndLineNumber[0];
+        return fileNameAndLineNumber[1];
+    }
+}
+
+function deprecate(callback, name, alternative) {
+    return function () {
+        if (typeof console !== "undefined" &&
+            typeof console.warn === "function") {
+            console.warn(name + " is deprecated, use " + alternative +
+                         " instead.", new Error("").stack);
+        }
+        return callback.apply(callback, arguments);
+    };
+}
+
+// end of shims
+// beginning of real work
+
+/**
+ * Constructs a promise for an immediate reference, passes promises through, or
+ * coerces promises from different systems.
+ * @param value immediate reference or promise
+ */
+function Q(value) {
+    // If the object is already a Promise, return it directly.  This enables
+    // the resolve function to both be used to created references from objects,
+    // but to tolerably coerce non-promises to promises.
+    if (value instanceof Promise) {
+        return value;
+    }
+
+    // assimilate thenables
+    if (isPromiseAlike(value)) {
+        return coerce(value);
+    } else {
+        return fulfill(value);
+    }
+}
+Q.resolve = Q;
+
+/**
+ * Performs a task in a future turn of the event loop.
+ * @param {Function} task
+ */
+Q.nextTick = nextTick;
+
+/**
+ * Controls whether or not long stack traces will be on
+ */
+Q.longStackSupport = false;
+
+// enable long stacks if Q_DEBUG is set
+if (typeof process === "object" && process && process.env && process.env.Q_DEBUG) {
+    Q.longStackSupport = true;
+}
+
+/**
+ * Constructs a {promise, resolve, reject} object.
+ *
+ * `resolve` is a callback to invoke with a more resolved value for the
+ * promise. To fulfill the promise, invoke `resolve` with any value that is
+ * not a thenable. To reject the promise, invoke `resolve` with a rejected
+ * thenable, or invoke `reject` with the reason directly. To resolve the
+ * promise to another thenable, thus putting it in the same state, invoke
+ * `resolve` with that other thenable.
+ */
+Q.defer = defer;
+function defer() {
+    // if "messages" is an "Array", that indicates that the promise has not yet
+    // been resolved.  If it is "undefined", it has been resolved.  Each
+    // element of the messages array is itself an array of complete arguments to
+    // forward to the resolved promise.  We coerce the resolution value to a
+    // promise using the `resolve` function because it handles both fully
+    // non-thenable values and other thenables gracefully.
+    var messages = [], progressListeners = [], resolvedPromise;
+
+    var deferred = object_create(defer.prototype);
+    var promise = object_create(Promise.prototype);
+
+    promise.promiseDispatch = function (resolve, op, operands) {
+        var args = array_slice(arguments);
+        if (messages) {
+            messages.push(args);
+            if (op === "when" && operands[1]) { // progress operand
+                progressListeners.push(operands[1]);
+            }
+        } else {
+            Q.nextTick(function () {
+                resolvedPromise.promiseDispatch.apply(resolvedPromise, args);
+            });
+        }
+    };
+
+    // XXX deprecated
+    promise.valueOf = function () {
+        if (messages) {
+            return promise;
+        }
+        var nearerValue = nearer(resolvedPromise);
+        if (isPromise(nearerValue)) {
+            resolvedPromise = nearerValue; // shorten chain
+        }
+        return nearerValue;
+    };
+
+    promise.inspect = function () {
+        if (!resolvedPromise) {
+            return { state: "pending" };
+        }
+        return resolvedPromise.inspect();
+    };
+
+    if (Q.longStackSupport && hasStacks) {
+        try {
+            throw new Error();
+        } catch (e) {
+            // NOTE: don't try to use `Error.captureStackTrace` or transfer the
+            // accessor around; that causes memory leaks as per GH-111. Just
+            // reify the stack trace as a string ASAP.
+            //
+            // At the same time, cut off the first line; it's always just
+            // "[object Promise]\n", as per the `toString`.
+            promise.stack = e.stack.substring(e.stack.indexOf("\n") + 1);
+        }
+    }
+
+    // NOTE: we do the checks for `resolvedPromise` in each method, instead of
+    // consolidating them into `become`, since otherwise we'd create new
+    // promises with the lines `become(whatever(value))`. See e.g. GH-252.
+
+    function become(newPromise) {
+        resolvedPromise = newPromise;
+        promise.source = newPromise;
+
+        array_reduce(messages, function (undefined, message) {
+            Q.nextTick(function () {
+                newPromise.promiseDispatch.apply(newPromise, message);
+            });
+        }, void 0);
+
+        messages = void 0;
+        progressListeners = void 0;
+    }
+
+    deferred.promise = promise;
+    deferred.resolve = function (value) {
+        if (resolvedPromise) {
+            return;
+        }
+
+        become(Q(value));
+    };
+
+    deferred.fulfill = function (value) {
+        if (resolvedPromise) {
+            return;
+        }
+
+        become(fulfill(value));
+    };
+    deferred.reject = function (reason) {
+        if (resolvedPromise) {
+            return;
+        }
+
+        become(reject(reason));
+    };
+    deferred.notify = function (progress) {
+        if (resolvedPromise) {
+            return;
+        }
+
+        array_reduce(progressListeners, function (undefined, progressListener) {
+            Q.nextTick(function () {
+                progressListener(progress);
+            });
+        }, void 0);
+    };
+
+    return deferred;
+}
+
+/**
+ * Creates a Node-style callback that will resolve or reject the deferred
+ * promise.
+ * @returns a nodeback
+ */
+defer.prototype.makeNodeResolver = function () {
+    var self = this;
+    return function (error, value) {
+        if (error) {
+            self.reject(error);
+        } else if (arguments.length > 2) {
+            self.resolve(array_slice(arguments, 1));
+        } else {
+            self.resolve(value);
+        }
+    };
+};
+
+/**
+ * @param resolver {Function} a function that returns nothing and accepts
+ * the resolve, reject, and notify functions for a deferred.
+ * @returns a promise that may be resolved with the given resolve and reject
+ * functions, or rejected by a thrown exception in resolver
+ */
+Q.Promise = promise; // ES6
+Q.promise = promise;
+function promise(resolver) {
+    if (typeof resolver !== "function") {
+        throw new TypeError("resolver must be a function.");
+    }
+    var deferred = defer();
+    try {
+        resolver(deferred.resolve, deferred.reject, deferred.notify);
+    } catch (reason) {
+        deferred.reject(reason);
+    }
+    return deferred.promise;
+}
+
+promise.race = race; // ES6
+promise.all = all; // ES6
+promise.reject = reject; // ES6
+promise.resolve = Q; // ES6
+
+// XXX experimental.  This method is a way to denote that a local value is
+// serializable and should be immediately dispatched to a remote upon request,
+// instead of passing a reference.
+Q.passByCopy = function (object) {
+    //freeze(object);
+    //passByCopies.set(object, true);
+    return object;
+};
+
+Promise.prototype.passByCopy = function () {
+    //freeze(object);
+    //passByCopies.set(object, true);
+    return this;
+};
+
+/**
+ * If two promises eventually fulfill to the same value, promises that value,
+ * but otherwise rejects.
+ * @param x {Any*}
+ * @param y {Any*}
+ * @returns {Any*} a promise for x and y if they are the same, but a rejection
+ * otherwise.
+ *
+ */
+Q.join = function (x, y) {
+    return Q(x).join(y);
+};
+
+Promise.prototype.join = function (that) {
+    return Q([this, that]).spread(function (x, y) {
+        if (x === y) {
+            // TODO: "===" should be Object.is or equiv
+            return x;
+        } else {
+            throw new Error("Can't join: not the same: " + x + " " + y);
+        }
+    });
+};
+
+/**
+ * Returns a promise for the first of an array of promises to become settled.
+ * @param answers {Array[Any*]} promises to race
+ * @returns {Any*} the first promise to be settled
+ */
+Q.race = race;
+function race(answerPs) {
+    return promise(function (resolve, reject) {
+        // Switch to this once we can assume at least ES5
+        // answerPs.forEach(function (answerP) {
+        //     Q(answerP).then(resolve, reject);
+        // });
+        // Use this in the meantime
+        for (var i = 0, len = answerPs.length; i < len; i++) {
+            Q(answerPs[i]).then(resolve, reject);
+        }
+    });
+}
+
+Promise.prototype.race = function () {
+    return this.then(Q.race);
+};
+
+/**
+ * Constructs a Promise with a promise descriptor object and optional fallback
+ * function.  The descriptor contains methods like when(rejected), get(name),
+ * set(name, value), post(name, args), and delete(name), which all
+ * return either a value, a promise for a value, or a rejection.  The fallback
+ * accepts the operation name, a resolver, and any further arguments that would
+ * have been forwarded to the appropriate method above had a method been
+ * provided with the proper name.  The API makes no guarantees about the nature
+ * of the returned object, apart from that it is usable whereever promises are
+ * bought and sold.
+ */
+Q.makePromise = Promise;
+function Promise(descriptor, fallback, inspect) {
+    if (fallback === void 0) {
+        fallback = function (op) {
+            return reject(new Error(
+                "Promise does not support operation: " + op
+            ));
+        };
+    }
+    if (inspect === void 0) {
+        inspect = function () {
+            return {state: "unknown"};
+        };
+    }
+
+    var promise = object_create(Promise.prototype);
+
+    promise.promiseDispatch = function (resolve, op, args) {
+        var result;
+        try {
+            if (descriptor[op]) {
+                result = descriptor[op].apply(promise, args);
+            } else {
+                result = fallback.call(promise, op, args);
+            }
+        } catch (exception) {
+            result = reject(exception);
+        }
+        if (resolve) {
+            resolve(result);
+        }
+    };
+
+    promise.inspect = inspect;
+
+    // XXX deprecated `valueOf` and `exception` support
+    if (inspect) {
+        var inspected = inspect();
+        if (inspected.state === "rejected") {
+            promise.exception = inspected.reason;
+        }
+
+        promise.valueOf = function () {
+            var inspected = inspect();
+            if (inspected.state === "pending" ||
+                inspected.state === "rejected") {
+                return promise;
+            }
+            return inspected.value;
+        };
+    }
+
+    return promise;
+}
+
+Promise.prototype.toString = function () {
+    return "[object Promise]";
+};
+
+Promise.prototype.then = function (fulfilled, rejected, progressed) {
+    var self = this;
+    var deferred = defer();
+    var done = false;   // ensure the untrusted promise makes at most a
+                        // single call to one of the callbacks
+
+    function _fulfilled(value) {
+        try {
+            return typeof fulfilled === "function" ? fulfilled(value) : value;
+        } catch (exception) {
+            return reject(exception);
+        }
+    }
+
+    function _rejected(exception) {
+        if (typeof rejected === "function") {
+            makeStackTraceLong(exception, self);
+            try {
+                return rejected(exception);
+            } catch (newException) {
+                return reject(newException);
+            }
+        }
+        return reject(exception);
+    }
+
+    function _progressed(value) {
+        return typeof progressed === "function" ? progressed(value) : value;
+    }
+
+    Q.nextTick(function () {
+        self.promiseDispatch(function (value) {
+            if (done) {
+                return;
+            }
+            done = true;
+
+            deferred.resolve(_fulfilled(value));
+        }, "when", [function (exception) {
+            if (done) {
+                return;
+            }
+            done = true;
+
+            deferred.resolve(_rejected(exception));
+        }]);
+    });
+
+    // Progress propagator need to be attached in the current tick.
+    self.promiseDispatch(void 0, "when", [void 0, function (value) {
+        var newValue;
+        var threw = false;
+        try {
+            newValue = _progressed(value);
+        } catch (e) {
+            threw = true;
+            if (Q.onerror) {
+                Q.onerror(e);
+            } else {
+                throw e;
+            }
+        }
+
+        if (!threw) {
+            deferred.notify(newValue);
+        }
+    }]);
+
+    return deferred.promise;
+};
+
+Q.tap = function (promise, callback) {
+    return Q(promise).tap(callback);
+};
+
+/**
+ * Works almost like "finally", but not called for rejections.
+ * Original resolution value is passed through callback unaffected.
+ * Callback may return a promise that will be awaited for.
+ * @param {Function} callback
+ * @returns {Q.Promise}
+ * @example
+ * doSomething()
+ *   .then(...)
+ *   .tap(console.log)
+ *   .then(...);
+ */
+Promise.prototype.tap = function (callback) {
+    callback = Q(callback);
+
+    return this.then(function (value) {
+        return callback.fcall(value).thenResolve(value);
+    });
+};
+
+/**
+ * Registers an observer on a promise.
+ *
+ * Guarantees:
+ *
+ * 1. that fulfilled and rejected will be called only once.
+ * 2. that either the fulfilled callback or the rejected callback will be
+ *    called, but not both.
+ * 3. that fulfilled and rejected will not be called in this turn.
+ *
+ * @param value      promise or immediate reference to observe
+ * @param fulfilled  function to be called with the fulfilled value
+ * @param rejected   function to be called with the rejection exception
+ * @param progressed function to be called on any progress notifications
+ * @return promise for the return value from the invoked callback
+ */
+Q.when = when;
+function when(value, fulfilled, rejected, progressed) {
+    return Q(value).then(fulfilled, rejected, progressed);
+}
+
+Promise.prototype.thenResolve = function (value) {
+    return this.then(function () { return value; });
+};
+
+Q.thenResolve = function (promise, value) {
+    return Q(promise).thenResolve(value);
+};
+
+Promise.prototype.thenReject = function (reason) {
+    return this.then(function () { throw reason; });
+};
+
+Q.thenReject = function (promise, reason) {
+    return Q(promise).thenReject(reason);
+};
+
+/**
+ * If an object is not a promise, it is as "near" as possible.
+ * If a promise is rejected, it is as "near" as possible too.
+ * If it’s a fulfilled promise, the fulfillment value is nearer.
+ * If it’s a deferred promise and the deferred has been resolved, the
+ * resolution is "nearer".
+ * @param object
+ * @returns most resolved (nearest) form of the object
+ */
+
+// XXX should we re-do this?
+Q.nearer = nearer;
+function nearer(value) {
+    if (isPromise(value)) {
+        var inspected = value.inspect();
+        if (inspected.state === "fulfilled") {
+            return inspected.value;
+        }
+    }
+    return value;
+}
+
+/**
+ * @returns whether the given object is a promise.
+ * Otherwise it is a fulfilled value.
+ */
+Q.isPromise = isPromise;
+function isPromise(object) {
+    return object instanceof Promise;
+}
+
+Q.isPromiseAlike = isPromiseAlike;
+function isPromiseAlike(object) {
+    return isObject(object) && typeof object.then === "function";
+}
+
+/**
+ * @returns whether the given object is a pending promise, meaning not
+ * fulfilled or rejected.
+ */
+Q.isPending = isPending;
+function isPending(object) {
+    return isPromise(object) && object.inspect().state === "pending";
+}
+
+Promise.prototype.isPending = function () {
+    return this.inspect().state === "pending";
+};
+
+/**
+ * @returns whether the given object is a value or fulfilled
+ * promise.
+ */
+Q.isFulfilled = isFulfilled;
+function isFulfilled(object) {
+    return !isPromise(object) || object.inspect().state === "fulfilled";
+}
+
+Promise.prototype.isFulfilled = function () {
+    return this.inspect().state === "fulfilled";
+};
+
+/**
+ * @returns whether the given object is a rejected promise.
+ */
+Q.isRejected = isRejected;
+function isRejected(object) {
+    return isPromise(object) && object.inspect().state === "rejected";
+}
+
+Promise.prototype.isRejected = function () {
+    return this.inspect().state === "rejected";
+};
+
+//// BEGIN UNHANDLED REJECTION TRACKING
+
+// This promise library consumes exceptions thrown in handlers so they can be
+// handled by a subsequent promise.  The exceptions get added to this array when
+// they are created, and removed when they are handled.  Note that in ES6 or
+// shimmed environments, this would naturally be a `Set`.
+var unhandledReasons = [];
+var unhandledRejections = [];
+var reportedUnhandledRejections = [];
+var trackUnhandledRejections = true;
+
+function resetUnhandledRejections() {
+    unhandledReasons.length = 0;
+    unhandledRejections.length = 0;
+
+    if (!trackUnhandledRejections) {
+        trackUnhandledRejections = true;
+    }
+}
+
+function trackRejection(promise, reason) {
+    if (!trackUnhandledRejections) {
+        return;
+    }
+    if (typeof process === "object" && typeof process.emit === "function") {
+        Q.nextTick.runAfter(function () {
+            if (array_indexOf(unhandledRejections, promise) !== -1) {
+                process.emit("unhandledRejection", reason, promise);
+                reportedUnhandledRejections.push(promise);
+            }
+        });
+    }
+
+    unhandledRejections.push(promise);
+    if (reason && typeof reason.stack !== "undefined") {
+        unhandledReasons.push(reason.stack);
+    } else {
+        unhandledReasons.push("(no stack) " + reason);
+    }
+}
+
+function untrackRejection(promise) {
+    if (!trackUnhandledRejections) {
+        return;
+    }
+
+    var at = array_indexOf(unhandledRejections, promise);
+    if (at !== -1) {
+        if (typeof process === "object" && typeof process.emit === "function") {
+            Q.nextTick.runAfter(function () {
+                var atReport = array_indexOf(reportedUnhandledRejections, promise);
+                if (atReport !== -1) {
+                    process.emit("rejectionHandled", unhandledReasons[at], promise);
+                    reportedUnhandledRejections.splice(atReport, 1);
+                }
+            });
+        }
+        unhandledRejections.splice(at, 1);
+        unhandledReasons.splice(at, 1);
+    }
+}
+
+Q.resetUnhandledRejections = resetUnhandledRejections;
+
+Q.getUnhandledReasons = function () {
+    // Make a copy so that consumers can't interfere with our internal state.
+    return unhandledReasons.slice();
+};
+
+Q.stopUnhandledRejectionTracking = function () {
+    resetUnhandledRejections();
+    trackUnhandledRejections = false;
+};
+
+resetUnhandledRejections();
+
+//// END UNHANDLED REJECTION TRACKING
+
+/**
+ * Constructs a rejected promise.
+ * @param reason value describing the failure
+ */
+Q.reject = reject;
+function reject(reason) {
+    var rejection = Promise({
+        "when": function (rejected) {
+            // note that the error has been handled
+            if (rejected) {
+                untrackRejection(this);
+            }
+            return rejected ? rejected(reason) : this;
+        }
+    }, function fallback() {
+        return this;
+    }, function inspect() {
+        return { state: "rejected", reason: reason };
+    });
+
+    // Note that the reason has not been handled.
+    trackRejection(rejection, reason);
+
+    return rejection;
+}
+
+/**
+ * Constructs a fulfilled promise for an immediate reference.
+ * @param value immediate reference
+ */
+Q.fulfill = fulfill;
+function fulfill(value) {
+    return Promise({
+        "when": function () {
+            return value;
+        },
+        "get": function (name) {
+            return value[name];
+        },
+        "set": function (name, rhs) {
+            value[name] = rhs;
+        },
+        "delete": function (name) {
+            delete value[name];
+        },
+        "post": function (name, args) {
+            // Mark Miller proposes that post with no name should apply a
+            // promised function.
+            if (name === null || name === void 0) {
+                return value.apply(void 0, args);
+            } else {
+                return value[name].apply(value, args);
+            }
+        },
+        "apply": function (thisp, args) {
+            return value.apply(thisp, args);
+        },
+        "keys": function () {
+            return object_keys(value);
+        }
+    }, void 0, function inspect() {
+        return { state: "fulfilled", value: value };
+    });
+}
+
+/**
+ * Converts thenables to Q promises.
+ * @param promise thenable promise
+ * @returns a Q promise
+ */
+function coerce(promise) {
+    var deferred = defer();
+    Q.nextTick(function () {
+        try {
+            promise.then(deferred.resolve, deferred.reject, deferred.notify);
+        } catch (exception) {
+            deferred.reject(exception);
+        }
+    });
+    return deferred.promise;
+}
+
+/**
+ * Annotates an object such that it will never be
+ * transferred away from this process over any promise
+ * communication channel.
+ * @param object
+ * @returns promise a wrapping of that object that
+ * additionally responds to the "isDef" message
+ * without a rejection.
+ */
+Q.master = master;
+function master(object) {
+    return Promise({
+        "isDef": function () {}
+    }, function fallback(op, args) {
+        return dispatch(object, op, args);
+    }, function () {
+        return Q(object).inspect();
+    });
+}
+
+/**
+ * Spreads the values of a promised array of arguments into the
+ * fulfillment callback.
+ * @param fulfilled callback that receives variadic arguments from the
+ * promised array
+ * @param rejected callback that receives the exception if the promise
+ * is rejected.
+ * @returns a promise for the return value or thrown exception of
+ * either callback.
+ */
+Q.spread = spread;
+function spread(value, fulfilled, rejected) {
+    return Q(value).spread(fulfilled, rejected);
+}
+
+Promise.prototype.spread = function (fulfilled, rejected) {
+    return this.all().then(function (array) {
+        return fulfilled.apply(void 0, array);
+    }, rejected);
+};
+
+/**
+ * The async function is a decorator for generator functions, turning
+ * them into asynchronous generators.  Although generators are only part
+ * of the newest ECMAScript 6 drafts, this code does not cause syntax
+ * errors in older engines.  This code should continue to work and will
+ * in fact improve over time as the language improves.
+ *
+ * ES6 generators are currently part of V8 version 3.19 with the
+ * --harmony-generators runtime flag enabled.  SpiderMonkey has had them
+ * for longer, but under an older Python-inspired form.  This function
+ * works on both kinds of generators.
+ *
+ * Decorates a generator function such that:
+ *  - it may yield promises
+ *  - execution will continue when that promise is fulfilled
+ *  - the value of the yield expression will be the fulfilled value
+ *  - it returns a promise for the return value (when the generator
+ *    stops iterating)
+ *  - the decorated function returns a promise for the return value
+ *    of the generator or the first rejected promise among those
+ *    yielded.
+ *  - if an error is thrown in the generator, it propagates through
+ *    every following yield until it is caught, or until it escapes
+ *    the generator function altogether, and is translated into a
+ *    rejection for the promise returned by the decorated generator.
+ */
+Q.async = async;
+function async(makeGenerator) {
+    return function () {
+        // when verb is "send", arg is a value
+        // when verb is "throw", arg is an exception
+        function continuer(verb, arg) {
+            var result;
+
+            // Until V8 3.19 / Chromium 29 is released, SpiderMonkey is the only
+            // engine that has a deployed base of browsers that support generators.
+            // However, SM's generators use the Python-inspired semantics of
+            // outdated ES6 drafts.  We would like to support ES6, but we'd also
+            // like to make it possible to use generators in deployed browsers, so
+            // we also support Python-style generators.  At some point we can remove
+            // this block.
+
+            if (typeof StopIteration === "undefined") {
+                // ES6 Generators
+                try {
+                    result = generator[verb](arg);
+                } catch (exception) {
+                    return reject(exception);
+                }
+                if (result.done) {
+                    return Q(result.value);
+                } else {
+                    return when(result.value, callback, errback);
+                }
+            } else {
+                // SpiderMonkey Generators
+                // FIXME: Remove this case when SM does ES6 generators.
+                try {
+                    result = generator[verb](arg);
+                } catch (exception) {
+                    if (isStopIteration(exception)) {
+                        return Q(exception.value);
+                    } else {
+                        return reject(exception);
+                    }
+                }
+                return when(result, callback, errback);
+            }
+        }
+        var generator = makeGenerator.apply(this, arguments);
+        var callback = continuer.bind(continuer, "next");
+        var errback = continuer.bind(continuer, "throw");
+        return callback();
+    };
+}
+
+/**
+ * The spawn function is a small wrapper around async that immediately
+ * calls the generator and also ends the promise chain, so that any
+ * unhandled errors are thrown instead of forwarded to the error
+ * handler. This is useful because it's extremely common to run
+ * generators at the top-level to work with libraries.
+ */
+Q.spawn = spawn;
+function spawn(makeGenerator) {
+    Q.done(Q.async(makeGenerator)());
+}
+
+// FIXME: Remove this interface once ES6 generators are in SpiderMonkey.
+/**
+ * Throws a ReturnValue exception to stop an asynchronous generator.
+ *
+ * This interface is a stop-gap measure to support generator return
+ * values in older Firefox/SpiderMonkey.  In browsers that support ES6
+ * generators like Chromium 29, just use "return" in your generator
+ * functions.
+ *
+ * @param value the return value for the surrounding generator
+ * @throws ReturnValue exception with the value.
+ * @example
+ * // ES6 style
+ * Q.async(function* () {
+ *      var foo = yield getFooPromise();
+ *      var bar = yield getBarPromise();
+ *      return foo + bar;
+ * })
+ * // Older SpiderMonkey style
+ * Q.async(function () {
+ *      var foo = yield getFooPromise();
+ *      var bar = yield getBarPromise();
+ *      Q.return(foo + bar);
+ * })
+ */
+Q["return"] = _return;
+function _return(value) {
+    throw new QReturnValue(value);
+}
+
+/**
+ * The promised function decorator ensures that any promise arguments
+ * are settled and passed as values (`this` is also settled and passed
+ * as a value).  It will also ensure that the result of a function is
+ * always a promise.
+ *
+ * @example
+ * var add = Q.promised(function (a, b) {
+ *     return a + b;
+ * });
+ * add(Q(a), Q(B));
+ *
+ * @param {function} callback The function to decorate
+ * @returns {function} a function that has been decorated.
+ */
+Q.promised = promised;
+function promised(callback) {
+    return function () {
+        return spread([this, all(arguments)], function (self, args) {
+            return callback.apply(self, args);
+        });
+    };
+}
+
+/**
+ * sends a message to a value in a future turn
+ * @param object* the recipient
+ * @param op the name of the message operation, e.g., "when",
+ * @param args further arguments to be forwarded to the operation
+ * @returns result {Promise} a promise for the result of the operation
+ */
+Q.dispatch = dispatch;
+function dispatch(object, op, args) {
+    return Q(object).dispatch(op, args);
+}
+
+Promise.prototype.dispatch = function (op, args) {
+    var self = this;
+    var deferred = defer();
+    Q.nextTick(function () {
+        self.promiseDispatch(deferred.resolve, op, args);
+    });
+    return deferred.promise;
+};
+
+/**
+ * Gets the value of a property in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of property to get
+ * @return promise for the property value
+ */
+Q.get = function (object, key) {
+    return Q(object).dispatch("get", [key]);
+};
+
+Promise.prototype.get = function (key) {
+    return this.dispatch("get", [key]);
+};
+
+/**
+ * Sets the value of a property in a future turn.
+ * @param object    promise or immediate reference for object object
+ * @param name      name of property to set
+ * @param value     new value of property
+ * @return promise for the return value
+ */
+Q.set = function (object, key, value) {
+    return Q(object).dispatch("set", [key, value]);
+};
+
+Promise.prototype.set = function (key, value) {
+    return this.dispatch("set", [key, value]);
+};
+
+/**
+ * Deletes a property in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of property to delete
+ * @return promise for the return value
+ */
+Q.del = // XXX legacy
+Q["delete"] = function (object, key) {
+    return Q(object).dispatch("delete", [key]);
+};
+
+Promise.prototype.del = // XXX legacy
+Promise.prototype["delete"] = function (key) {
+    return this.dispatch("delete", [key]);
+};
+
+/**
+ * Invokes a method in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of method to invoke
+ * @param value     a value to post, typically an array of
+ *                  invocation arguments for promises that
+ *                  are ultimately backed with `resolve` values,
+ *                  as opposed to those backed with URLs
+ *                  wherein the posted value can be any
+ *                  JSON serializable object.
+ * @return promise for the return value
+ */
+// bound locally because it is used by other methods
+Q.mapply = // XXX As proposed by "Redsandro"
+Q.post = function (object, name, args) {
+    return Q(object).dispatch("post", [name, args]);
+};
+
+Promise.prototype.mapply = // XXX As proposed by "Redsandro"
+Promise.prototype.post = function (name, args) {
+    return this.dispatch("post", [name, args]);
+};
+
+/**
+ * Invokes a method in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of method to invoke
+ * @param ...args   array of invocation arguments
+ * @return promise for the return value
+ */
+Q.send = // XXX Mark Miller's proposed parlance
+Q.mcall = // XXX As proposed by "Redsandro"
+Q.invoke = function (object, name /*...args*/) {
+    return Q(object).dispatch("post", [name, array_slice(arguments, 2)]);
+};
+
+Promise.prototype.send = // XXX Mark Miller's proposed parlance
+Promise.prototype.mcall = // XXX As proposed by "Redsandro"
+Promise.prototype.invoke = function (name /*...args*/) {
+    return this.dispatch("post", [name, array_slice(arguments, 1)]);
+};
+
+/**
+ * Applies the promised function in a future turn.
+ * @param object    promise or immediate reference for target function
+ * @param args      array of application arguments
+ */
+Q.fapply = function (object, args) {
+    return Q(object).dispatch("apply", [void 0, args]);
+};
+
+Promise.prototype.fapply = function (args) {
+    return this.dispatch("apply", [void 0, args]);
+};
+
+/**
+ * Calls the promised function in a future turn.
+ * @param object    promise or immediate reference for target function
+ * @param ...args   array of application arguments
+ */
+Q["try"] =
+Q.fcall = function (object /* ...args*/) {
+    return Q(object).dispatch("apply", [void 0, array_slice(arguments, 1)]);
+};
+
+Promise.prototype.fcall = function (/*...args*/) {
+    return this.dispatch("apply", [void 0, array_slice(arguments)]);
+};
+
+/**
+ * Binds the promised function, transforming return values into a fulfilled
+ * promise and thrown errors into a rejected one.
+ * @param object    promise or immediate reference for target function
+ * @param ...args   array of application arguments
+ */
+Q.fbind = function (object /*...args*/) {
+    var promise = Q(object);
+    var args = array_slice(arguments, 1);
+    return function fbound() {
+        return promise.dispatch("apply", [
+            this,
+            args.concat(array_slice(arguments))
+        ]);
+    };
+};
+Promise.prototype.fbind = function (/*...args*/) {
+    var promise = this;
+    var args = array_slice(arguments);
+    return function fbound() {
+        return promise.dispatch("apply", [
+            this,
+            args.concat(array_slice(arguments))
+        ]);
+    };
+};
+
+/**
+ * Requests the names of the owned properties of a promised
+ * object in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @return promise for the keys of the eventually settled object
+ */
+Q.keys = function (object) {
+    return Q(object).dispatch("keys", []);
+};
+
+Promise.prototype.keys = function () {
+    return this.dispatch("keys", []);
+};
+
+/**
+ * Turns an array of promises into a promise for an array.  If any of
+ * the promises gets rejected, the whole array is rejected immediately.
+ * @param {Array*} an array (or promise for an array) of values (or
+ * promises for values)
+ * @returns a promise for an array of the corresponding values
+ */
+// By Mark Miller
+// http://wiki.ecmascript.org/doku.php?id=strawman:concurrency&rev=1308776521#allfulfilled
+Q.all = all;
+function all(promises) {
+    return when(promises, function (promises) {
+        var pendingCount = 0;
+        var deferred = defer();
+        array_reduce(promises, function (undefined, promise, index) {
+            var snapshot;
+            if (
+                isPromise(promise) &&
+                (snapshot = promise.inspect()).state === "fulfilled"
+            ) {
+                promises[index] = snapshot.value;
+            } else {
+                ++pendingCount;
+                when(
+                    promise,
+                    function (value) {
+                        promises[index] = value;
+                        if (--pendingCount === 0) {
+                            deferred.resolve(promises);
+                        }
+                    },
+                    deferred.reject,
+                    function (progress) {
+                        deferred.notify({ index: index, value: progress });
+                    }
+                );
+            }
+        }, void 0);
+        if (pendingCount === 0) {
+            deferred.resolve(promises);
+        }
+        return deferred.promise;
+    });
+}
+
+Promise.prototype.all = function () {
+    return all(this);
+};
+
+/**
+ * Returns the first resolved promise of an array. Prior rejected promises are
+ * ignored.  Rejects only if all promises are rejected.
+ * @param {Array*} an array containing values or promises for values
+ * @returns a promise fulfilled with the value of the first resolved promise,
+ * or a rejected promise if all promises are rejected.
+ */
+Q.any = any;
+
+function any(promises) {
+    if (promises.length === 0) {
+        return Q.resolve();
+    }
+
+    var deferred = Q.defer();
+    var pendingCount = 0;
+    array_reduce(promises, function (prev, current, index) {
+        var promise = promises[index];
+
+        pendingCount++;
+
+        when(promise, onFulfilled, onRejected, onProgress);
+        function onFulfilled(result) {
+            deferred.resolve(result);
+        }
+        function onRejected() {
+            pendingCount--;
+            if (pendingCount === 0) {
+                deferred.reject(new Error(
+                    "Can't get fulfillment value from any promise, all " +
+                    "promises were rejected."
+                ));
+            }
+        }
+        function onProgress(progress) {
+            deferred.notify({
+                index: index,
+                value: progress
+            });
+        }
+    }, undefined);
+
+    return deferred.promise;
+}
+
+Promise.prototype.any = function () {
+    return any(this);
+};
+
+/**
+ * Waits for all promises to be settled, either fulfilled or
+ * rejected.  This is distinct from `all` since that would stop
+ * waiting at the first rejection.  The promise returned by
+ * `allResolved` will never be rejected.
+ * @param promises a promise for an array (or an array) of promises
+ * (or values)
+ * @return a promise for an array of promises
+ */
+Q.allResolved = deprecate(allResolved, "allResolved", "allSettled");
+function allResolved(promises) {
+    return when(promises, function (promises) {
+        promises = array_map(promises, Q);
+        return when(all(array_map(promises, function (promise) {
+            return when(promise, noop, noop);
+        })), function () {
+            return promises;
+        });
+    });
+}
+
+Promise.prototype.allResolved = function () {
+    return allResolved(this);
+};
+
+/**
+ * @see Promise#allSettled
+ */
+Q.allSettled = allSettled;
+function allSettled(promises) {
+    return Q(promises).allSettled();
+}
+
+/**
+ * Turns an array of promises into a promise for an array of their states (as
+ * returned by `inspect`) when they have all settled.
+ * @param {Array[Any*]} values an array (or promise for an array) of values (or
+ * promises for values)
+ * @returns {Array[State]} an array of states for the respective values.
+ */
+Promise.prototype.allSettled = function () {
+    return this.then(function (promises) {
+        return all(array_map(promises, function (promise) {
+            promise = Q(promise);
+            function regardless() {
+                return promise.inspect();
+            }
+            return promise.then(regardless, regardless);
+        }));
+    });
+};
+
+/**
+ * Captures the failure of a promise, giving an oportunity to recover
+ * with a callback.  If the given promise is fulfilled, the returned
+ * promise is fulfilled.
+ * @param {Any*} promise for something
+ * @param {Function} callback to fulfill the returned promise if the
+ * given promise is rejected
+ * @returns a promise for the return value of the callback
+ */
+Q.fail = // XXX legacy
+Q["catch"] = function (object, rejected) {
+    return Q(object).then(void 0, rejected);
+};
+
+Promise.prototype.fail = // XXX legacy
+Promise.prototype["catch"] = function (rejected) {
+    return this.then(void 0, rejected);
+};
+
+/**
+ * Attaches a listener that can respond to progress notifications from a
+ * promise's originating deferred. This listener receives the exact arguments
+ * passed to ``deferred.notify``.
+ * @param {Any*} promise for something
+ * @param {Function} callback to receive any progress notifications
+ * @returns the given promise, unchanged
+ */
+Q.progress = progress;
+function progress(object, progressed) {
+    return Q(object).then(void 0, void 0, progressed);
+}
+
+Promise.prototype.progress = function (progressed) {
+    return this.then(void 0, void 0, progressed);
+};
+
+/**
+ * Provides an opportunity to observe the settling of a promise,
+ * regardless of whether the promise is fulfilled or rejected.  Forwards
+ * the resolution to the returned promise when the callback is done.
+ * The callback can return a promise to defer completion.
+ * @param {Any*} promise
+ * @param {Function} callback to observe the resolution of the given
+ * promise, takes no arguments.
+ * @returns a promise for the resolution of the given promise when
+ * ``fin`` is done.
+ */
+Q.fin = // XXX legacy
+Q["finally"] = function (object, callback) {
+    return Q(object)["finally"](callback);
+};
+
+Promise.prototype.fin = // XXX legacy
+Promise.prototype["finally"] = function (callback) {
+    callback = Q(callback);
+    return this.then(function (value) {
+        return callback.fcall().then(function () {
+            return value;
+        });
+    }, function (reason) {
+        // TODO attempt to recycle the rejection with "this".
+        return callback.fcall().then(function () {
+            throw reason;
+        });
+    });
+};
+
+/**
+ * Terminates a chain of promises, forcing rejections to be
+ * thrown as exceptions.
+ * @param {Any*} promise at the end of a chain of promises
+ * @returns nothing
+ */
+Q.done = function (object, fulfilled, rejected, progress) {
+    return Q(object).done(fulfilled, rejected, progress);
+};
+
+Promise.prototype.done = function (fulfilled, rejected, progress) {
+    var onUnhandledError = function (error) {
+        // forward to a future turn so that ``when``
+        // does not catch it and turn it into a rejection.
+        Q.nextTick(function () {
+            makeStackTraceLong(error, promise);
+            if (Q.onerror) {
+                Q.onerror(error);
+            } else {
+                throw error;
+            }
+        });
+    };
+
+    // Avoid unnecessary `nextTick`ing via an unnecessary `when`.
+    var promise = fulfilled || rejected || progress ?
+        this.then(fulfilled, rejected, progress) :
+        this;
+
+    if (typeof process === "object" && process && process.domain) {
+        onUnhandledError = process.domain.bind(onUnhandledError);
+    }
+
+    promise.then(void 0, onUnhandledError);
+};
+
+/**
+ * Causes a promise to be rejected if it does not get fulfilled before
+ * some milliseconds time out.
+ * @param {Any*} promise
+ * @param {Number} milliseconds timeout
+ * @param {Any*} custom error message or Error object (optional)
+ * @returns a promise for the resolution of the given promise if it is
+ * fulfilled before the timeout, otherwise rejected.
+ */
+Q.timeout = function (object, ms, error) {
+    return Q(object).timeout(ms, error);
+};
+
+Promise.prototype.timeout = function (ms, error) {
+    var deferred = defer();
+    var timeoutId = setTimeout(function () {
+        if (!error || "string" === typeof error) {
+            error = new Error(error || "Timed out after " + ms + " ms");
+            error.code = "ETIMEDOUT";
+        }
+        deferred.reject(error);
+    }, ms);
+
+    this.then(function (value) {
+        clearTimeout(timeoutId);
+        deferred.resolve(value);
+    }, function (exception) {
+        clearTimeout(timeoutId);
+        deferred.reject(exception);
+    }, deferred.notify);
+
+    return deferred.promise;
+};
+
+/**
+ * Returns a promise for the given value (or promised value), some
+ * milliseconds after it resolved. Passes rejections immediately.
+ * @param {Any*} promise
+ * @param {Number} milliseconds
+ * @returns a promise for the resolution of the given promise after milliseconds
+ * time has elapsed since the resolution of the given promise.
+ * If the given promise rejects, that is passed immediately.
+ */
+Q.delay = function (object, timeout) {
+    if (timeout === void 0) {
+        timeout = object;
+        object = void 0;
+    }
+    return Q(object).delay(timeout);
+};
+
+Promise.prototype.delay = function (timeout) {
+    return this.then(function (value) {
+        var deferred = defer();
+        setTimeout(function () {
+            deferred.resolve(value);
+        }, timeout);
+        return deferred.promise;
+    });
+};
+
+/**
+ * Passes a continuation to a Node function, which is called with the given
+ * arguments provided as an array, and returns a promise.
+ *
+ *      Q.nfapply(FS.readFile, [__filename])
+ *      .then(function (content) {
+ *      })
+ *
+ */
+Q.nfapply = function (callback, args) {
+    return Q(callback).nfapply(args);
+};
+
+Promise.prototype.nfapply = function (args) {
+    var deferred = defer();
+    var nodeArgs = array_slice(args);
+    nodeArgs.push(deferred.makeNodeResolver());
+    this.fapply(nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+};
+
+/**
+ * Passes a continuation to a Node function, which is called with the given
+ * arguments provided individually, and returns a promise.
+ * @example
+ * Q.nfcall(FS.readFile, __filename)
+ * .then(function (content) {
+ * })
+ *
+ */
+Q.nfcall = function (callback /*...args*/) {
+    var args = array_slice(arguments, 1);
+    return Q(callback).nfapply(args);
+};
+
+Promise.prototype.nfcall = function (/*...args*/) {
+    var nodeArgs = array_slice(arguments);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+    this.fapply(nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+};
+
+/**
+ * Wraps a NodeJS continuation passing function and returns an equivalent
+ * version that returns a promise.
+ * @example
+ * Q.nfbind(FS.readFile, __filename)("utf-8")
+ * .then(console.log)
+ * .done()
+ */
+Q.nfbind =
+Q.denodeify = function (callback /*...args*/) {
+    var baseArgs = array_slice(arguments, 1);
+    return function () {
+        var nodeArgs = baseArgs.concat(array_slice(arguments));
+        var deferred = defer();
+        nodeArgs.push(deferred.makeNodeResolver());
+        Q(callback).fapply(nodeArgs).fail(deferred.reject);
+        return deferred.promise;
+    };
+};
+
+Promise.prototype.nfbind =
+Promise.prototype.denodeify = function (/*...args*/) {
+    var args = array_slice(arguments);
+    args.unshift(this);
+    return Q.denodeify.apply(void 0, args);
+};
+
+Q.nbind = function (callback, thisp /*...args*/) {
+    var baseArgs = array_slice(arguments, 2);
+    return function () {
+        var nodeArgs = baseArgs.concat(array_slice(arguments));
+        var deferred = defer();
+        nodeArgs.push(deferred.makeNodeResolver());
+        function bound() {
+            return callback.apply(thisp, arguments);
+        }
+        Q(bound).fapply(nodeArgs).fail(deferred.reject);
+        return deferred.promise;
+    };
+};
+
+Promise.prototype.nbind = function (/*thisp, ...args*/) {
+    var args = array_slice(arguments, 0);
+    args.unshift(this);
+    return Q.nbind.apply(void 0, args);
+};
+
+/**
+ * Calls a method of a Node-style object that accepts a Node-style
+ * callback with a given array of arguments, plus a provided callback.
+ * @param object an object that has the named method
+ * @param {String} name name of the method of object
+ * @param {Array} args arguments to pass to the method; the callback
+ * will be provided by Q and appended to these arguments.
+ * @returns a promise for the value or error
+ */
+Q.nmapply = // XXX As proposed by "Redsandro"
+Q.npost = function (object, name, args) {
+    return Q(object).npost(name, args);
+};
+
+Promise.prototype.nmapply = // XXX As proposed by "Redsandro"
+Promise.prototype.npost = function (name, args) {
+    var nodeArgs = array_slice(args || []);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+    this.dispatch("post", [name, nodeArgs]).fail(deferred.reject);
+    return deferred.promise;
+};
+
+/**
+ * Calls a method of a Node-style object that accepts a Node-style
+ * callback, forwarding the given variadic arguments, plus a provided
+ * callback argument.
+ * @param object an object that has the named method
+ * @param {String} name name of the method of object
+ * @param ...args arguments to pass to the method; the callback will
+ * be provided by Q and appended to these arguments.
+ * @returns a promise for the value or error
+ */
+Q.nsend = // XXX Based on Mark Miller's proposed "send"
+Q.nmcall = // XXX Based on "Redsandro's" proposal
+Q.ninvoke = function (object, name /*...args*/) {
+    var nodeArgs = array_slice(arguments, 2);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+    Q(object).dispatch("post", [name, nodeArgs]).fail(deferred.reject);
+    return deferred.promise;
+};
+
+Promise.prototype.nsend = // XXX Based on Mark Miller's proposed "send"
+Promise.prototype.nmcall = // XXX Based on "Redsandro's" proposal
+Promise.prototype.ninvoke = function (name /*...args*/) {
+    var nodeArgs = array_slice(arguments, 1);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+    this.dispatch("post", [name, nodeArgs]).fail(deferred.reject);
+    return deferred.promise;
+};
+
+/**
+ * If a function would like to support both Node continuation-passing-style and
+ * promise-returning-style, it can end its internal promise chain with
+ * `nodeify(nodeback)`, forwarding the optional nodeback argument.  If the user
+ * elects to use a nodeback, the result will be sent there.  If they do not
+ * pass a nodeback, they will receive the result promise.
+ * @param object a result (or a promise for a result)
+ * @param {Function} nodeback a Node.js-style callback
+ * @returns either the promise or nothing
+ */
+Q.nodeify = nodeify;
+function nodeify(object, nodeback) {
+    return Q(object).nodeify(nodeback);
+}
+
+Promise.prototype.nodeify = function (nodeback) {
+    if (nodeback) {
+        this.then(function (value) {
+            Q.nextTick(function () {
+                nodeback(null, value);
+            });
+        }, function (error) {
+            Q.nextTick(function () {
+                nodeback(error);
+            });
+        });
+    } else {
+        return this;
+    }
+};
+
+Q.noConflict = function() {
+    throw new Error("Q.noConflict only works when Q is used as a global");
+};
+
+// All code before this point will be filtered from stack traces.
+var qEndingLine = captureLine();
+
+return Q;
+
+});
+
+}).call(this,require('_process'))
+},{"_process":1}]},{},[81]);
