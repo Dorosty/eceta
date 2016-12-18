@@ -38,7 +38,7 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
         multiselectInstance.setChecked descriptors
       credit: E(credit).credit
       deleteItems: (persons) -> service.deletePersons persons.map ({id}) -> id
-    pagination = E class: 'btn-group', marginTop: 100
+    pagination = E class: 'btn-group', marginTop: 30
 
   persons = []
   update = ->
