@@ -55,9 +55,9 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
 
     empty pagination
     append pagination, paginationButtons = [1 .. filteredPersons.length / 50].map (pageNumber) ->
-      paginationButton = E class: 'btn btn-defualt', pageNumber
+      paginationButton = E class: 'btn btn-default', pageNumber
       gotoPage = ->
-        setStyle paginationButtons, class: 'btn btn-defualt'
+        setStyle paginationButtons, class: 'btn btn-default'
         setStyle paginationButton, class: 'btn btn-primary'
         crudPageInstance.setData filteredPersons.slice pageNumber - 1, Math.min (filteredPersons.length - 1), (pageNumber - 1 + 50)
       onEvent paginationButton, 'click', gotoPage
