@@ -24,21 +24,19 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
   golestanNumberInput = E numberInput, true
   setStyle golestanNumberInput, searchBoxStyle.textbox
 
-  view = E null,
-    crudPageInstance = E crudPage,
-      entityName: 'شخص'
-      requiredStates: ['persons']
-      extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> crudPageInstance.setSelectedRows callback
-      headers: [
-        {name: 'نوع', key: 'type', searchBox: typeDropdown}
-        {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
-        {name: 'شماره دانشجویی / پرسنلی', key: 'golestanNumber', searchBox: golestanNumberInput}
-      ]
-      onTableUpdate: (descriptors) ->
-        multiselectInstance.setChecked descriptors
-      credit: E(credit).credit
-      deleteItems: (persons) -> service.deletePersons persons.map ({id}) -> id
-    pagination = E class: 'btn-group', marginTop: 30
+  view =  E crudPage,
+    entityName: 'شخص'
+    requiredStates: ['persons']
+    extraButtonsBefore: multiselectInstance = E multiselect, (callback) -> view.setSelectedRows callback
+    headers: [
+      {name: 'نوع', key: 'type', searchBox: typeDropdown}
+      {name: 'نام کامل', key: 'fullName', searchBox: fullNameInput}
+      {name: 'شماره دانشجویی / پرسنلی', key: 'golestanNumber', searchBox: golestanNumberInput}
+    ]
+    onTableUpdate: (descriptors) ->
+      multiselectInstance.setChecked descriptors
+    credit: E(credit).credit
+    deleteItems: (persons) -> service.deletePersons persons.map ({id}) -> id
 
   persons = []
   update = ->
@@ -52,18 +50,6 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.fullName, fullName
     if golestanNumber
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.golestanNumber, golestanNumber
-
-    empty pagination
-    append pagination, paginationButtons = [1 .. filteredPersons.length / 50].map (pageNumber) ->
-      paginationButton = E class: 'btn btn-default', pageNumber
-      gotoPage = ->
-        setStyle paginationButtons, class: 'btn btn-default'
-        setStyle paginationButton, class: 'btn btn-primary'
-        crudPageInstance.setData filteredPersons.slice pageNumber - 1, Math.min (filteredPersons.length - 1), (pageNumber - 1 + 50)
-      onEvent paginationButton, 'click', gotoPage
-      if pageNumber is 1
-        setTimeout gotoPage
-      paginationButton
 
   state.persons.on (_persons) ->
     persons = _persons

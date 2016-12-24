@@ -1,12 +1,14 @@
+Q = require '../../q'
 component = require '../../utils/component'
 table = require '../../components/table'
 modal = require '../../singletons/modal'
-Q = require '../../q'
+numberInput = require '../../components/restrictedInput/number'
+{toEnglish} = require '../../utils'
 
 module.exports = component 'crudPage', ({dom, events, others, returnObject},
   {entityName, noCreating, headers, entityId, isEqual, onTableUpdate, deleteItems, credit, requiredStates, extraButtons = [], extraButtonsBefore = []}) ->
   {E, append, detatch, setStyle} = dom
-  {onEvent} = events
+  {onEvent, onEnter} = events
   {loading} = others
 
   doCreate = credit false
@@ -61,6 +63,7 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
 
                 onTableUpdate? entities
           }
+      pagination = E()
     ]
 
   unless noCreating
@@ -69,7 +72,31 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
   loading requiredStates, yesData, noData
 
   returnObject
-    setData: (items) -> tableInstance.setData items
+    setData: (items) ->
+      pagesCount = Math.ceil filteredPersons.length / 50
+      empty pagination
+      append pagination, [
+        previousPage = E 'span', cursor: 'pointer', 'صفحه قبل'
+        E 'span', null, '|'
+        E 'span', null, 'صفحه '
+        pageNumberInput = E numberInput, true
+        E 'span', null, 'از ' + pagesCount
+        E 'span', null, '|'
+        nextPage = E 'span', cursor: 'pointer', 'صفحه بعد'
+      ]
+      currentPageNumber = 1
+      gotoPage = (pageNumber) ->
+        currentPageNumber = pageNumber = Math.max 1, Math.min pageNumber, pagesCount
+        setStyle pageNumberInput, value: pageNumber
+        tableInstance.setData filteredPersons.slice (pageNumber - 1) * 50, Math.min filteredPersons.length - 1, pageNumber * 50
+      gotoPage 1
+      onEvent previousPage, 'click', ->
+        gotoPage currentPageNumber - 1
+      onEvent nextPage, 'click', ->
+        gotoPage currentPageNumber + 1
+      onEnter pageNumberInput, ->
+        gotoPage +toEnglish pageNumberInput.value()
+
     setSelectedRows: (callback) -> tableInstance.setSelectedRows callback
 
   view
