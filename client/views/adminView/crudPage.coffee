@@ -7,7 +7,7 @@ numberInput = require '../../components/restrictedInput/number'
 
 module.exports = component 'crudPage', ({dom, events, others, returnObject},
   {entityName, noCreating, headers, entityId, isEqual, onTableUpdate, deleteItems, credit, requiredStates, extraButtons = [], extraButtonsBefore = []}) ->
-  {E, append, detatch, setStyle} = dom
+  {E, append, detatch, setStyle, empty} = dom
   {onEvent, onEnter} = events
   {loading} = others
 
