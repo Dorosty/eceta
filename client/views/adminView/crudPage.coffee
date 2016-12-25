@@ -84,6 +84,7 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
         E 'span', margin: '0 5px', '|'
         nextPage = E 'span', margin: '0 5px', cursor: 'pointer', 'صفحه بعد >'
       ]
+      setStyle pageNumberInput, width: 30, padding: '0 3px'
       currentPageNumber = 1
       gotoPage = (pageNumber) ->
         currentPageNumber = pageNumber = Math.max 1, Math.min pageNumber, pagesCount
