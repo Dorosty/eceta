@@ -76,13 +76,13 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
       pagesCount = Math.ceil items.length / 50
       empty pagination
       append pagination, [
-        previousPage = E 'span', margin: '0 5px', cursor: 'pointer', 'صفحه قبل'
+        previousPage = E 'span', margin: '0 5px', cursor: 'pointer', '> صفحه قبل'
         E 'span', margin: '0 5px', '|'
-        E 'span', margin: '0 5px', 'صفحه '
+        E 'span', margin: '0 5px', 'صفحه'
         pageNumberInput = E numberInput, true
         E 'span', margin: '0 5px', 'از ' + pagesCount
         E 'span', margin: '0 5px', '|'
-        nextPage = E 'span', margin: '0 5px', cursor: 'pointer', 'صفحه بعد'
+        nextPage = E 'span', margin: '0 5px', cursor: 'pointer', 'صفحه بعد <'
       ]
       currentPageNumber = 1
       gotoPage = (pageNumber) ->
