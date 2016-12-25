@@ -73,7 +73,7 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
 
   returnObject
     setData: (items) ->
-      pagesCount = Math.ceil filteredPersons.length / 50
+      pagesCount = Math.ceil items.length / 50
       empty pagination
       append pagination, [
         previousPage = E 'span', cursor: 'pointer', 'صفحه قبل'
@@ -88,7 +88,7 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
       gotoPage = (pageNumber) ->
         currentPageNumber = pageNumber = Math.max 1, Math.min pageNumber, pagesCount
         setStyle pageNumberInput, value: pageNumber
-        tableInstance.setData filteredPersons.slice (pageNumber - 1) * 50, Math.min filteredPersons.length - 1, pageNumber * 50
+        tableInstance.setData items.slice (pageNumber - 1) * 50, Math.min items.length - 1, pageNumber * 50
       gotoPage 1
       onEvent previousPage, 'click', ->
         gotoPage currentPageNumber - 1

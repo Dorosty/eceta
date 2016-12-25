@@ -6549,7 +6549,9 @@ module.exports = component('offeringsMultiselect', function(arg, setSelectedRows
 
 
 },{"../../../utils/component":34,"../../../utils/dom":36}],53:[function(require,module,exports){
-var Q, component, modal, table;
+var Q, component, modal, numberInput, table, toEnglish;
+
+Q = require('../../q');
 
 component = require('../../utils/component');
 
@@ -6557,14 +6559,16 @@ table = require('../../components/table');
 
 modal = require('../../singletons/modal');
 
-Q = require('../../q');
+numberInput = require('../../components/restrictedInput/number');
+
+toEnglish = require('../../utils').toEnglish;
 
 module.exports = component('crudPage', function(arg, arg1) {
-  var E, append, create, credit, deleteButton, deleteButtonVisible, deleteItems, detatch, doCreate, doEdit, dom, entityId, entityName, events, extraButtons, extraButtonsBefore, group, headers, isEqual, loading, noCreating, noData, offDeleteClick, onEvent, onTableUpdate, others, ref, ref1, requiredStates, returnObject, setStyle, tableInstance, view, yesData;
+  var E, append, create, credit, deleteButton, deleteButtonVisible, deleteItems, detatch, doCreate, doEdit, dom, entityId, entityName, events, extraButtons, extraButtonsBefore, group, headers, isEqual, loading, noCreating, noData, offDeleteClick, onEnter, onEvent, onTableUpdate, others, pagination, ref, ref1, requiredStates, returnObject, setStyle, tableInstance, view, yesData;
   dom = arg.dom, events = arg.events, others = arg.others, returnObject = arg.returnObject;
   entityName = arg1.entityName, noCreating = arg1.noCreating, headers = arg1.headers, entityId = arg1.entityId, isEqual = arg1.isEqual, onTableUpdate = arg1.onTableUpdate, deleteItems = arg1.deleteItems, credit = arg1.credit, requiredStates = arg1.requiredStates, extraButtons = (ref = arg1.extraButtons) != null ? ref : [], extraButtonsBefore = (ref1 = arg1.extraButtonsBefore) != null ? ref1 : [];
   E = dom.E, append = dom.append, detatch = dom.detatch, setStyle = dom.setStyle;
-  onEvent = events.onEvent;
+  onEvent = events.onEvent, onEnter = events.onEnter;
   loading = others.loading;
   doCreate = credit(false);
   doEdit = credit(true);
@@ -6641,7 +6645,7 @@ module.exports = component('crudPage', function(arg, arg1) {
           return typeof onTableUpdate === "function" ? onTableUpdate(entities) : void 0;
         }
       }
-    })))
+    }))), pagination = E()
   ]);
   if (!noCreating) {
     onEvent(create, 'click', doCreate);
@@ -6649,7 +6653,34 @@ module.exports = component('crudPage', function(arg, arg1) {
   loading(requiredStates, yesData, noData);
   returnObject({
     setData: function(items) {
-      return tableInstance.setData(items);
+      var currentPageNumber, gotoPage, nextPage, pageNumberInput, pagesCount, previousPage;
+      pagesCount = Math.ceil(filteredPersons.length / 50);
+      empty(pagination);
+      append(pagination, [
+        previousPage = E('span', {
+          cursor: 'pointer'
+        }, 'صفحه قبل'), E('span', null, '|'), E('span', null, 'صفحه '), pageNumberInput = E(numberInput, true), E('span', null, 'از ' + pagesCount), E('span', null, '|'), nextPage = E('span', {
+          cursor: 'pointer'
+        }, 'صفحه بعد')
+      ]);
+      currentPageNumber = 1;
+      gotoPage = function(pageNumber) {
+        currentPageNumber = pageNumber = Math.max(1, Math.min(pageNumber, pagesCount));
+        setStyle(pageNumberInput, {
+          value: pageNumber
+        });
+        return tableInstance.setData(filteredPersons.slice((pageNumber - 1) * 50, Math.min(filteredPersons.length - 1, pageNumber * 50)));
+      };
+      gotoPage(1);
+      onEvent(previousPage, 'click', function() {
+        return gotoPage(currentPageNumber - 1);
+      });
+      onEvent(nextPage, 'click', function() {
+        return gotoPage(currentPageNumber + 1);
+      });
+      return onEnter(pageNumberInput, function() {
+        return gotoPage(+toEnglish(pageNumberInput.value()));
+      });
     },
     setSelectedRows: function(callback) {
       return tableInstance.setSelectedRows(callback);
@@ -6659,7 +6690,7 @@ module.exports = component('crudPage', function(arg, arg1) {
 });
 
 
-},{"../../components/table":17,"../../q":28,"../../singletons/modal":33,"../../utils/component":34}],54:[function(require,module,exports){
+},{"../../components/restrictedInput/number":15,"../../components/table":17,"../../q":28,"../../singletons/modal":33,"../../utils":38,"../../utils/component":34}],54:[function(require,module,exports){
 var component, contentComponents, courses, notTrainedStudents, offerings, paymentStudents, persons, requestForAssistants, staticData, tabNames, tabPermissions,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -7866,7 +7897,7 @@ numberInput = require('../../../components/restrictedInput/number');
 textIsInSearch = require('../../../utils').textIsInSearch;
 
 module.exports = component('personsView', function(arg) {
-  var E, append, dom, empty, events, fullNameInput, golestanNumberInput, multiselectInstance, onEvent, pagination, persons, service, setStyle, state, typeDropdown, update, view;
+  var E, append, dom, empty, events, fullNameInput, golestanNumberInput, multiselectInstance, onEvent, persons, service, setStyle, state, typeDropdown, update, view;
   dom = arg.dom, events = arg.events, state = arg.state, service = arg.service;
   E = dom.E, setStyle = dom.setStyle, append = dom.append, empty = dom.empty;
   onEvent = events.onEvent;
@@ -7879,7 +7910,7 @@ module.exports = component('personsView', function(arg) {
   typeDropdown.update(['کارشناس آموزش', 'استاد', 'دانشجو', 'نماینده استاد']);
   golestanNumberInput = E(numberInput, true);
   setStyle(golestanNumberInput, searchBoxStyle.textbox);
-  view = E(null, E(crudPage, {
+  view = E(crudPage, {
     entityName: 'شخص',
     requiredStates: ['persons'],
     extraButtonsBefore: multiselectInstance = E(multiselect, function(callback) {
@@ -7911,13 +7942,10 @@ module.exports = component('personsView', function(arg) {
         return id;
       }));
     }
-  }), pagination = E({
-    "class": 'btn-group',
-    marginTop: 100
-  }));
+  });
   persons = [];
   update = function() {
-    var filteredPersons, fullName, golestanNumber, i, paginationButtons, ref, results, type;
+    var filteredPersons, fullName, golestanNumber, type;
     type = typeDropdown.value();
     fullName = fullNameInput.value();
     golestanNumber = golestanNumberInput.value();
@@ -7933,35 +7961,10 @@ module.exports = component('personsView', function(arg) {
       });
     }
     if (golestanNumber) {
-      filteredPersons = filteredPersons.filter(function(person) {
+      return filteredPersons = filteredPersons.filter(function(person) {
         return textIsInSearch(person.golestanNumber, golestanNumber);
       });
     }
-    empty(pagination);
-    return append(pagination, paginationButtons = (function() {
-      results = [];
-      for (var i = 1, ref = filteredPersons.length / 50; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--){ results.push(i); }
-      return results;
-    }).apply(this).map(function(pageNumber) {
-      var gotoPage, paginationButton;
-      paginationButton = E({
-        "class": 'btn btn-defualt'
-      }, pageNumber);
-      gotoPage = function() {
-        setStyle(paginationButtons, {
-          "class": 'btn btn-defualt'
-        });
-        setStyle(paginationButton, {
-          "class": 'btn btn-primary'
-        });
-        return view.setData(filteredPersons.slice(pageNumber - 1, Math.min(filteredPersons.length(-1, pageNumber - 1 + 50))));
-      };
-      onEvent(paginationButton, 'click', gotoPage);
-      if (pageNumber === 1) {
-        gotoPage();
-      }
-      return paginationButton;
-    }));
   };
   state.persons.on(function(_persons) {
     persons = _persons;
