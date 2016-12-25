@@ -78,7 +78,7 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
       append pagination, [
         previousPage = E 'span', margin: '0 5px', cursor: 'pointer',
           text 'صفحه قبل'
-          E fontSize: 20, '‹'
+          E 'span', fontSize: 30, '‹'
         E 'span', margin: '0 5px', '|'
         E 'span', margin: '0 5px', 'صفحه'
         pageNumberInput = E numberInput, true
@@ -86,7 +86,7 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
         E 'span', margin: '0 5px', '|'
         nextPage = E 'span', margin: '0 5px', cursor: 'pointer',
           text 'صفحه بعد'
-          E fontSize: 20, '›'
+          E 'span', fontSize: 30, '›'
       ]
       setStyle pageNumberInput, width: 30, padding: '0 3px'
       currentPageNumber = 1
