@@ -50,6 +50,7 @@ module.exports = component 'personsView', ({dom, events, state, service}) ->
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.fullName, fullName
     if golestanNumber
       filteredPersons = filteredPersons.filter (person) -> textIsInSearch person.golestanNumber, golestanNumber
+    view.setData filteredPersons
 
   state.persons.on (_persons) ->
     persons = _persons
