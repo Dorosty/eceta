@@ -72,35 +72,35 @@ module.exports = component 'crudPage', ({dom, events, others, returnObject},
   loading requiredStates, yesData, noData
 
   returnObject
-    setData: (items) ->
-      pagesCount = Math.ceil items.length / 50
-      empty pagination
-      append pagination, [
-        previousPage = E 'span', margin: '0 5px', cursor: 'pointer',
-          E 'span', margin: '0 5px', fontSize: 30, '‹'
-          text 'صفحه قبل'
-        E 'span', margin: '0 5px', '|'
-        E 'span', margin: '0 5px', 'صفحه'
-        pageNumberInput = E numberInput, true
-        E 'span', margin: '0 5px', 'از ' + pagesCount
-        E 'span', margin: '0 5px', '|'
-        nextPage = E 'span', margin: '0 5px', cursor: 'pointer',
-          text 'صفحه بعد'
-          E 'span', margin: '0 5px', fontSize: 30, '›'
-      ]
-      setStyle pageNumberInput, width: 30, padding: '0 3px'
-      currentPageNumber = 1
-      gotoPage = (pageNumber) ->
-        currentPageNumber = pageNumber = Math.max 1, Math.min pageNumber, pagesCount
-        setStyle pageNumberInput, value: pageNumber
-        tableInstance.setData items.slice (pageNumber - 1) * 50, Math.min items.length - 1, pageNumber * 50
-      gotoPage 1
-      onEvent previousPage, 'click', ->
-        gotoPage currentPageNumber - 1
-      onEvent nextPage, 'click', ->
-        gotoPage currentPageNumber + 1
-      onEnter pageNumberInput, ->
-        gotoPage +toEnglish pageNumberInput.value()
+    setData: (items) -> tableInstance.setData items
+      # pagesCount = Math.ceil items.length / 50
+      # empty pagination
+      # append pagination, [
+      #   previousPage = E 'span', margin: '0 5px', cursor: 'pointer',
+      #     E 'span', margin: '0 5px', fontSize: 30, '‹'
+      #     text 'صفحه قبل'
+      #   E 'span', margin: '0 5px', '|'
+      #   E 'span', margin: '0 5px', 'صفحه'
+      #   pageNumberInput = E numberInput, true
+      #   E 'span', margin: '0 5px', 'از ' + pagesCount
+      #   E 'span', margin: '0 5px', '|'
+      #   nextPage = E 'span', margin: '0 5px', cursor: 'pointer',
+      #     text 'صفحه بعد'
+      #     E 'span', margin: '0 5px', fontSize: 30, '›'
+      # ]
+      # setStyle pageNumberInput, width: 30, padding: '0 3px'
+      # currentPageNumber = 1
+      # gotoPage = (pageNumber) ->
+      #   currentPageNumber = pageNumber = Math.max 1, Math.min pageNumber, pagesCount
+      #   setStyle pageNumberInput, value: pageNumber
+      #   tableInstance.setData items.slice (pageNumber - 1) * 50, Math.min items.length - 1, pageNumber * 50
+      # gotoPage 1
+      # onEvent previousPage, 'click', ->
+      #   gotoPage currentPageNumber - 1
+      # onEvent nextPage, 'click', ->
+      #   gotoPage currentPageNumber + 1
+      # onEnter pageNumberInput, ->
+      #   gotoPage +toEnglish pageNumberInput.value()
 
     setSelectedRows: (callback) -> tableInstance.setSelectedRows callback
 
