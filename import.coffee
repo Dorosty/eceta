@@ -1,7 +1,5 @@
 Q  = require 'q'
 pg = require 'pg'
-xlsx = require 'node-xlsx'
-fs = require 'fs'
 
 Q.longStackSupport = true
 
@@ -184,29 +182,11 @@ sqlConnectedQ = Q().then ->
 .then ([c]) ->
   sql = createSqlUtility c
 
-readFile = Qdenodify fs, fs.readFile
-
 sqlConnectedQ.then ->
-  Q.all [readFile('xlsx.xlsx'), readFile('in.xlsx')]
-.then ([data, data2]) ->
-  [{data}] = xlsx.parse data
-  data.splice 0, 5
-  data = data.map ([courseName, courseNumber]) -> {courseName, courseNumber}
-
-  [{data: data2}] = xlsx.parse data2
-  data2 = data2.map ([_, __, professorId]) -> professorId
-
-  Q.all data.map ({courseName, courseNumber, professorName}, i) ->
-    professorId = data2[i]
-    sql.select 'courses', ['id'], number: courseNumber
-    .then (x) ->
-      if x.length
-        x[0].id
-      else
-        sql.insert 'courses', name: courseName, number: courseNumber, true
-    .then (courseId) ->
-      if professorId
-        sql.insert 'offerings', {courseId, professorId, termId: '1395-2'}
+  sql.select 'offerings', ['id', 'courseId'], termId: '1395-2'
+  .then (offerings) ->
+    Q.all offerings.map ({id, courseId}) ->
+      sql.insert 'requiredCourses', {courseId, offeringId: id}
 
 .then ->
   process.exit()
