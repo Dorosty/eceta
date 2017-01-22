@@ -1,5 +1,6 @@
 Q  = require 'q'
 pg = require 'pg'
+nodemailer = require 'nodemailer'
 
 Q.longStackSupport = true
 
@@ -182,11 +183,68 @@ sqlConnectedQ = Q().then ->
 .then ([c]) ->
   sql = createSqlUtility c
 
+toPersian = (value) ->
+  value = '' + value
+  '۰۱۲۳۴۵۶۷۸۹'.split ''
+  .forEach (digit, i) ->
+    value = value.replace (new RegExp '' + i, 'g'), digit
+  value.replace(/ي/g, 'ی').replace /ك/g, 'ک'
+
+sendMail = (email, subject, text, name, html) ->
+  ##################
+  email = 'ma.dorosty@gmail.com'
+  ##################
+  name = toPersian name
+  subject = toPersian subject
+  name ?= email
+  mailServer = nodemailer.createTransport
+    host: 'mail.ut.ac.ir',
+    auth:
+      user: 'ma.dorosty',
+      pass: 'Ma19Md93M'
+  message = {
+    from: 'سامانه مدیریت دستیاران آموزشی <ma.dorosty@ut.ac.ir>'
+    to: "#{name} <#{email}>"
+    subject
+    text
+  }
+  if html?
+    message.html = "<div dir=\"rtl\">#{html}</div>"
+  (Qdenodify mailServer, mailServer.sendMail) message
+
 sqlConnectedQ.then ->
-  sql.select 'offerings', ['id', 'courseId'], termId: '1395-2'
+  sql.select ['offerings', 'courses'], [['id', 'courseId'], ['name']],
+    query: 'x0."termId" = \'1395-2\' and x0."courseId" = x1.id'
   .then (offerings) ->
-    Q.all offerings.map ({id, courseId}) ->
-      sql.insert 'requiredCourses', {courseId, offeringId: id}
+    Q.all offerings.map ({id, courseId, name}) ->
+      Q.all [
+        sql.insert 'requiredCourses', {courseId, offeringId: id}
+        sql.select ['persons', 'requestForAssistants'], [['email', 'fullName']],
+          query: 'x1."offeringId"=% and x0.id=x1."studentId"', values: [id]
+        .then (persons) ->
+          return
+          Q.all persons.map ({fullName, email}) ->
+            sendMail email, 'تغییر لیست دروس مورد نیاز',
+              "دانشجوی گرامی،\n
+              \n
+              با سلام\n
+              \n
+              لیست درس‌های مورد نیاز برای درس «#{toPersian name}» تغییر کرده است. لطفا در اسرع وقت درخواست خود را ویرایش کنید.\n
+              \n
+              سامانه مدیریت دستیاران آموزشی\n
+              دانشکده مهندسی برق و کامپیوتر\n
+              <a href=\"http://eceta.ut.ac.ir\">http://eceta.ut.ac.ir</a>",
+              fullName,
+              "دانشجوی گرامی،<br />
+              <br />
+              با سلام<br />
+              <br />
+              لیست درس‌های مورد نیاز برای درس «#{toPersian name}» تغییر کرده است. لطفا در اسرع وقت درخواست خود را ویرایش کنید.<br />
+              <br />
+              سامانه مدیریت دستیاران آموزشی<br />
+              دانشکده مهندسی برق و کامپیوتر<br />
+              <a href=\"http://eceta.ut.ac.ir\">http://eceta.ut.ac.ir</a>"
+      ]
 
 .then ->
   process.exit()
